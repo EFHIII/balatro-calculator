@@ -1,0 +1,436 @@
+/*
+MULT = HEX('FE5F55'),
+CHIPS = HEX("009dff"),
+MONEY = HEX('f3b958'),
+XMULT = HEX('FE5F55'),
+FILTER = HEX('ff9a00'),
+BLUE = HEX("009dff"),
+RED = HEX('FE5F55'),
+GREEN = HEX("4BC292"),
+PALE_GREEN = HEX("56a887"),
+ORANGE = HEX("fda200"),
+IMPORTANT = HEX("ff9a00"),
+GOLD = HEX('eac058'),
+YELLOW = {1,1,0,1},
+CLEAR = {0, 0, 0, 0},
+WHITE = {1,1,1,1},
+PURPLE = HEX('8867a5'),
+BLACK = HEX("374244"),--4f6367"),
+L_BLACK = HEX("4f6367"),
+GREY = HEX("5f7377"),
+CHANCE = HEX("4BC292"),
+JOKER_GREY = HEX('bfc7d5'),
+VOUCHER = HEX("cb724c"),
+BOOSTER = HEX("646eb7"),
+EDITION = {1,1,1,1},
+DARK_EDITION = {0,0,0,1},
+ETERNAL = HEX('c75985'),
+DYN_UI = {
+    MAIN = HEX('374244'),
+    DARK = HEX('374244'),
+    BOSS_MAIN = HEX('374244'),
+    BOSS_DARK = HEX('374244'),
+    BOSS_PALE = HEX('374244')
+},
+*/
+
+@font-face {
+  font-family: 'm6x11Plus';
+  src: url('assets/m6x11plus.ttf') format('truetype');
+}
+
+body {
+  background-color: #3a5055;
+  color: #fff;
+  font-family: 'm6x11Plus';
+  margin: 0;
+  overflow-x: hidden;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+  transition-duration: 0.3s;
+}
+
+a:hover {
+  color: #dfe;
+}
+
+#containerLeft {
+  position: static;
+  width: 100%;
+  text-align: center;
+}
+
+#containerRight {
+  position: static;
+  width: 100%;
+}
+
+#footer {
+  width: 100%;
+  text-align: center;
+  margin: 0.5em;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+@media (min-width: 801px)  {
+  @media (min-height: 350px) {
+    html {
+      height: 100%;
+      width: 100%;
+    }
+
+    body {
+      min-height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #containerLeft {
+      width: 50%;
+      text-align: center;
+    }
+
+    #containerRight {
+      width: 50%;
+    }
+
+    #mainContainer {
+      display: flex;
+      min-height: 100%;
+    }
+
+    #footer {
+      margin-top: auto;
+    }
+
+    #jokerAera {
+      width: calc(100% - 1.5em - 8px);
+    }
+  }
+}
+
+#Hands {
+  float: left;
+  text-align: center;
+  width: 100%;
+}
+
+#jokerArea, #bestPlay, #cardsInHand {
+  display: flex;
+  gap: 0;
+  grid-auto-columns: auto;
+  justify-content: center;
+}
+
+#jokerArea {
+  width: calc(100% - 1.5em);
+  background-color: #0003;
+  margin: 0.5em;
+  height: 94px;
+  padding: 4px;
+  border-radius: 0.5em;
+}
+
+#bestPlay {
+  width: calc(100% - 2em - 8px);
+  margin: 0.5em;
+  height: 94px;
+  padding: 4px;
+}
+
+#cardsInHand {
+  background-color: #0003;
+  width: calc(100% - 2em - 8px);
+  margin: 0.5em;
+  height: 94px;
+  padding: 4px;
+  border-radius: 0.5em;
+}
+
+.menuBtn {
+  display: block;
+  float: left;
+  font-size: 22px;
+  width: 25%;
+  background-color: #333;
+  text-align: center;
+  padding-top: 0.75em;
+  padding-bottom: 0.75em;
+  user-select: none;
+}
+
+.menuBtn:hover {
+  cursor: pointer;
+  background-color: #222;
+}
+
+.active {
+  background-color: #222;
+}
+
+.handLevel {
+  margin: auto;
+  font-size: 22px;
+  background-color: #a3acb9;
+  padding: 0.2em;
+  margin-top: 0.5em;
+  box-shadow: 0em 0.2em 0em #686e78;
+  border-radius: 0.6em;
+  text-align: center;
+  height: 1.4em;
+  min-width: 20em;
+  max-width: calc(100% - 3em);
+  white-space: nowrap;
+}
+
+.lvlBtn {
+  float: left;
+  user-select: none;
+  display: inline-block;
+  text-align: center;
+  width: 1em;
+  background-color: #5f7377;
+  border-radius: 0.25em;
+  color: #fff;
+  border-style: solid;
+  border-color: #374244;
+  transition-duration: 0.2s;
+  margin-left: 0.2em;
+}
+
+.lvlBtn:hover {
+  border-color: #fff;
+  cursor: pointer;
+}
+
+.handLvl {
+  float: left;
+  display: block;
+  white-space: nowrap;
+  text-align: center;
+  width: 3em;
+  background-color: #f0f0f0;
+  border-radius: 1em;
+  color: #3a5055;
+  border-style: solid;
+  border-color: #fff;
+  margin-left: 0.2em;
+}
+
+.levelStat {
+  position: sticky;
+  left: 100%;
+  width: 7em;
+  background-color: #000;
+  padding: 0.2em;
+  border-radius: 1em;
+  color: #ff4d40;
+  margin: 0px;
+}
+
+.levelStatB {
+  display: inline-block;
+  white-space: nowrap;
+  text-align: right;
+  width: 2.5em;
+  background-color: #009dff;
+  padding-left: 0.25em;
+  padding-right: 0.3em;
+  margin-right: 0.2em;
+  border-radius: 1em;
+  color: white;
+}
+
+.levelStatR {
+  display: inline-block;
+  white-space: nowrap;
+  text-align: left;
+  width: 2.5em;
+  background-color: #ff4d40;
+  padding-left: 0.3em;
+  padding-right: 0.25em;
+  margin-left: 0.1em;
+  border-radius: 1em;
+  color: white;
+}
+
+.handName {
+  display: inline-block;
+  white-space: nowrap;
+  margin-top: 0.2em;
+  margin-right: -0.4em;
+}
+
+.modifierCard {
+  display: inline-block;
+  width: 8.333%;
+  max-width: 71px;
+  height: 95px;
+  padding: 0;
+  image-rendering: pixelated;
+  cursor: pointer;
+}
+
+.jmodifierCard {
+  display: inline-block;
+  width: 20%;
+  max-width: 71px;
+  height: 95px;
+  padding: 0;
+  image-rendering: pixelated;
+  cursor: pointer;
+}
+
+.jokerCard {
+  position: absolute;
+  left: 0;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  image-rendering: pixelated;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.modifierCard:hover, .jmodifierCard:hover, .jokerCard:hover, .playingCard:hover, .playfieldCard:hover {
+  scale: 1.2;
+  animation: bounce 0.3s ease;
+  z-index: 2;
+}
+
+@keyframes bounce {
+  1%: {
+    scale: 1;
+  }
+  25% {
+    scale: 1.3;
+  }
+  50% {
+    scale: 1.15;
+  }
+  51% {
+    scale: 1.15;
+  }
+  100% {
+    scale: 1.2;
+  }
+}
+
+.playingCard {
+  display: inline-block;
+  width: 7.6%;
+  max-width: 71px;
+  height: 94px;
+  padding: 0;
+  image-rendering: pixelated;
+  cursor: pointer;
+}
+
+.playfieldCard {
+  display: inline-block;
+  width: 100%;
+  max-width: 71px;
+  height: 94px;
+  padding: 0;
+  image-rendering: pixelated;
+  cursor: pointer;
+}
+
+.chipIcon {
+  margin-bottom: -8px;
+  margin-left: 4px;
+  margin-right: 4px;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  background: url(assets/chips.png) 0 0;
+  image-rendering: pixelated;
+}
+
+.limitText {
+  color: white;
+  float: left;
+  margin-left: 1em;
+}
+
+.tooltip {
+  display: inline-block;
+  width: 10%;
+  max-width: 71px;
+  height: 94px;
+  padding: 0;
+  position: relative;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  background-color: #3f4a4d;
+  color: white;
+  text-align: center;
+  border-radius: 0.75em;
+
+  min-width: 8em;
+
+  position: absolute;
+
+  border: solid;
+  border-color: #dee2ea;
+  border-width: 0.15em;
+  box-shadow: 0em 0.1em 0em #919499;
+
+  height: fit-content;
+  width: fit-content;
+
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.jokerCard + .tooltiptext {
+  bottom: calc(100% + 1em);
+}
+
+#jokerArea > .tooltip > .tooltiptext {
+  top: calc(100% + 1em);
+}
+
+.jokerCard:hover + .tooltiptext {
+  visibility: visible;
+  z-index: 3;
+}
+
+.title {
+  font-size: 2em;
+	display: block;
+  text-align: center;
+  white-space: nowrap;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+.desc {
+	display: flex;
+  align-items: center;
+  padding: 0.25em;
+  border-radius: 0.5em;
+  margin: 0.25em;
+  text-align: center;
+  box-shadow: 0em 0.1em 0em #ababab;
+  min-height: 2em;
+
+	background-color: white;
+	color: black;
+  white-space: nowrap;
+}
+
+.descContent {
+  width: 100%;
+  text-align: center;
+}

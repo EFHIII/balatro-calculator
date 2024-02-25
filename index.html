@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Balatro Calculator</title>
+    <link rel="stylesheet" href="/style.css">
+    <meta name="description" content="Calculate the best score for any Balatro hand">
+    <meta name="keywords" content="Balatro, calculator, chips, score, multiplier, tool, joker, card, blueprint, mod">
+    <meta name="author" content="Edward Haas">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0" />
+  </head>
+  <body>
+    <div id="mainContainer">
+      <div id="containerLeft">
+        <div id="toggleJokerArea" style="margin-bottom: 1em">
+          <div id="toggleJoker" class="handLevel">
+            <span id="toggleJokerBtn" class="lvlBtn" onclick="toggleJoker()">X</span>
+            <span class="handName">Optimize Jokers (slow)</span>
+          </div>
+        </div>
+        <div id="jokerArea"></div>
+        <span class='limitText'><span id='jokerLimit'>0</span>/7</span><br>
+        <div id="scoreOfPlay" style="font-size: 2em">
+            <div id="bestPlayScore"><span class="chipIcon"></span>5</div>
+            <div id="bestPlayScore" class="levelStat" style="position: static; margin: auto; margin-top: 0.125em;">
+              <span id="scoreChips" class="levelStatB">5</span>X<span id="scoreMult" class="levelStatR">1</span>
+            </div>
+          </div>
+          <div id="bestPlay"></div>
+        <div id="cardsInHand"></div>
+        <span class='limitText'><span id='handLimit'>0</span>/9</span><br>
+      </div><div id="containerRight">
+        <div class="menuBtns">
+          <span class="menuBtn" id="JokersBtn">Jokers</span><span class="menuBtn" id="CardsBtn">Cards</span><span class="menuBtn" id="HandsBtn">Hands</span><span class="menuBtn" id="BreakdownBtn">Breakdown</span>
+        </div>
+        <div id="Jokers">
+          <div id="jokerModifiers" style="text-align: center;">
+            <div id="jokerValue" class="handLevel" style="display: inline-block; width: auto; margin: 0.2em; min-width: 0">
+              <span class="lvlBtn" onclick="incrementJokerValue(-1)">-</span>
+              <span class="lvlBtn" onclick="incrementJokerValue( 0)">0</span>
+              <span class="lvlBtn" onclick="incrementJokerValue( 1)">+</span>
+              <span style="display: block; float: left; margin-left: 0.7em; margin-right:0.5em;margin-top: 0.125em;">Value</span>
+              <span id="jokerVal" class="handLvl" style="width: auto; padding-left: 0.25em; padding-right: 0.25em; min-width: 2.5em;">0</span>
+            </div><br><div class="jmodifierCard" style="background: url(assets/Editions.png) -71px 0, url(assets/Enhancers.png) -71px 0px" onclick="jtoggleCardModifier('foil')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div><div class="jmodifierCard" style="background: url(assets/Editions.png) -142px 0, url(assets/Enhancers.png) -71px 0px" onclick="jtoggleCardModifier('holographic')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div><div class="jmodifierCard" style="background: url(assets/Editions.png) -213px 0, url(assets/Enhancers.png) -71px 0px" onclick="jtoggleCardModifier('polychrome')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>
+          </div>
+          <div id="jokers" style="text-align: center"></div>
+        </div>
+        <div id="Cards">
+            <div id="handModifiers" style="text-align: center;">
+  <div class="modifierCard" style="background: url(assets/Editions.png) -71px 0, url(assets/Enhancers.png) -71px 0px" onclick="toggleCardModifier('foil')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div><div class="modifierCard" style="background: url(assets/Editions.png) -142px 0, url(assets/Enhancers.png) -71px 0px" onclick="toggleCardModifier('holographic')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div><div class="modifierCard" style="background: url(assets/Editions.png) -213px 0, url(assets/Enhancers.png) -71px 0px" onclick="toggleCardModifier('polychrome')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div><div class="modifierCard" style="background: url(assets/Enhancers.png) 142px 0, url(assets/Jokers.png) 0px -855px" onclick="toggleCardModifier('stone')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div><div class="modifierCard" style="background: url(assets/Enhancers.png) -71px -95px, url(assets/Jokers.png) 0px -855px" onclick="toggleCardModifier('increment')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div><div class="modifierCard" style="background: url(assets/Enhancers.png) -142px -95px, url(assets/Jokers.png) 0px -855px" onclick="toggleCardModifier('mult')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div><div class="modifierCard" style="background: url(assets/Enhancers.png) -213px -95px, url(assets/Jokers.png) 0px -855px" onclick="toggleCardModifier('wild')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div><div class="modifierCard" style="background: url(assets/Enhancers.png) -284px -95px, url(assets/Jokers.png) 0px -855px" onclick="toggleCardModifier('chance')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div><div class="modifierCard" style="background: url(assets/Enhancers.png) -355px -95px, url(assets/Jokers.png) 0px -855px" onclick="toggleCardModifier('glass')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div><div class="modifierCard" style="background: url(assets/Enhancers.png) -426px -95px, url(assets/Jokers.png) 0px -855px" onclick="toggleCardModifier('steel')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div><div class="modifierCard" style="background: url(assets/Enhancers.png) 142px 95px, url(assets/Enhancers.png) -71px 0px" onclick="toggleCardModifier('double')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div><div class="modifierCard" style="background: url(assets/Editions.png) 71px 0, url(assets/Enhancers.png) -71px 0px" onclick="toggleCardModifier('disabled')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>
+            </div>
+            <div id="cards" style="text-align: center"></div>
+        </div>
+        <div id="Hands"></div>
+        <div id="Breakdown"></div>
+      </div>
+    </div><div id="footer">
+        <a href='https://www.playbalatro.com/'><img src='/assets/Balatro logo-new.png' style='height: 3em;'></a><br>
+        <a href='https://www.github.com/EFHIII/balatro-calculator'>view code on GitHub</a>
+    </div>
+    <script type="text/javascript" src="/hoverCard.js"></script>
+    <script type="text/javascript" src="/cards.js"></script>
+    <script type="text/javascript" src="/calculator.js"></script>
+    <script type="text/javascript" src="/main.js"></script>
+  </body>
+</html>
