@@ -1,6 +1,6 @@
 # Balatro Calculator
 
-use [here](https://efhiii.github.io/balatro-calculator/)
+[Go to site](https://efhiii.github.io/balatro-calculator/)
 
 This tool lets you input a Balatro hand with a specific scenario of jokers, hand upgrades, and drawn cards, and calculates what the highest scoring play is while showing you both what the play is and what it scores.
 
