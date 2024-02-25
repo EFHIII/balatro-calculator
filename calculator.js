@@ -573,8 +573,6 @@ function triggerCard(card, cards, jokers, score, Retrigger = false) {
 }
 
 function triggerJoker(joker, cards, jokers, score, setFour = false, straightSkip = false) {
-  console.log(playfieldJokers[joker]);
-
   if(playfieldJokers[joker].modifiers.foil) {
     score.minChips += 50;
     score.maxChips += 50;
@@ -656,8 +654,6 @@ function calculatePlayScore(cards, jokers) {
   cachedType[1] = getTypeOfHand(cards, setFour, straightSkip);
 
   let [typeOfHand, involvedCards] = cachedType[1];
-
-  console.log(involvedCards);
 
   if(typeOfHand >= 0) {
     score.minChips = hands[typeOfHand].chips;
@@ -764,8 +760,6 @@ function calculator() {
     scoreChipsDiv.innerText = '>' + numberWithCommas(bestScore[2]);
     scoreMultDiv.innerText = '>' + numberWithCommas(bestScore[3]);
   }
-
-  console.log(bestScore);
 }
 
 function numberWithCommas(x) {
