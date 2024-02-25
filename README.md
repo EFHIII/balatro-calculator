@@ -3,4 +3,4 @@ This tool lets you input a Balatro hand with a specific scenario of jokers, hand
 
 You can also use this tool to try and conceive of your "perfect hand" to see what it would score.
 
-Currently, not all jokers are implemented.
+Currently, not all jokers are implemented and play breakdown has not been implemented.

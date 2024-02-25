@@ -540,7 +540,7 @@ function triggerCard(card, cards, jokers, score, Retrigger = false) {
   for(let joker of jokers) {
     switch (playfieldJokers[joker].type[0]+','+playfieldJokers[joker].type[1]) {
       case '1,3':
-        if(!playfieldCards[card].modifiers.stone && playfieldCards[card].type[1] >= 9 && && playfieldCards[card].type[1] <= 11) {
+        if(!playfieldCards[card].modifiers.stone && playfieldCards[card].type[1] >= 9 && playfieldCards[card].type[1] <= 11) {
           triggerCard(card, cards, jokers, score, true);
         }
         break;
