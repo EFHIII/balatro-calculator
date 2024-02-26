@@ -71,6 +71,8 @@ function choose(array, k) {
 
 let cachedType = ['-1'];
 
+let cardValues = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11];
+
 function hasPair(cardsA) {
   let cards = cardsA.slice().map(a => {
     if(playfieldCards[a].modifiers.stone) {
@@ -495,22 +497,13 @@ function triggerCard(card, cards, jokers, score, Retrigger = false) {
     score.minChips += 50;
     score.maxChips += 50;
   }
+  else if(playfieldCards[card].type[1] === 12) {
+    score.minChips += 11;
+    score.maxChips += 11;
+  }
   else {
-    score.minChips += playfieldCards[card].type[1] + 2;
-    score.maxChips += playfieldCards[card].type[1] + 2;
-  }
-
-  if(playfieldCards[card].modifiers.foil) {
-    score.minChips += 50;
-    score.maxChips += 50;
-  }
-  else if(playfieldCards[card].modifiers.holographic) {
-    score.minMult += 10;
-    score.maxMult += 10;
-  }
-  else if(playfieldCards[card].modifiers.polychrome) {
-    score.minMult *= 1.5;
-    score.maxMult *= 1.5;
+    score.minChips += cardValues[playfieldCards[card].type[1]];
+    score.maxChips += cardValues[playfieldCards[card].type[1]];
   }
 
   if(playfieldCards[card].modifiers.mult) {
@@ -529,11 +522,21 @@ function triggerCard(card, cards, jokers, score, Retrigger = false) {
     score.maxMult += 20;
   }
 
+  if(playfieldCards[card].modifiers.foil) {
+    score.minChips += 50;
+    score.maxChips += 50;
+  }
+  else if(playfieldCards[card].modifiers.holographic) {
+    score.minMult += 10;
+    score.maxMult += 10;
+  }
+  else if(playfieldCards[card].modifiers.polychrome) {
+    score.minMult *= 1.5;
+    score.maxMult *= 1.5;
+  }
+
   if(Retrigger) {
     return;
-  }
-  else if(playfieldCards[card].modifiers.double) {
-    triggerCard(card, cards, jokers, score, true);
   }
 
   let isFace = !playfieldCards[card].modifiers.stone && playfieldCards[card].type[1] >= 9 && playfieldCards[card].type[1] <= 11;
@@ -613,21 +616,13 @@ function triggerCard(card, cards, jokers, score, Retrigger = false) {
         break;
     }
   }
+  
+  if(playfieldCards[card].modifiers.double) {
+    triggerCard(card, cards, jokers, score, true);
+  }
 }
 
 function triggerJoker(joker, cards, jokers, score, setFour = false, straightSkip = false) {
-  if(playfieldJokers[joker].modifiers.foil) {
-    score.minChips += 50;
-    score.maxChips += 50;
-  }
-  else if(playfieldJokers[joker].modifiers.holographic) {
-    score.minMult += 10;
-    score.maxMult += 10;
-  }
-  else if(playfieldJokers[joker].modifiers.polychrome) {
-    score.minMult *= 1.5;
-    score.maxMult *= 1.5;
-  }
   switch (playfieldJokers[joker].type[0]+','+playfieldJokers[joker].type[1]) {
     case '0,0':
       score.minMult += 4;
@@ -708,7 +703,7 @@ function triggerJoker(joker, cards, jokers, score, setFour = false, straightSkip
       let lowest = 0;
       for(let card in playfieldCards) {
         if(!playfieldCards[card].modifiers.stone && cards.indexOf(playfieldCards[card].id) < 0) {
-          lowest = Math.max(lowest, playfieldCards[card].type[1] + 2);
+          lowest = cardValues[playfieldCards[card].type[1]];
         }
       }
       score.minMult += lowest * 2;
@@ -808,6 +803,19 @@ function triggerJoker(joker, cards, jokers, score, setFour = false, straightSkip
       score.minMult += playfieldJokers[joker].value;
       score.maxMult += playfieldJokers[joker].value;
       break;
+  }
+
+  if(playfieldJokers[joker].modifiers.foil) {
+    score.minChips += 50;
+    score.maxChips += 50;
+  }
+  else if(playfieldJokers[joker].modifiers.holographic) {
+    score.minMult += 10;
+    score.maxMult += 10;
+  }
+  else if(playfieldJokers[joker].modifiers.polychrome) {
+    score.minMult *= 1.5;
+    score.maxMult *= 1.5;
   }
 }
 
