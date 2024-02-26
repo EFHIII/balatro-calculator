@@ -119,7 +119,7 @@ const jokerTexts = [
   ],
   [
     ['Troubadour', '${numc}+2${endc} hand size,<br>${multc}-1${endc} hands per round'],
-    ['Banner', '${chipc}+40${endc} Chips for<br>each remaining<br>${numc}discard${endc}'],
+    ['Banner', '${chipc}+40${endc} Chips for<br>each remaining<br>${numc}discard${endc}<br>${shadowc}(Currently ${chipc}+${jokerValue * 40}${endc} Chips)${endc}'],
     ['Mystic Summit', '${multc}+15${endc} Mult when<br>${numc}0${endc} discards<br>remaining' + toggleJokerc],
     ['Marble Joker', 'Adds one ${numc}Stone${endc} card<br>to deck when<br>${numc}Blind${endc} is selected'],
     ['Loyalty Card', '${prodc}4${endc} Mult every<br>${numc}6${endc} hands played<br>${shadowc}(${jokerValue % 6} remaining)${endc}'],

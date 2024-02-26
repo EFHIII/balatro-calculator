@@ -268,21 +268,13 @@ html {
   margin-right: -0.4em;
 }
 
-.modifierCard {
-  display: inline-block;
-  width: 8.333%;
-  max-width: 71px;
-  height: 95px;
-  padding: 0;
-  image-rendering: pixelated;
-  cursor: pointer;
-}
-
-.jmodifierCard {
+.modifierCard, .jmodifierCard {
+  position: absolute;
+  left: 0;
   display: inline-block;
   width: 20%;
   max-width: 71px;
-  height: 95px;
+  height: 94px;
   padding: 0;
   image-rendering: pixelated;
   cursor: pointer;
@@ -306,6 +298,21 @@ html {
   z-index: 2;
 }
 
+.jokerCard:after, .playingCard:after, .jmodifierCard:after, .modifierCard:after, .playfieldCard:after {
+  content: '';
+  width: 71px;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background: inherit;
+  position: absolute;
+}
+
+.jokerCard:hover:after, .playingCard:hover:after, .jmodifierCard:hover:after, .modifierCard:hover:after, .playfieldCard:hover:after {
+  border-radius: 8px;
+  box-shadow: 0px 10px 1px -3px #0005;
+}
+
 @keyframes bounce {
   1%: {
     scale: 1;
@@ -325,16 +332,20 @@ html {
 }
 
 .playingCard {
+  position: absolute;
+  left: 0;
   display: inline-block;
-  width: 7.6%;
-  max-width: 71px;
-  height: 94px;
+  width: 100%;
+  height: 100%;
   padding: 0;
   image-rendering: pixelated;
   cursor: pointer;
+  z-index: 1;
 }
 
 .playfieldCard {
+  position: absolute;
+  left: 0;
   display: inline-block;
   width: 100%;
   max-width: 71px;
@@ -363,11 +374,30 @@ html {
 
 .tooltip {
   display: inline-block;
-  width: 10%;
   max-width: 71px;
   height: 94px;
   padding: 0;
   position: relative;
+}
+
+.tooltip:has(.playingCard) {
+  width: 7.6%;
+}
+
+.tooltip:has(.jokerCard) {
+  width: 10%;
+}
+
+.tooltip:has(.modifierCard) {
+  width: 8.333%;
+}
+
+.tooltip:has(.jmodifierCard) {
+  width: 33.33%;
+}
+
+#jokerArea .tooltip:has(.jokerCard), .tooltip:has(.playfieldCard) {
+  width: 100%;
 }
 
 .tooltip .tooltiptext {
@@ -433,4 +463,8 @@ html {
 .descContent {
   width: 100%;
   text-align: center;
+}
+
+#cardsInHand .tooltip:last-child, #bestPlay .tooltip:last-child, #jokerArea .tooltip:last-child {
+  width: 100000%;
 }

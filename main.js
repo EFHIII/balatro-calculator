@@ -334,7 +334,7 @@ function redrawCards() {
   let txt = '';
   for(let i = 0; i < 4; i++) {
     for(let j = 0; j < 13; j++) {
-      txt += `<div class="playingCard" ${cardString(i, j)} onclick="addCard(${i}, ${j})" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>`;
+      txt += `<div class="tooltip"><div class="playingCard" ${cardString(i, j)} onclick="addCard(${i}, ${j})" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div></div>`;
     }
     txt += '<br>';
   }
@@ -454,7 +454,7 @@ function redrawPlayfield() {
 
   let txt = '';
   for(let id of bestJokers) {
-    txt += `<div class='tooltip' style='width: 100%;'><div id="${id}" class="jokerCard" ${playfieldJokers[id].string} onclick="removeJoker('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div><span class='tooltiptext'>` +
+    txt += `<div class='tooltip'><div id="${id}" class="jokerCard" ${playfieldJokers[id].string} onclick="removeJoker('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div><span class='tooltiptext'>` +
     `<span class='title'>${playfieldJokers[id].tooltip[0]}</span>` +
     `<span class='desc'><span class='descContent'>${playfieldJokers[id].tooltip[1]}</span></span>` +
     `</span></div>`;
@@ -463,13 +463,13 @@ function redrawPlayfield() {
 
   txt = '';
   for(let id of bestHand) {
-    txt += `<div id="p${id}" class="playfieldCard" ${playfieldCards[id].string} onclick="removeCard('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>`;
+    txt += `<div class="tooltip"><div id="p${id}" class="playfieldCard" ${playfieldCards[id].string} onclick="removeCard('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div></div>`;
   }
   bestPlayDiv.innerHTML = txt;
 
   txt = '';
   for(let id of Object.keys(playfieldCards).sort().reverse()) {
-    txt += `<div id="${id}" class="playfieldCard" ${playfieldCards[id].string} onclick="removeCard('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>`;
+    txt += `<div class="tooltip"><div id="${id}" class="playfieldCard" ${playfieldCards[id].string} onclick="removeCard('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div></div>`;
   }
   cardsInHandDiv.innerHTML = txt;
 }

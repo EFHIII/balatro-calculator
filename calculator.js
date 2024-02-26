@@ -568,6 +568,11 @@ function triggerCard(card, cards, jokers, score, Retrigger = false) {
           score.maxMult += 4;
         }
         break;
+      case '2,5':
+        if(!playfieldCards[card].modifiers.stone && playfieldCards[card].type[1] < 4) {
+          triggerCard(card, cards, jokers, score, true);
+        }
+        break;
     }
   }
 }
@@ -634,6 +639,47 @@ function triggerJoker(joker, cards, jokers, score, setFour = false, straightSkip
       if(playfieldJokers[joker].value) {
         score.minMult *= 3;
         score.maxMult *= 3;
+      }
+      break;
+    case '2,1':
+      score.minChips += 40 * playfieldJokers[joker].value;
+      score.maxChips += 40 * playfieldJokers[joker].value;
+      break;
+    case '2,2':
+      if(playfieldJokers[joker].value) {
+        score.minMult += 15;
+        score.maxMult += 15;
+      }
+      break;
+    case '2,4':
+      if(playfieldJokers[joker].value === 0) {
+        score.minMult *= 4;
+        score.maxMult *= 4;
+      }
+      break;
+    case '2,6':
+      if(playfieldJokers[joker].value === 0) {
+        score.maxMult += 20;
+      }
+      break;
+    case '2,7':
+      score.minMult *= 1 + 0.25 * playfieldJokers[joker].value;
+      score.maxMult *= 1 + 0.25 * playfieldJokers[joker].value;
+      break;
+    case '2,8':
+      let lowest = 0;
+      console.log(cards);
+      for(let card in playfieldCards) {
+        if(!playfieldCards[card].modifiers.stone && cards.indexOf(playfieldCards[card].id) < 0) {
+          lowest = Math.max(lowest, playfieldCards[card].type[1] + 2);
+        }
+      }
+      score.minMult += lowest * 2;
+      score.maxMult += lowest * 2;
+      break;
+    case '3,0':
+      if(jokers.indexOf(joker)) {
+        triggerJoker(jokers[jokers.indexOf(joker) + 1]);
       }
       break;
   }
