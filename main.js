@@ -326,7 +326,7 @@ function cardString(i, j) {
   else {
     return `style="background: ` +
     `${modifierPostString}url(assets/8BitDeck.png) ` +
-    `-${71*j}px -${94*i}px${modifierString}"`;
+    `-${71*j}px -${95*i}px${modifierString}"`;
   }
 }
 
@@ -422,10 +422,6 @@ function removeJoker(id) {
 }
 
 function addCard(i, j) {
-  if(Object.keys(playfieldCards).length > 8) {
-    return;
-  }
-
   let id = (''+j).padStart(2, 0)+(4-i)+Object.keys(modifiers).map(a=>modifiers[a]?'1':'0').join('');
   while(playfieldCards.hasOwnProperty(id)) {
     id += '#';
@@ -459,20 +455,38 @@ function redrawPlayfield() {
     txt += `<div class='tooltip'><div id="${id}" class="jokerCard" ${playfieldJokers[id].string} onclick="removeJoker('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div><span class='tooltiptext'>` +
     `<span class='title'>${playfieldJokers[id].tooltip[0]}</span>` +
     `<span class='desc'><span class='descContent'>${playfieldJokers[id].tooltip[1]}</span></span>` +
-    `</span><div style="position: absolute; top: 100%; width: 100%;"><div class="positionButtons"><div class="lvlBtn" onclick="moveJokerLeft('${id}')">&lt;</div><div class="lvlBtn" onclick="moveJokerRight('${id}')">&gt;</div></div></div></div>`;
+    `</span>` +
+    `<div style="position: absolute; top: 100%; width: 100%;">` +
+    `<div class="positionButtons">` +
+    `<div class="lvlBtn" onclick="moveJokerLeft('${id}')">&lt;</div>` +
+    `<div class="lvlBtn" onclick="moveJokerRight('${id}')">&gt;</div>` +
+    `</div></div>` +
+    `</div>`;
   }
   jokerAreaDiv.innerHTML = txt;
 
   txt = '';
   for(let id of bestHand) {
-    txt += `<div class="tooltip"><div id="p${id}" class="playfieldCard" ${playfieldCards[id].string} onclick="removeCard('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div></div>`;
+    txt += `<div class="tooltip"><div id="p${id}" class="playfieldCard" ${playfieldCards[id].string} onclick="removeCard('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
+    `<div style="position: absolute; top: 100%; width: 100%;">` +
+    `<div class="positionButtons">` +
+    `<div class="lvlBtn" onclick="moveHandCardLeft('${id}')">&lt;</div>` +
+    `<div class="lvlBtn" onclick="moveHandCardDown('${id}')">v</div>` +
+    `<div class="lvlBtn" onclick="moveHandCardRight('${id}')">&gt;</div>` +
+    `</div></div>` +
+    `</div>`;
   }
   bestPlayDiv.innerHTML = txt;
 
   txt = '';
   for(let id of Object.keys(playfieldCards).sort().reverse()) {
     if(bestHand.indexOf(id) >= 0) continue;
-    txt += `<div class="tooltip"><div id="${id}" class="playfieldCard" ${playfieldCards[id].string} onclick="removeCard('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div></div>`;
+    txt += `<div class="tooltip"><div id="${id}" class="playfieldCard" ${playfieldCards[id].string} onclick="removeCard('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
+    `<div style="position: absolute; top: 100%; width: 100%;">` +
+    `<div class="positionButtons">` +
+    `<div class="lvlBtn" onclick="moveCardUp('${id}')">^</div>` +
+    `</div></div>` +
+    `</div>`;
   }
   cardsInHandDiv.innerHTML = txt;
 }
@@ -504,5 +518,38 @@ function moveJokerRight(id) {
     newPlayfield[joker] = playfieldJokers[joker];
   }
   playfieldJokers = newPlayfield;
+  redrawPlayfield();
+}
+
+function moveHandCardLeft(id) {
+  if(optimizeCards) toggleCard();
+  let index = bestHand.indexOf(id);
+  if(index > 0) {
+    bestHand.splice(index, 1);
+    bestHand.splice(index - 1, 0, id);
+  }
+  redrawPlayfield();
+}
+function moveHandCardRight(id) {
+  if(optimizeCards) toggleCard();
+  let index = bestHand.indexOf(id);
+  if(index < bestHand.length) {
+    bestHand.splice(index, 1);
+    bestHand.splice(index + 1, 0, id);
+  }
+  redrawPlayfield();
+}
+
+function moveHandCardDown(id) {
+  if(optimizeCards) toggleCard();
+  bestHand.splice(bestHand.indexOf(id), 1);
+  redrawPlayfield();
+}
+
+function moveCardUp(id) {
+  if(optimizeCards) toggleCard();
+  if(bestHand.length < 5) {
+    bestHand.push(id);
+  }
   redrawPlayfield();
 }

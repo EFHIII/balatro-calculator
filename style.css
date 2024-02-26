@@ -154,7 +154,7 @@ html {
   height: 94px;
   padding: 4px;
   border-radius: 0.5em;
-  margin-bottom: 3.5em;
+  margin-bottom: 2em;
 }
 
 #bestPlay {
@@ -162,6 +162,7 @@ html {
   margin: 0.5em;
   height: 94px;
   padding: 4px;
+  margin-bottom: 3em;
 }
 
 #cardsInHand {
@@ -171,6 +172,7 @@ html {
   height: 94px;
   padding: 4px;
   border-radius: 0.5em;
+  margin-bottom: 1em;
 }
 
 .menuBtn {
@@ -495,5 +497,28 @@ html {
   font-size: 22px;
   text-align: center;
   height: 1.4em;
-  padding-top: 2px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  container-type: inline-size;
+}
+
+.positionButtons .lvlBtn {
+  margin: 1px;
+  font-size: 11px;
+  height: fit-content;
+  padding-bottom: 2px;
+  border-width: 1px;
+}
+
+:not(#cardsInHand) > div:first-child > div > .positionButtons > .lvlBtn:first-child,
+:not(#cardsInHand) > div:last-child > div > .positionButtons > .lvlBtn:last-child {
+  background-color: #374244;
+}
+
+@container(max-width: 45px) {
+  .lvlBtn:first-child + .lvlBtn {
+    order: 3;
+  }
 }

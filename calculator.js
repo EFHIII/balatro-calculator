@@ -7,7 +7,9 @@ let scoreMultDiv = document.getElementById('scoreMult');
 const chipIcon = '<span class="chipIcon"></span>';
 
 let optimizeJokers = true;
+let optimizeCards = true;
 let toggleJokerDiv = document.getElementById('toggleJokerBtn');
+let toggleCardDiv = document.getElementById('toggleCardBtn');
 
 function toggleJoker() {
   if(!optimizeJokers) {
@@ -26,6 +28,26 @@ function toggleJoker() {
   }
   else {
     toggleJokerDiv.innerHTML = '&nbsp;';
+  }
+}
+
+function toggleCard() {
+  if(!optimizeCards) {
+    if(Object.keys(playfieldCards).length < 10) {
+      optimizeCards = !optimizeCards;
+      redrawPlayfield();
+    }
+  }
+  else {
+    optimizeCards = !optimizeCards;
+    redrawPlayfield();
+  }
+
+  if(optimizeCards) {
+    toggleCardDiv.innerText = 'X';
+  }
+  else {
+    toggleCardDiv.innerHTML = '&nbsp;';
   }
 }
 
@@ -616,7 +638,7 @@ function triggerCard(card, cards, jokers, score, Retrigger = false) {
         break;
     }
   }
-  
+
   if(playfieldCards[card].modifiers.double) {
     triggerCard(card, cards, jokers, score, true);
   }
@@ -902,26 +924,42 @@ function calculator() {
   else if(optimizeJokers) {
     toggleJoker();
   }
-  for(let i = 1; i < 6; i++) {
-    let nextChosen = choose(cards, i);
-    if(nextChosen.length > 0) {
-      chosen = chosen.concat(nextChosen, i);
+  if(Object.keys(playfieldCards).length < 10 && optimizeCards) {
+    for(let i = 1; i < 6; i++) {
+      let nextChosen = choose(cards, i);
+      if(nextChosen.length > 0) {
+        chosen = chosen.concat(nextChosen, i);
+      }
+    }
+    for(let j = 0; j < chosen.length; j++) {
+      possibleHands = possibleHands.concat(permutations(chosen[j]));
+    }
+    if(possibleHands.length === 0) {
+      possibleHands = [[]];
     }
   }
-  for(let j = 0; j < chosen.length; j++) {
-    possibleHands = possibleHands.concat(permutations(chosen[j]));
-  }
-  if(possibleHands.length === 0) {
-    possibleHands = [[]];
+  else if(optimizeCards) {
+    toggleCard();
   }
   if(possibleJokers.length === 0) {
     possibleJokers = [[]];
   }
 
+  if(possibleHands.length === 0) {
+    for(let i = bestHand.length - 1; i >= 0; i--) {
+      if(!playfieldCards.hasOwnProperty(bestHand[i])) {
+        bestHand.splice(i, 1);
+      }
+    }
+
+    possibleHands = [
+      bestHand
+    ];
+  }
+
   let bestScore = [0, 0, 0, 0];
   bestHand = [];
   bestJokers = [];
-
 
   for(let i = 0; i < possibleHands.length; i++) {
     for(let j = 0; j < possibleJokers.length; j++) {
