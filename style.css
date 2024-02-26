@@ -224,6 +224,8 @@ html {
   border-color: #374244;
   transition-duration: 0.2s;
   margin-left: 0.2em;
+  border-width: 0.125em;
+  margin: 0.125em;
 }
 
 .lvlBtn:hover {
@@ -242,7 +244,8 @@ html {
   color: #3a5055;
   border-style: solid;
   border-color: #fff;
-  margin-left: 0.2em;
+  margin: 0.125em;
+  border-width: 0.125em;
 }
 
 .levelStat {
