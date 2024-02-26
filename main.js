@@ -333,10 +333,11 @@ function cardString(i, j) {
 function redrawCards() {
   let txt = '';
   for(let i = 0; i < 4; i++) {
+    txt += '<div>';
     for(let j = 0; j < 13; j++) {
       txt += `<div class="tooltip"><div class="playingCard" ${cardString(i, j)} onclick="addCard(${i}, ${j})" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div></div>`;
     }
-    txt += '<br>';
+    txt += '</div>';
   }
   cardsDiv.innerHTML = txt;
 }
@@ -358,6 +359,7 @@ function jredrawCards() {
   let txt = '';
   for(let i = 0; i < 16; i++) {
     if(i === 9) {i++;}
+    txt += '<div>';
     for(let j = 0; j < 10; j++) {
       jmodifierString = '';
       switch(`${i},${j}`) {
@@ -373,7 +375,7 @@ function jredrawCards() {
       `<span class='desc'><span class='descContent'>${(jokerTexts.length > i && jokerTexts[i].length > j) ? eval('`' + jokerTexts[i][j][1] + '`') : 'WIP'}</span></span>` +
       `</span></div>`;
     }
-    txt += '<br>';
+    txt += '</div>';
   }
   jcardsDiv.innerHTML = txt;
 }

@@ -715,8 +715,8 @@ function triggerJoker(joker, cards, jokers, score, setFour = false, straightSkip
       score.maxMult += lowest * 2;
       break;
     case '3,0':
-      if(jokers.indexOf(joker)) {
-        triggerJoker(jokers[jokers.indexOf(joker) + 1]);
+      if(jokers.indexOf(joker) < jokers.length - 1) {
+        triggerJoker(jokers[jokers.indexOf(joker) + 1], cards, jokers, score, setFour, straightSkip);
       }
       break;
     case '3,1':

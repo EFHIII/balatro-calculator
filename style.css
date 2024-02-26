@@ -47,6 +47,10 @@ body {
   overflow-x: hidden;
 }
 
+div {
+  -webkit-tap-highlight-color: transparent !important;
+}
+
 a {
   color: white;
   text-decoration: none;
@@ -72,6 +76,20 @@ a:hover {
   width: 100%;
   text-align: center;
   margin: 0.5em;
+}
+
+#jokers, #cards {
+  display: flex;
+  flex-direction: column;
+}
+
+#jokers > div, #cards > div {
+  display: flex;
+  justify-content: center;
+}
+
+#jokers > div > .tooltip:last-child, #cards > div > .tooltip:last-child {
+  width: 100%;
 }
 
 html {
