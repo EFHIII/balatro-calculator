@@ -163,7 +163,7 @@ const jokerTexts = [
     ['Showman', '${numc}Joker${endc}, ${tarotc}, ${planetc},<br>and ${spectralc} cards may<br>appear multiple times'],
     ['Fortune Teller', '${multc}+1${endc} Mult per ${tarotc}<br>card used this run<br>${shadowc}(Currently ${multc}${jokerValue}${endc})${endc}'],
     ['Hit the Road', 'Gains ${prodc}0.5${endc} Mult<br>per discarded<br>${numc}Jack${endc} this round<br>${shadowc}(Currently ${prodc}${1 + jokerValue * 0.5}${endc})${endc}'],
-    ['Swashbuckler', 'Adds the sell value of all owned ${numc}Jokers${endc} left<br>of this card to Mult${endc}<br>${shadowc}(Currently ${multc}+${jokerValue}${endc} Mult)${endc}'],
+    ['Swashbuckler', 'Adds the sell value of<br>all owned ${numc}Jokers${endc} left<br>of this card to Mult<br>${shadowc}(Currently ${multc}+${jokerValue}${endc} Mult)${endc}'],
   ],
   [
     ['Flower Pot', '${prodc}3${endc} Mult if played<br>hand has a scoring<br>${diamondc} card, ${clubc} card,<br>${heartc} card, and ${spadec} card'],

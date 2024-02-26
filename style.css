@@ -293,7 +293,7 @@ html {
 }
 
 .modifierCard:hover, .jmodifierCard:hover, .jokerCard:hover, .playingCard:hover, .playfieldCard:hover {
-  scale: 1.2;
+  scale: 1.1;
   animation: bounce 0.3s ease;
   z-index: 2;
 }
@@ -309,7 +309,7 @@ html {
 }
 
 .jokerCard:hover:after, .playingCard:hover:after, .jmodifierCard:hover:after, .modifierCard:hover:after, .playfieldCard:hover:after {
-  border-radius: 8px;
+  border-radius: 7px;
   box-shadow: 0px 10px 1px -3px #0005;
 }
 
@@ -318,16 +318,16 @@ html {
     scale: 1;
   }
   25% {
-    scale: 1.3;
+    scale: 1.15;
   }
   50% {
-    scale: 1.15;
+    scale: 1.075;
   }
   51% {
-    scale: 1.15;
+    scale: 1.075;
   }
   100% {
-    scale: 1.2;
+    scale: 1.1;
   }
 }
 
