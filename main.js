@@ -471,6 +471,7 @@ function redrawPlayfield() {
 
   txt = '';
   for(let id of Object.keys(playfieldCards).sort().reverse()) {
+    if(bestHand.indexOf(id) >= 0) continue;
     txt += `<div class="tooltip"><div id="${id}" class="playfieldCard" ${playfieldCards[id].string} onclick="removeCard('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div></div>`;
   }
   cardsInHandDiv.innerHTML = txt;
