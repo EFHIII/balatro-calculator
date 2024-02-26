@@ -154,6 +154,7 @@ html {
   height: 94px;
   padding: 4px;
   border-radius: 0.5em;
+  margin-bottom: 2.5em;
 }
 
 #bestPlay {
@@ -485,4 +486,15 @@ html {
 
 #cardsInHand .tooltip:last-child, #bestPlay .tooltip:last-child, #jokerArea .tooltip:last-child {
   width: 100000%;
+}
+
+.positionButtons {
+  width: calc(100% - 2px);
+  padding: 0;
+
+  font-size: 22px;
+  margin-top: 0.5em;
+  text-align: center;
+  height: 1.4em;
+  padding-top: 2px;
 }

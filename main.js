@@ -459,7 +459,7 @@ function redrawPlayfield() {
     txt += `<div class='tooltip'><div id="${id}" class="jokerCard" ${playfieldJokers[id].string} onclick="removeJoker('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div><span class='tooltiptext'>` +
     `<span class='title'>${playfieldJokers[id].tooltip[0]}</span>` +
     `<span class='desc'><span class='descContent'>${playfieldJokers[id].tooltip[1]}</span></span>` +
-    `</span></div>`;
+    `</span><div style="position: absolute; top: 100%; width: 100%;"><div class="positionButtons"><div class="lvlBtn" onclick="moveJokerLeft('${id}')">&lt;</div><div class="lvlBtn" onclick="moveJokerRight('${id}')">&gt;</div></div></div></div>`;
   }
   jokerAreaDiv.innerHTML = txt;
 
@@ -475,4 +475,34 @@ function redrawPlayfield() {
     txt += `<div class="tooltip"><div id="${id}" class="playfieldCard" ${playfieldCards[id].string} onclick="removeCard('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div></div>`;
   }
   cardsInHandDiv.innerHTML = txt;
+}
+
+function moveJokerLeft(id) {
+  if(optimizeJokers) toggleJoker();
+  let index = bestJokers.indexOf(id);
+  if(index > 0) {
+    bestJokers.splice(index, 1);
+    bestJokers.splice(index - 1, 0, id);
+  }
+  let newPlayfield = {};
+  for(joker of bestJokers) {
+    newPlayfield[joker] = playfieldJokers[joker];
+  }
+  playfieldJokers = newPlayfield;
+  redrawPlayfield();
+}
+
+function moveJokerRight(id) {
+  if(optimizeJokers) toggleJoker();
+  let index = bestJokers.indexOf(id);
+  if(index < bestJokers.length) {
+    bestJokers.splice(index, 1);
+    bestJokers.splice(index + 1, 0, id);
+  }
+  let newPlayfield = {};
+  for(joker of bestJokers) {
+    newPlayfield[joker] = playfieldJokers[joker];
+  }
+  playfieldJokers = newPlayfield;
+  redrawPlayfield();
 }

@@ -158,7 +158,7 @@ const jokerTexts = [
     ['Fibonacci', 'Each plaed ${numc}Ace${endc},<br>${numc}2${endc}, ${numc}3${endc}, ${numc}5${endc}, or ${numc}8${endc} gives<br>${multc}+8${endc} Mult when scored'],
     ['Joker Stencil', '${prodc}1${endc} Mult for each<br>empty ${numc}Joker${endc} slot<br>Joker stencil included<br>${shadowc}(Currently ${prodc}${1 + jokerValue}${endc})${endc}'],
     ['Space Joker', '${probc}1 in 4${endc} chane to<br>upgrade level of<br>played ${numc}poker hand${endc}'],
-    ['Matador', 'Earn ${moneyc}$8${endc} if played hand triggers the<br>${numc}Boss Blind${endc} ability'],
+    ['Matador', 'Earn ${moneyc}$8${endc} if played<br>hand triggers the<br>${numc}Boss Blind${endc} ability'],
     ['Ceremonial Dagger', 'When ${numc}Blind${endc} is selected,<br>destroy Joker to the right<br>and permanently add ${numc}double${endc}<br>its sell value to this ${multc}Mult${endc}<br>${shadowc}(Currently ${multc}+${jokerValue * 2}${endc} Mult)${endc}'],
     ['Showman', '${numc}Joker${endc}, ${tarotc}, ${planetc},<br>and ${spectralc} cards may<br>appear multiple times'],
     ['Fortune Teller', '${multc}+1${endc} Mult per ${tarotc}<br>card used this run<br>${shadowc}(Currently ${multc}${jokerValue}${endc})${endc}'],
@@ -180,7 +180,7 @@ const jokerTexts = [
   [
     ["Driver's License", '${prodc}3${endc}Mult if you have<br>at least ${numc}16${endc} Enhanced<br>cards in your full deck<br>${shadowc}(Currently ${numc}${jokerValue}${endc})${endc}'],
     ['Invisible Joker', 'After 3 rounds,<br>sell this card to<br>${numc}duplicate${endc} a random Joker<br>${shadowc}(Currently ${numc}${jokerValue}${endc}/3)${endc}'],
-    ['All ${planetc} cards and ${celestialc} in<br>the shop are ${numc}free${endc}'],
+    ['Astronomer', 'All ${planetc} cards and<br>${celestialc} in<br>the shop are ${numc}free${endc}'],
     ['Burnt Joker', 'Upgrade the level of<br>the first ${numc}discarded${endc}<br>poker hand each round'],
     ['Dusk', 'Retrigger all played<br>cards in ${numc}final<br>hand${endc} of round' + toggleJokerc],
     ['Throwback', '${prodc}0.25${endc} Mult for each<br>${numc}Blind${endc} skipped this run<br>${shadowc}(Currently ${prodc}${jokerValue * 0.25}${endc} Mult)${endc}'],
