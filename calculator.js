@@ -1373,8 +1373,6 @@ function calculator() {
   let possibleJokers = [Object.keys(playfieldJokers)];
   if(optimizeJokers) {
     possibleJokers = permutations(Object.keys(playfieldJokers));
-  }
-  if(optimizeCards) {
     for(let i = 1; i < 6; i++) {
       let nextChosen = choose(cards, i);
       if(nextChosen.length > 0) {
@@ -1405,6 +1403,7 @@ function calculator() {
     ];
   }
 
+  let noHand = false;
   let bestScore = [0, 0, 0, 0];
   bestHand = [];
   bestJokers = [];
@@ -1412,10 +1411,17 @@ function calculator() {
   for(let i = 0; i < possibleHands.length; i++) {
     for(let j = 0; j < possibleJokers.length; j++) {
       let score = calculatePlayScore(possibleHands[i], possibleJokers[j]);
-      if(score[0]-1/(1+score[1]-score[0]) > bestScore[0]-1/(1+bestScore[1]-bestScore[0])) {
+      if(score[0] > bestScore[0]) {
         bestScore = score;
         bestHand = possibleHands[i];
         bestJokers = possibleJokers[j];
+      }
+      else if(score[0] === bestScore[0]) {
+        if(score[1] > bestScore[1]) {
+          bestScore = score;
+          bestHand = possibleHands[i];
+          bestJokers = possibleJokers[j];
+        }
       }
     }
   }
@@ -1439,5 +1445,5 @@ function numberWithCommas(x) {
     }
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
-  return `${x/(10**Math.floor(Math.log10(x)))} X 10^${Math.floor(Math.log10(x))}`;
+  return `${Math.floor(x/(10**Math.floor(Math.log10(x)))*10000)/10000} X 10^${Math.floor(Math.log10(x))}`;
 }
