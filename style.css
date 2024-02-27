@@ -251,7 +251,7 @@ html {
 .levelStat {
   position: sticky;
   left: 100%;
-  width: 7em;
+  width: fit-content;
   background-color: #000;
   padding: 0.2em;
   border-radius: 1em;
@@ -263,7 +263,7 @@ html {
   display: inline-block;
   white-space: nowrap;
   text-align: right;
-  width: 2.5em;
+  min-width: 2.5em;
   background-color: #009dff;
   padding-left: 0.25em;
   padding-right: 0.3em;
@@ -276,7 +276,7 @@ html {
   display: inline-block;
   white-space: nowrap;
   text-align: left;
-  width: 2.5em;
+  min-width: 2.5em;
   background-color: #ff4d40;
   padding-left: 0.3em;
   padding-right: 0.25em;

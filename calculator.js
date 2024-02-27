@@ -129,6 +129,42 @@ function hasPair(cardsA) {
   return false;
 }
 
+function hasTwoPair(cardsA) {
+  let cards = cardsA.slice().map(a => {
+    if(playfieldCards[a].modifiers.stone) {
+      return {
+        id: playfieldCards[a].id,
+        suit: 'stone',
+        value: 'stone'
+      };
+    }
+    return {
+      id: playfieldCards[a].id,
+      suit: playfieldCards[a].modifiers.wild ? 'wild' : playfieldCards[a].type[0],
+      value: playfieldCards[a].type[1]
+    };
+  });
+
+  let sortedCards = cards.filter(a => a.value !== 'stone').map(a => [a.value, a.id]).sort((a, b) => (b[0] + b[1].length/1000) - (a[0]+a[1].length/1000));
+
+  if(sortedCards.length >= 4) {
+    if(sortedCards[0][0] === sortedCards[1][0]) {
+      if(sortedCards[2][0] === sortedCards[3][0]) {
+        return true;
+      }
+      if(sortedCards.length >= 5 && sortedCards[3][0] === sortedCards[4][0]) {
+        return true;
+      }
+    }
+    if(sortedCards.length >= 5 && sortedCards[1][0] === sortedCards[2][0] && sortedCards[3][0] === sortedCards[4][0]) {
+      return true;
+    }
+  }
+
+
+  return false;
+}
+
 function hasThreeOfAKind(cardsA) {
   let cards = cardsA.slice().map(a => {
     if(playfieldCards[a].modifiers.stone) {
@@ -580,7 +616,7 @@ function triggerCard(card, cards, jokers, score, retrigger = false, allFaces = f
     switch (playfieldJokers[joker].type[0]+','+playfieldJokers[joker].type[1]) {
       case '1,3':
         if(!retrigger && isFace) {
-          triggerCard(card, cards, jokers, score, true, allFaces);
+          triggerCard(card, cards, jokers, score, true, allFaces, vampire);
         }
         break;
       case '1,6':
@@ -609,7 +645,7 @@ function triggerCard(card, cards, jokers, score, retrigger = false, allFaces = f
         break;
       case '2,5':
         if(!retrigger && !playfieldCards[card].modifiers.stone && playfieldCards[card].type[1] < 4) {
-          triggerCard(card, cards, jokers, score, true, allFaces);
+          triggerCard(card, cards, jokers, score, true, allFaces, vampire);
         }
         break;
       case '3,2':
@@ -651,12 +687,12 @@ function triggerCard(card, cards, jokers, score, retrigger = false, allFaces = f
         break;
       case '6,9':
         if(!retrigger && cards.indexOf(card) === 0) {
-          triggerCard(card, cards, jokers, score, true, allFaces);
+          triggerCard(card, cards, jokers, score, true, allFaces, vampire);
         }
         break;
       case '7,4':
         if(!retrigger && playfieldJokers[joker].value) {
-          triggerCard(card, cards, jokers, score, true, allFaces);
+          triggerCard(card, cards, jokers, score, true, allFaces, vampire);
         }
         break;
       case '7,6':
@@ -688,15 +724,57 @@ function triggerCard(card, cards, jokers, score, retrigger = false, allFaces = f
           score.maxMult *= 2;
         }
         break;
+      case '13,2':
+        if(isFace && playfieldJokers[joker].extraValue === 0) {
+          score.minMult *= 2;
+          score.maxMult *= 2;
+          playfieldJokers[joker].extraValue = 1;
+        }
+        break;
+      case '14,5':
+        if(!vampire && !playfieldCards[card].modifiers.stone && playfieldCards[card].modifiers.chance) {
+          playfieldJokers[joker].extraValue++;
+        }
+        break;
+      case '14,7':
+        if(!vampire && !playfieldCards[card].modifiers.stone && playfieldCards[card].modifiers.chance) {
+          playfieldJokers[joker].extraValue += 20;
+        }
+        break;
+      case '15,3':
+        if(!retrigger && playfieldJokers[joker].extraValue) {
+          triggerCard(card, cards, jokers, score, true, allFaces, vampire);
+        }
+        break;
+      case '15,6':
+        if(isFace) {
+          score.minMult += 4;
+          score.maxMult += 4;
+        }
+        break;
+      case '15,7':
+        if(playfieldCards[card].type[0] === Math.abs(playfieldJokers[joker].value) % 4) {
+          score.minMult *= 1.5;
+          score.maxMult *= 1.5;
+        }
+        break;
+      case '15,8':
+        if(!playfieldCards[card].modifiers.stone && (playfieldCards[card].type[1] === 4 || playfieldCards[card].type[1] === 10)) {
+          score.minChips += 10;
+          score.maxChips += 10;
+          score.minMult += 4;
+          score.maxMult += 4;
+        }
+        break;
     }
   }
 
   if(!retrigger && playfieldCards[card].modifiers.double) {
-    triggerCard(card, cards, jokers, score, true, allFaces);
+    triggerCard(card, cards, jokers, score, true, allFaces, vampire);
   }
 }
 
-function triggerJoker(joker, cards, jokers, score, setFour = false, straightSkip = false, allFaces = false, smear = false, retrigger = false, vampire = false) {
+function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, straightSkip = false, allFaces = false, smear = false, retrigger = false, vampire = false) {
   let heart = false;
   let diamond = false;
   let club = false;
@@ -826,12 +904,12 @@ function triggerJoker(joker, cards, jokers, score, setFour = false, straightSkip
     case '3,0':
       if(!retrigger) {
         if(jokers.indexOf(joker) < jokers.length - 1) {
-          triggerJoker(jokers[jokers.indexOf(joker) + 1], cards, jokers, score, setFour, straightSkip, allFaces, smear, joker, vampire);
+          triggerJoker(baseball, jokers[jokers.indexOf(joker) + 1], cards, jokers, score, setFour, straightSkip, allFaces, smear, joker, vampire);
         }
       }
       else {
         if(retrigger !== joker && jokers.indexOf(retrigger) < jokers.length - 1) {
-          triggerJoker(jokers[jokers.indexOf(retrigger) + 1], cards, jokers, score, setFour, straightSkip, allFaces, smear, retrigger, vampire);
+          triggerJoker(baseball, jokers[jokers.indexOf(retrigger) + 1], cards, jokers, score, setFour, straightSkip, allFaces, smear, retrigger, vampire);
         }
       }
       break;
@@ -945,10 +1023,10 @@ function triggerJoker(joker, cards, jokers, score, setFour = false, straightSkip
       break;
     case '7,7':
       if(!retrigger && joker !== jokers[0]) {
-        triggerJoker(jokers[0], cards, jokers, score, setFour, straightSkip, allFaces, smear, joker, vampire);
+        triggerJoker(baseball, jokers[0], cards, jokers, score, setFour, straightSkip, allFaces, smear, joker, vampire);
       }
       else if(retrigger !== jokers[0] && joker !== jokers[0]) {
-        triggerJoker(jokers[0], cards, jokers, score, setFour, straightSkip, allFaces, smear, retrigger, vampire);
+        triggerJoker(baseball, jokers[0], cards, jokers, score, setFour, straightSkip, allFaces, smear, retrigger, vampire);
       }
       break;
     case '8,3':
@@ -1049,6 +1127,78 @@ function triggerJoker(joker, cards, jokers, score, setFour = false, straightSkip
       score.minMult *= 1 + 0.2 * playfieldJokers[joker].value;
       score.maxMult *= 1 + 0.2 * playfieldJokers[joker].value;
       break;
+    case '13,5':
+      score.minMult += 4 * playfieldJokers[joker].value;
+      score.maxMult += 4 * playfieldJokers[joker].value;
+      break;
+    case '14,0':
+      if(hasPair(cards)) {
+        score.minChips += 50;
+        score.maxChips += 50;
+      }
+      break;
+    case '14,1':
+      if(hasThreeOfAKind(cards)) {
+        score.minChips += 100;
+        score.maxChips += 100;
+      }
+      break;
+    case '14,2':
+      if(hasFourOfAKind(cards)) {
+        score.minChips += 150;
+        score.maxChips += 150;
+      }
+      break;
+    case '14,3':
+      if(hasStraight(cards, setFour, straightSkip)) {
+        score.minChips += 100;
+        score.maxChips += 100;
+      }
+      break;
+    case '14,4':
+      if(hasFLush(vampire, cards, setFour, smear)) {
+        score.minChips += 80;
+        score.maxChips += 80;
+      }
+      break;
+    case '14,5':
+      score.minMult *= 1 + 0.2 * playfieldJokers[joker].value;
+      score.maxMult *= 1 + 0.2 * (playfieldJokers[joker].value + playfieldJokers[joker].extraValue);
+      break;
+    case '14,7':
+      score.minChips += 2 * playfieldJokers[joker].value;
+      score.maxChips += 2 * (playfieldJokers[joker].value + playfieldJokers[joker].extraValue);
+      break;
+    case '15,0':
+      score.minMult += 2 * playfieldJokers[joker].value;
+      score.maxMult += 2 * playfieldJokers[joker].value;
+      break;
+    case '15,1':
+      score.minMult += 20 - playfieldJokers[joker].value;
+      score.maxMult += 20 - playfieldJokers[joker].value;
+      break;
+    case '15,2':
+      score.minMult *= 2 - 0.01 * playfieldJokers[joker].value;
+      score.maxMult *= 2 - 0.01 * playfieldJokers[joker].value;
+      break;
+    case '15,4':
+      if(hasTwoPair(cards)) {
+        score.minMult += 2 * playfieldJokers[joker].value;
+        score.maxMult += 2 * playfieldJokers[joker].value;
+      }
+      else {
+        score.minMult += 2 + 2 * playfieldJokers[joker].value;
+        score.maxMult += 2 + 2 * playfieldJokers[joker].value;
+      }
+      break;
+    case '15,5':
+      score.minMult *= 1 + 0.5 * playfieldJokers[joker].value;
+      score.maxMult *= 1 + 0.5 * playfieldJokers[joker].value;
+      break;
+    case '15,9':
+      score.minChips += 3 * playfieldJokers[joker].value;
+      score.maxChips += 3 * playfieldJokers[joker].value;
+      break;
   }
 
   if(playfieldJokers[joker].modifiers.foil) {
@@ -1062,6 +1212,14 @@ function triggerJoker(joker, cards, jokers, score, setFour = false, straightSkip
   else if(playfieldJokers[joker].modifiers.polychrome) {
     score.minMult *= 1.5;
     score.maxMult *= 1.5;
+  }
+
+  if(baseball) {
+    // TODO: check if uncommon
+    if(false) {
+      score.minMult *= 1.5;
+      score.maxMult *= 1.5;
+    }
   }
 }
 
@@ -1081,9 +1239,11 @@ function calculatePlayScore(cards, jokers) {
   let straightSkip = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===12 && playfieldJokers[b].type[1]===3), false);
   let allFaces = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===3 && playfieldJokers[b].type[1]===6), false);
   let smear = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===6 && playfieldJokers[b].type[1]===4), false);
-  let vampire = Object.keys(playfieldJokers).reduce((a,b) => a || ((playfieldJokers[b].type[0]===12 && playfieldJokers[b].type[1]===2) ? playfieldJokers[b] : false), false);
 
   let scoreAll = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===10 && playfieldJokers[b].type[1]===6), false);
+
+  let vampire = Object.keys(playfieldJokers).reduce((a,b) => a || ((playfieldJokers[b].type[0]===12 && playfieldJokers[b].type[1]===2) ? playfieldJokers[b] : false), false);
+  let baseball = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===14 && playfieldJokers[b].type[1]===6), false);
 
   if(vampire) {
     let keys = [
@@ -1143,7 +1303,7 @@ function calculatePlayScore(cards, jokers) {
 
   // score joker
   for(let joker of jokers) {
-    triggerJoker(joker, cards, jokers, score, setFour, straightSkip, allFaces, smear, false, vampire);
+    triggerJoker(baseball, joker, cards, jokers, score, setFour, straightSkip, allFaces, smear, false, vampire);
   }
 
   if(score.minChips < 1) {
