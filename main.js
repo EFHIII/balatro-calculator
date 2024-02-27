@@ -410,6 +410,10 @@ function addJoker(i, j) {
 
   jokerLimitDiv.innerText = Object.keys(playfieldJokers).length;
 
+  if(Object.keys(playfieldJokers).length >= 8 && optimizeJokers) {
+    toggleJoker();
+  }
+
   redrawPlayfield();
 }
 
@@ -435,6 +439,10 @@ function addCard(i, j) {
   };
 
   handLimitDiv.innerText = Object.keys(playfieldCards).length;
+
+  if(Object.keys(playfieldCards).length >= 9 && optimizeJokers) {
+    toggleCard();
+  }
 
   redrawPlayfield();
 }

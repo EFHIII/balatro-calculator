@@ -12,16 +12,13 @@ let toggleJokerDiv = document.getElementById('toggleJokerBtn');
 let toggleCardDiv = document.getElementById('toggleCardBtn');
 
 function toggleJoker() {
-  if(!optimizeJokers) {
-    if(Object.keys(playfieldJokers).length < 8) {
-      optimizeJokers = !optimizeJokers;
-      redrawPlayfield();
+  optimizeJokers = !optimizeJokers;
+  if(optimizeJokers) {
+    if(optimizeCards && (Object.keys(playfieldJokers).length >= 8 || Object.keys(playfieldCards).length >= 10)) {
+      toggleCard();
     }
   }
-  else {
-    optimizeJokers = !optimizeJokers;
-    redrawPlayfield();
-  }
+  redrawPlayfield();
 
   if(optimizeJokers) {
     toggleJokerDiv.innerText = 'X';
@@ -32,16 +29,13 @@ function toggleJoker() {
 }
 
 function toggleCard() {
-  if(!optimizeCards) {
-    if(Object.keys(playfieldCards).length < 10) {
-      optimizeCards = !optimizeCards;
-      redrawPlayfield();
+  optimizeCards = !optimizeCards;
+  if(optimizeCards) {
+    if(optimizeJokers && (Object.keys(playfieldJokers).length >= 8 || Object.keys(playfieldCards).length >= 10)) {
+      toggleJoker();
     }
   }
-  else {
-    optimizeCards = !optimizeCards;
-    redrawPlayfield();
-  }
+  redrawPlayfield();
 
   if(optimizeCards) {
     toggleCardDiv.innerText = 'X';
@@ -918,13 +912,10 @@ function calculator() {
   let possibleHands = [];
   let chosen = [];
   let possibleJokers = [Object.keys(playfieldJokers)];
-  if(Object.keys(playfieldJokers).length < 8 && optimizeJokers) {
+  if(optimizeJokers) {
     possibleJokers = permutations(Object.keys(playfieldJokers));
   }
-  else if(optimizeJokers) {
-    toggleJoker();
-  }
-  if(Object.keys(playfieldCards).length < 10 && optimizeCards) {
+  if(optimizeCards) {
     for(let i = 1; i < 6; i++) {
       let nextChosen = choose(cards, i);
       if(nextChosen.length > 0) {
@@ -938,9 +929,7 @@ function calculator() {
       possibleHands = [[]];
     }
   }
-  else if(optimizeCards) {
-    toggleCard();
-  }
+
   if(possibleJokers.length === 0) {
     possibleJokers = [[]];
   }
