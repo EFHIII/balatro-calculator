@@ -563,60 +563,65 @@ function getTypeOfHand(vampire, cardsA, setFour = false, straightSkip = false, s
   return [11, [sortedCards[0][1]]];
 }
 
-function triggerCard(card, cards, jokers, score, retrigger = false, allFaces = false, vampire = false) {
-  if(playfieldCards[card].modifiers.disabled) {
-    return;
-  }
-  if(playfieldCards[card].modifiers.stone) {
-    score.minChips += 50;
-    score.maxChips += 50;
-  }
-  else if(playfieldCards[card].type[1] === 12) {
-    score.minChips += 11;
-    score.maxChips += 11;
-  }
-  else {
-    score.minChips += cardValues[playfieldCards[card].type[1]];
-    score.maxChips += cardValues[playfieldCards[card].type[1]];
-  }
+function triggerCard(triggering, card, cards, jokers, score, retrigger = false, allFaces = false, vampire = false) {
+  if(!triggering) {
+    if(playfieldCards[card].modifiers.disabled) {
+      return;
+    }
+    if(playfieldCards[card].modifiers.stone) {
+      score.minChips += 50;
+      score.maxChips += 50;
+    }
+    else if(playfieldCards[card].type[1] === 12) {
+      score.minChips += 11;
+      score.maxChips += 11;
+    }
+    else {
+      score.minChips += cardValues[playfieldCards[card].type[1]];
+      score.maxChips += cardValues[playfieldCards[card].type[1]];
+    }
 
-  if(playfieldCards[card].modifiers.mult && !vampire) {
-    score.minMult += 4;
-    score.maxMult += 4;
-  }
-  else if(playfieldCards[card].modifiers.increment && !vampire) {
-    score.minChips += 30;
-    score.maxChips += 30;
-  }
-  else if(playfieldCards[card].modifiers.glass && !vampire) {
-    score.minMult *= 2;
-    score.maxMult *= 2;
-  }
-  else if(playfieldCards[card].modifiers.chance && !vampire) {
-    score.maxMult += 20;
-  }
+    if(playfieldCards[card].modifiers.mult && !vampire) {
+      score.minMult += 4;
+      score.maxMult += 4;
+    }
+    else if(playfieldCards[card].modifiers.increment && !vampire) {
+      score.minChips += 30;
+      score.maxChips += 30;
+    }
+    else if(playfieldCards[card].modifiers.glass && !vampire) {
+      score.minMult *= 2;
+      score.maxMult *= 2;
+    }
+    else if(playfieldCards[card].modifiers.chance && !vampire) {
+      score.maxMult += 20;
+    }
 
-  if(playfieldCards[card].modifiers.foil && !vampire) {
-    score.minChips += 50;
-    score.maxChips += 50;
-  }
-  else if(playfieldCards[card].modifiers.holographic) {
-    score.minMult += 10;
-    score.maxMult += 10;
-  }
-  else if(playfieldCards[card].modifiers.polychrome) {
-    score.minMult *= 1.5;
-    score.maxMult *= 1.5;
+    if(playfieldCards[card].modifiers.foil && !vampire) {
+      score.minChips += 50;
+      score.maxChips += 50;
+    }
+    else if(playfieldCards[card].modifiers.holographic) {
+      score.minMult += 10;
+      score.maxMult += 10;
+    }
+    else if(playfieldCards[card].modifiers.polychrome) {
+      score.minMult *= 1.5;
+      score.maxMult *= 1.5;
+    }
   }
 
   let isFace = allFaces || (!playfieldCards[card].modifiers.stone && playfieldCards[card].type[1] >= 9 && playfieldCards[card].type[1] <= 11);
 
   // score joker on card
   for(let joker of jokers) {
+    if(triggering && joker !== triggering) {
+      continue;
+    }
     switch (playfieldJokers[joker].type[0]+','+playfieldJokers[joker].type[1]) {
       case '1,3':
         if(!retrigger && isFace) {
-          triggerCard(card, cards, jokers, score, true, allFaces, vampire);
+          triggerCard(triggering, card, cards, jokers, score, true, allFaces, vampire);
         }
         break;
       case '1,6':
@@ -645,7 +650,19 @@ function triggerCard(card, cards, jokers, score, retrigger = false, allFaces = f
         break;
       case '2,5':
         if(!retrigger && !playfieldCards[card].modifiers.stone && playfieldCards[card].type[1] < 4) {
-          triggerCard(card, cards, jokers, score, true, allFaces, vampire);
+          triggerCard(triggering, card, cards, jokers, score, true, allFaces, vampire);
+        }
+        break;
+      case '3,0':
+        if(!retrigger) {
+          if(jokers.indexOf(joker) < jokers.length - 1) {
+            triggerCard(jokers[jokers.indexOf(joker) + 1], card, cards, jokers, score, retrigger, allFaces, vampire);
+          }
+        }
+        else {
+          if(retrigger !== joker && jokers.indexOf(joker) < jokers.length - 1) {
+            triggerCard(jokers[jokers.indexOf(joker) + 1], card, cards, jokers, score, retrigger, allFaces, vampire);
+          }
         }
         break;
       case '3,2':
@@ -667,7 +684,7 @@ function triggerCard(card, cards, jokers, score, retrigger = false, allFaces = f
         }
         break;
       case '4,0':
-        if(!playfieldCards[card].modifiers.stone && [0].indexOf(playfieldCards[card].type[1]) >= 0) {
+        if(!triggering && !playfieldCards[card].modifiers.stone && [0].indexOf(playfieldCards[card].type[1]) >= 0) {
           playfieldJokers[joker].extraValue++;
         }
         break;
@@ -687,12 +704,20 @@ function triggerCard(card, cards, jokers, score, retrigger = false, allFaces = f
         break;
       case '6,9':
         if(!retrigger && cards.indexOf(card) === 0) {
-          triggerCard(card, cards, jokers, score, true, allFaces, vampire);
+          triggerCard(triggering, card, cards, jokers, score, true, allFaces, vampire);
         }
         break;
       case '7,4':
         if(!retrigger && playfieldJokers[joker].value) {
-          triggerCard(card, cards, jokers, score, true, allFaces, vampire);
+          triggerCard(triggering, card, cards, jokers, score, true, allFaces, vampire);
+        }
+        break;
+      case '7,7':
+        if(!retrigger && joker !== jokers[0]) {
+          triggerCard(jokers[0], card, cards, jokers, score, joker, allFaces, vampire);
+        }
+        else if(retrigger !== joker && retrigger !== jokers[0] && joker !== jokers[0]) {
+          triggerCard(jokers[0], card, cards, jokers, score, retrigger, allFaces, vampire);
         }
         break;
       case '7,6':
@@ -737,13 +762,13 @@ function triggerCard(card, cards, jokers, score, retrigger = false, allFaces = f
         }
         break;
       case '14,7':
-        if(!vampire && !playfieldCards[card].modifiers.stone && playfieldCards[card].modifiers.chance) {
+        if(!triggering && !vampire && !playfieldCards[card].modifiers.stone && playfieldCards[card].modifiers.chance) {
           playfieldJokers[joker].extraValue += 20;
         }
         break;
       case '15,3':
         if(!retrigger && playfieldJokers[joker].extraValue) {
-          triggerCard(card, cards, jokers, score, true, allFaces, vampire);
+          triggerCard(triggering, card, cards, jokers, score, true, allFaces, vampire);
         }
         break;
       case '15,6':
@@ -769,8 +794,8 @@ function triggerCard(card, cards, jokers, score, retrigger = false, allFaces = f
     }
   }
 
-  if(!retrigger && playfieldCards[card].modifiers.double) {
-    triggerCard(card, cards, jokers, score, true, allFaces, vampire);
+  if(!triggering && !retrigger && playfieldCards[card].modifiers.double) {
+    triggerCard(triggering, card, cards, jokers, score, true, allFaces, vampire);
   }
 }
 
@@ -1215,8 +1240,7 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
   }
 
   if(baseball) {
-    // TODO: check if uncommon
-    if(false) {
+    if(jokerRarity[playfieldJokers[joker].type[0]][playfieldJokers[joker].type[1]] === 1) {
       score.minMult *= 1.5;
       score.maxMult *= 1.5;
     }
@@ -1280,7 +1304,7 @@ function calculatePlayScore(cards, jokers) {
   for(let card of cards) {
     // score card
     if(scoreAll || involvedCards.indexOf(card) >= 0 || playfieldCards[card].modifiers.stone) {
-      triggerCard(card, cards, jokers, score, false, allFaces, vampire);
+      triggerCard(false, card, cards, jokers, score, false, allFaces, vampire);
     }
   }
 
