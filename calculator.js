@@ -908,8 +908,8 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
         }
       }
       else {
-        if(retrigger !== joker && jokers.indexOf(retrigger) < jokers.length - 1) {
-          triggerJoker(baseball, jokers[jokers.indexOf(retrigger) + 1], cards, jokers, score, setFour, straightSkip, allFaces, smear, retrigger, vampire);
+        if(retrigger !== joker && jokers.indexOf(joker) < jokers.length - 1) {
+          triggerJoker(baseball, jokers[jokers.indexOf(joker) + 1], cards, jokers, score, setFour, straightSkip, allFaces, smear, joker, vampire);
         }
       }
       break;
