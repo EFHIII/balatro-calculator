@@ -536,3 +536,10 @@ html {
   padding: 0.125em;
   text-shadow: 2px 3px #0005;
 }
+
+input {
+  font-family: inherit;
+  font-size: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+}

@@ -12,6 +12,7 @@ let tabs = [
   document.getElementById('Breakdown'),
 ];
 
+let searchVal = '';
 
 for(let i = 0; i < menuBtns.length; i++) {
   menuBtns[i].addEventListener('click', changeTab(i));
@@ -356,27 +357,36 @@ function jokerString(i, j) {
 }
 
 function jredrawCards() {
-  let txt = '';
+  let txt = '<div>';
+  let count = 0;
   for(let i = 0; i < 16; i++) {
     if(i === 9) {i++;}
-    txt += '<div>';
     for(let j = 0; j < 10; j++) {
-      jmodifierString = '';
-      switch(`${i},${j}`) {
-        case '8,3': jmodifierString = `url(assets/Jokers.png) -${71*3}px -${95*9}px, `; break;
-        case '8,4': jmodifierString = `url(assets/Jokers.png) -${71*4}px -${95*9}px, `; break;
-        case '8,5': jmodifierString = `url(assets/Jokers.png) -${71*5}px -${95*9}px, `; break;
-        case '8,6': jmodifierString = `url(assets/Jokers.png) -${71*6}px -${95*9}px, `; break;
-        case '8,7': jmodifierString = `url(assets/Jokers.png) -${71*7}px -${95*9}px, `; break;
-        case '12,4': jmodifierString = `url(assets/Jokers.png) -${71*2}px -${95*9}px, `; break;
+      let title = (jokerTexts.length > i && jokerTexts[i].length > j) ? jokerTexts[i][j][0] : 'WIP';
+      let description = (jokerTexts.length > i && jokerTexts[i].length > j) ? eval('`' + jokerTexts[i][j][1] + '`') : 'WIP';
+      if(title.toLowerCase().indexOf(searchVal.toLowerCase()) >= 0 || description.replace(/\<[^\>]+\>/g,'').toLowerCase().indexOf(searchVal.toLowerCase()) >= 0) {
+        jmodifierString = '';
+        switch(`${i},${j}`) {
+          case '8,3': jmodifierString = `url(assets/Jokers.png) -${71*3}px -${95*9}px, `; break;
+          case '8,4': jmodifierString = `url(assets/Jokers.png) -${71*4}px -${95*9}px, `; break;
+          case '8,5': jmodifierString = `url(assets/Jokers.png) -${71*5}px -${95*9}px, `; break;
+          case '8,6': jmodifierString = `url(assets/Jokers.png) -${71*6}px -${95*9}px, `; break;
+          case '8,7': jmodifierString = `url(assets/Jokers.png) -${71*7}px -${95*9}px, `; break;
+          case '12,4': jmodifierString = `url(assets/Jokers.png) -${71*2}px -${95*9}px, `; break;
+        }
+        txt += `<div class='tooltip'><div class="jokerCard" ${jokerString(i, j)} onclick="addJoker(${i}, ${j})" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div><span class='tooltiptext'>` +
+        `<span class='title'>${title}</span>` +
+        `<span class='desc'><span class='descContent'>${description}</span></span>` +
+        `</span></div>`;
+        count++;
+        if(count >= 10) {
+          count = 0;
+          txt += '</div><div>';
+        }
       }
-      txt += `<div class='tooltip'><div class="jokerCard" ${jokerString(i, j)} onclick="addJoker(${i}, ${j})" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div><span class='tooltiptext'>` +
-      `<span class='title'>${(jokerTexts.length > i && jokerTexts[i].length > j) ? jokerTexts[i][j][0] : 'WIP'}</span>` +
-      `<span class='desc'><span class='descContent'>${(jokerTexts.length > i && jokerTexts[i].length > j) ? eval('`' + jokerTexts[i][j][1] + '`') : 'WIP'}</span></span>` +
-      `</span></div>`;
     }
-    txt += '</div>';
   }
+  txt += '</div>';
   jcardsDiv.innerHTML = txt;
 }
 
@@ -560,4 +570,11 @@ function moveCardUp(id) {
     bestHand.push(id);
   }
   redrawPlayfield();
+}
+
+let searchDiv = document.getElementById('SearchVal');
+
+function searchJoker() {
+  searchVal = searchDiv.value;
+  jredrawCards();
 }
