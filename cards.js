@@ -72,6 +72,11 @@ const heartc = `<span style='color: #f00'>Heart</span>`;
 const spadec = `<span style='color: #505'>Spade</span>`;
 const clubc = `<span style='color: #050'>Club</span>`;
 
+const diamondsc = `<span style='color: #f50'>Diamonds</span>`;
+const heartsc = `<span style='color: #f00'>Hearts</span>`;
+const spadesc = `<span style='color: #505'>Spades</span>`;
+const clubsc = `<span style='color: #050'>Clubs</span>`;
+
 const spectralc = `<span style='color: #00f'>Spectral</span>`;
 const planetc = `<span style='color: #0af'>Planet</span>`;
 const tarotc = `<span style='color: #f0f'>Tarot</span>`;
@@ -87,6 +92,9 @@ const roomc = `<br>${shadowc}(Must have room)${endc}`;
 const rankNames = [
   '2', '3', '4', '5', '6', '7', '8', '9', '10',
   'Jack', 'Queen', 'King', 'Ace'
+];
+const suitNames = [
+  heartsc, clubsc, diamondsc, spadesc
 ];
 
 const toggleJokerc = '<br>${shadowc}(Currently ${jokerValue ? `${probc}active${endc}` : `${multc}inactive${endc}`})${endc}';
@@ -178,13 +186,13 @@ const jokerTexts = [
     ['Hanging Chad', 'Retrigger ${numc}first${endc} played<br>card used in scoring'],
   ],
   [
-    ["Driver's License", '${prodc}3${endc}Mult if you have<br>at least ${numc}16${endc} Enhanced<br>cards in your full deck<br>${shadowc}(Currently ${numc}${jokerValue}${endc})${endc}'],
+    ["Driver's License", '${prodc}3${endc} Mult if you have<br>at least ${numc}16${endc} Enhanced<br>cards in your full deck<br>${shadowc}(Currently ${numc}${jokerValue}${endc})${endc}'],
     ['Invisible Joker', 'After 3 rounds,<br>sell this card to<br>${numc}duplicate${endc} a random Joker<br>${shadowc}(Currently ${numc}${jokerValue}${endc}/3)${endc}'],
     ['Astronomer', 'All ${planetc} cards and<br>${celestialc} in<br>the shop are ${numc}free${endc}'],
     ['Burnt Joker', 'Upgrade the level of<br>the first ${numc}discarded${endc}<br>poker hand each round'],
     ['Dusk', 'Retrigger all played<br>cards in ${numc}final<br>hand${endc} of round' + toggleJokerc],
-    ['Throwback', '${prodc}0.25${endc} Mult for each<br>${numc}Blind${endc} skipped this run<br>${shadowc}(Currently ${prodc}${jokerValue * 0.25}${endc} Mult)${endc}'],
-    ['The Idol', 'Each played ${numc}Ace${endc}<br>of ${spadec} gives<br>${prodc}2${endc} Mult when scored<br>${shadowc}Card changes every round${endc}'],
+    ['Throwback', '${prodc}0.25${endc} Mult for each<br>${numc}Blind${endc} skipped this run<br>${shadowc}(Currently ${prodc}${1 + jokerValue * 0.25}${endc} Mult)${endc}'],
+    ['The Idol', 'Each played ${numc}${rankNames[Math.floor(Math.abs(jokerValue)/4) % 13]}${endc}<br>of ${suitNames[Math.abs(jokerValue) % 4]} gives<br>${prodc}2${endc} Mult when scored<br>${shadowc}Card changes every round${endc}'],
     ['Brainstorm', 'Copies the ability<br>of the leftmost Joker'],
     ['Satellite', 'Earn ${moneyc}$1${endc} at the end of<br>round per unique ${planetc}<br>card used this run<br>${shadowc}(Currently ${moneyc}$${jokerValue}${endc})${endc}'],
     ['Rough Gem', 'Played cards with<br>${diamondc} suit earn<br>${moneyc}$1${endc} when scored']
