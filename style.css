@@ -158,7 +158,7 @@ html {
 }
 
 #bestPlay {
-  width: calc(100% - 2em - 8px);
+  width: calc(100% - 1.5em);
   margin: 0.5em;
   height: 94px;
   padding: 4px;
