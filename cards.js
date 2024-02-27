@@ -229,7 +229,7 @@ const jokerTexts = [
     ['Superposition', 'Create a ${tarotc} card if<br>poker hand contains an<br>${numc}Ace${endc} and a ${numc}Straight${endc}${roomc}'],
     ['To Do List', 'Earn ${moneyc}$5${endc} if ${numc}poker hand${endc}<br>is a ${numc}Pair${endc},<br>poker hand changes<br>on every payout'],
     ['Cavendish', '${prodc}3${endc} Mult<br>${probc}1 in 1000${endc} chance this<br>card is destroy<br>at end of round'],
-    ['Card sharp', '${prodc}3${endc} Mult if played<br>${numc}poker hand${endc} has already<br>been played this round'],
+    ['Card sharp', '${prodc}3${endc} Mult if played<br>${numc}poker hand${endc} has already<br>been played this round' + toggleJokerc],
     ['Red Card', 'Gains ${multc}+3${endc} Mult when any<br>${numc}Booster Pack${endc} is skipped<br>${shadowc}(Currently ${multc}+${jokerValue * 3}${endc} Mult)${endc}'],
     ['Madness', 'When ${numc}Blind${endc} is selected,<br>gain ${prodc}0.5${endc} Mult and<br>${numc}destroy${endc} a random Joker<br>${shadowc}(Currently ${prodc}${1 + jokerValue * 0.5}${endc})${endc}'],
     ['Square Joker', 'Gain ${chipc}+4${endc} Chips if<br>played hand has<br>exactly ${numc}4${endc} card<br>${shadowc}(Currently ${chipc}+${16 + jokerValue * 4}${endc} Chips)${endc}']
