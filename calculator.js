@@ -665,6 +665,29 @@ function triggerCard(card, cards, jokers, score, retrigger = false, allFaces = f
           score.maxMult *= 2;
         }
         break;
+      case '8,0':
+        if(!playfieldCards[card].modifiers.stone && playfieldCards[card].type[0] === 0) {
+          score.maxMult *= 2;
+        }
+        break;
+      case '8,1':
+        if(!playfieldCards[card].modifiers.stone && playfieldCards[card].type[0] === 3) {
+          score.minChips += 50;
+          score.maxChips += 50;
+        }
+        break;
+      case '8,2':
+        if(!playfieldCards[card].modifiers.stone && playfieldCards[card].type[0] === 1) {
+          score.minMult += 8;
+          score.maxMult += 8;
+        }
+        break;
+      case '8,4':
+        if(!playfieldCards[card].modifiers.stone && (playfieldCards[card].type[1] === 10 || playfieldCards[card].type[1] === 11)) {
+          score.minMult *= 2;
+          score.maxMult *= 2;
+        }
+        break;
     }
   }
 
@@ -924,6 +947,55 @@ function triggerJoker(joker, cards, jokers, score, setFour = false, straightSkip
         triggerJoker(jokers[0], cards, jokers, score, setFour, straightSkip, allFaces, smear, retrigger);
       }
       break;
+    case '8,3':
+      score.minMult *= 1 + playfieldJokers[joker].value + playfieldJokers[joker].extraValue;
+      score.maxMult *= 1 + playfieldJokers[joker].value + playfieldJokers[joker].extraValue;
+      break;
+    case '8,5':
+      if(playfieldJokers[joker].value <= 0) {
+        score.minMult *= 5;
+        score.maxMult *= 5;
+      }
+      break;
+    case '8,9':
+      score.minMult += 2 + 2 * playfieldJokers[joker].value;
+      score.maxMult += 2 + 2 * playfieldJokers[joker].value;
+      break;
+    case '10,2':
+      let allBlack = true;
+      for(let card in playfieldCards) {
+        if(cards.indexOf(card) < 0 && (playfieldCards[card].modifiers.stone || (!playfieldCards[card].modifiers.wild && playfieldCards[card].type[0] % 2 === 0))) {
+          allBlack = false;
+          break;
+        }
+      }
+      if(allBlack) {
+        score.minMult *= 3;
+        score.maxMult *= 3;
+      }
+      break;
+    case '10,3':
+      if(hasStraight(cards, setFour, straightSkip)) {
+        score.minChips += 30 + 10 * playfieldJokers[joker].value;
+        score.maxChips += 30 + 10 * playfieldJokers[joker].value;
+      }
+      else {
+        score.minChips += 20 + 10 * playfieldJokers[joker].value;
+        score.maxChips += 20 + 10 * playfieldJokers[joker].value;
+      }
+      break;
+    case '10,4':
+      score.minChips += 100 - 5 * playfieldJokers[joker].value;
+      score.maxChips += 100 - 5 * playfieldJokers[joker].value;
+      break;
+    case '10,7':
+      score.minChips += 104 + 2 * playfieldJokers[joker].value;
+      score.maxChips += 104 + 2 * playfieldJokers[joker].value;
+      break;
+    case '10,9':
+      score.minMult *= 1 + 0.1 * playfieldJokers[joker].value;
+      score.maxMult *= 1 + 0.1 * playfieldJokers[joker].value;
+      break;
   }
 
   if(playfieldJokers[joker].modifiers.foil) {
@@ -957,6 +1029,8 @@ function calculatePlayScore(cards, jokers) {
   let allFaces = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===3 && playfieldJokers[b].type[1]===6), false);
   let smear = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===6 && playfieldJokers[b].type[1]===4), false);
 
+  let scoreAll = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===10 && playfieldJokers[b].type[1]===6), false);
+
   // figure out type of hand
   cachedType[1] = getTypeOfHand(cards, setFour, straightSkip, smear);
 
@@ -971,7 +1045,7 @@ function calculatePlayScore(cards, jokers) {
 
   for(let card of cards) {
     // score card
-    if(involvedCards.indexOf(card) >= 0 || playfieldCards[card].modifiers.stone) {
+    if(scoreAll || involvedCards.indexOf(card) >= 0 || playfieldCards[card].modifiers.stone) {
       triggerCard(card, cards, jokers, score, false, allFaces);
     }
   }

@@ -207,7 +207,7 @@ const jokerTexts = [
     ['Chicot', 'Disables effect of<br>every ${numc}Boss Blind${endc}'],
     ['Perkeo', 'Creates a ${negativec} copy of<br>${numc}1${endc} random ${numc}consumable${endc}<br>card in your possession<br>at the end of the ${numc}shop${endc}'],
     ['Certificate', 'When round begins,<br>add a random ${numc}playing<br>card${endc} with a random<br>${numc}seal${endc} to your hand'],
-    ['Bootstraps', '${multc}+2${endc} Mult for every<br>${moneyc}$5${endc} you have']
+    ['Bootstraps', '${multc}+2${endc} Mult for every<br>${moneyc}$5${endc} you have<br>${shadowc}(Currently ${multc}+${jokerValue * 2}${endc} Mult)${endc}']
   ],
   [],
   [
