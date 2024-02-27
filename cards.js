@@ -158,7 +158,7 @@ const jokerTexts = [
     ['Marble Joker', 'Adds one ${numc}Stone${endc} card<br>to deck when<br>${numc}Blind${endc} is selected'],
     ['Loyalty Card', '${prodc}4${endc} Mult every<br>${numc}6${endc} hands played<br>${shadowc}(${jokerValue % 6} remaining)${endc}'],
     ['Hack', 'Retrigger<br>each played<br>${numc}2${endc}, ${numc}3${endc}, ${numc}4${endc}, or ${numc}5${endc}'],
-    ['Misprint', '${multc}+0${endc} - ${multc}+20${endc} Mult'],
+    ['Misprint', '${multc}+0${endc} - ${multc}+23${endc} Mult'],
     ['Steel Joker', 'This Joker gains ${prodc}0.25${endc} Mult<br>for each ${numc}Steel Card${endc}<br>in your full deck<br>${shadowc}(Currently ${prodc}${1 + jokerValue * 0.25}${endc} Mult)${endc}'],
     ['Raised Fist', 'Adds ${numc}double${endc} the rank<br>of ${numc}lowest${endc} card held in hand to Mult'],
     ['Golden Joker', 'Earn ${moneyc}$4${endc} at<br>end of round']

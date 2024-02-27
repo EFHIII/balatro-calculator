@@ -918,7 +918,7 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
       break;
     case '2,6':
       if(playfieldJokers[joker].value === 0) {
-        score.maxMult += 20;
+        score.maxMult += 23;
       }
       break;
     case '2,7':
