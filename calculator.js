@@ -10,6 +10,9 @@ let optimizeJokers = true;
 let optimizeCards = true;
 let toggleJokerDiv = document.getElementById('toggleJokerBtn');
 let toggleCardDiv = document.getElementById('toggleCardBtn');
+let togglePlasmaDiv = document.getElementById('togglePlasmaBtn');
+
+let plasmaDeck = false;
 
 function toggleJoker() {
   optimizeJokers = !optimizeJokers;
@@ -42,6 +45,18 @@ function toggleCard() {
   }
   else {
     toggleCardDiv.innerHTML = '&nbsp;';
+  }
+}
+
+function togglePlasma() {
+  plasmaDeck = !plasmaDeck;
+  redrawPlayfield();
+
+  if(plasmaDeck) {
+    togglePlasmaDiv.innerText = 'X';
+  }
+  else {
+    togglePlasmaDiv.innerHTML = '&nbsp;';
   }
 }
 
@@ -1343,7 +1358,12 @@ function calculatePlayScore(cards, jokers) {
     score.maxMult = 1;
   }
 
-  return [Math.floor(score.minChips*score.minMult), Math.floor(score.maxChips*score.maxMult), score.minChips, score.minMult];
+  if(plasmaDeck) {
+    return [Math.floor(((score.minChips+score.minMult)/2)**2), Math.floor(((score.maxChips+score.maxMult)/2)**2), score.minChips, score.minMult];
+  }
+  else {
+    return [Math.floor(score.minChips*score.minMult), Math.floor(score.maxChips*score.maxMult), score.minChips, score.minMult];
+  }
 }
 
 function calculator() {
