@@ -1196,7 +1196,7 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
       }
       break;
     case '14,4':
-      if(hasFLush(vampire, cards, setFour, smear)) {
+      if(hasFlush(vampire, cards, setFour, smear)) {
         score.minChips += 80;
         score.maxChips += 80;
       }
