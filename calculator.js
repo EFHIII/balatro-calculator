@@ -808,11 +808,17 @@ function triggerJoker(joker, cards, jokers, score, setFour = false, straightSkip
       score.maxMult *= 1 + 0.25 * playfieldJokers[joker].value;
       break;
     case '2,8':
-      let lowest = 0;
+      let lowest = 100;
       for(let card in playfieldCards) {
-        if(!playfieldCards[card].modifiers.stone && cards.indexOf(playfieldCards[card].id) < 0) {
-          lowest = cardValues[playfieldCards[card].type[1]];
+        if(playfieldCards[card].modifiers.disabled && cards.indexOf(playfieldCards[card].id) < 0) {
+          lowest = 0;
         }
+        else if(!playfieldCards[card].modifiers.stone && cards.indexOf(playfieldCards[card].id) < 0) {
+          lowest = Math.min(lowest, cardValues[playfieldCards[card].type[1]]);
+        }
+      }
+      if(lowest === 100) {
+        lowest = 0;
       }
       score.minMult += lowest * 2;
       score.maxMult += lowest * 2;
@@ -1153,7 +1159,7 @@ function calculatePlayScore(cards, jokers) {
     score.maxMult = 1;
   }
 
-  return [Math.floor(score.minChips)*Math.floor(score.minMult), Math.floor(score.maxChips)*Math.floor(score.maxMult), score.minChips, score.minMult];
+  return [Math.floor(score.minChips*score.minMult), Math.floor(score.maxChips*score.maxMult), score.minChips, score.minMult];
 }
 
 function calculator() {
