@@ -206,7 +206,7 @@ const jokerTexts = [
     ['Scholar', 'Played ${numc}Aces${endc}<br>give ${chipc}+20${endc} Chips<br>and ${multc}+4${endc} Mult<br>when scored'],
     ['Smeared Joker', '${heartc} and ${diamondc}<br>count as the same suit,<br>${spadec} and ${clubc}<br>count as the same suit'],
     ['Opps! All 6s', 'Double all ${numc}listed${endc}<br>${probc}probabilities${endc}<br>${shadowc}(ex: ${probc}1 in 3${endc} -> ${probc}2 in 3${endc})${endc}'],
-    ['Four Fingers', 'All ${numc}FLushes${endc} and<br>${numc}Straights${endc} can be<br>made with ${numc}4${endc} cards'],
+    ['Four Fingers', 'All ${numc}Flushes${endc} and<br>${numc}Straights${endc} can be<br>made with ${numc}4${endc} cards'],
     ['Gros Michel', '${multc}+15${endc} Mult<br>${probc}1 in 4${endc} chance this card is destroyed<br>at the end of the round'],
     ['Stuntman', '${chipc}+300${endc} Chips,<br>${numc}-2${endc} hand size'],
     ['Hanging Chad', 'Retrigger ${numc}first${endc} played<br>card used in scoring'],
