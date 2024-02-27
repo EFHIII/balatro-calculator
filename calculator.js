@@ -1159,7 +1159,7 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
       score.maxMult *= 1 + 0.25 * (playfieldJokers[joker].value + playfieldJokers[joker].extraValue);
       break;
     case '12,6':
-      let kingsinHand = Object.keys(playfieldCards).reduce((a,b) => a + (playfieldCards[b].modifiers.stone ? 0 : (playfieldCards[b].type[1] === 11 ? (bestHand.indexOf(b) < 0 ? 1 : 0) : 0)), 0);
+      let kingsinHand = Object.keys(playfieldCards).reduce((a,b) => a + (playfieldCards[b].modifiers.stone ? 0 : (playfieldCards[b].type[1] === 11 ? (cards.indexOf(b) < 0 ? 1 : 0) : 0)), 0);
       score.minMult *= 1 + 1.5 * kingsinHand;
       score.maxMult *= 1 + 1.5 * kingsinHand;
       break;
