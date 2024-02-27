@@ -525,3 +525,14 @@ html {
     order: 3;
   }
 }
+
+#bestPlayScoreX {
+  border-radius: 0.25em;
+}
+
+#scoreMult,
+#scoreChips {
+  border-radius: 0.125em;
+  padding: 0.125em;
+  text-shadow: 2px 3px #0005;
+}
