@@ -933,7 +933,7 @@ function triggerJoker(joker, cards, jokers, score, setFour = false, straightSkip
         score.maxMult *= 3;
       }
       break;
-    case '7,0':
+    case '7,5':
       score.minMult *= 1 + 0.25 * playfieldJokers[joker].value;
       score.maxMult *= 1 + 0.25 * playfieldJokers[joker].value;
       break;
