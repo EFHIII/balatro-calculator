@@ -50,7 +50,7 @@ let hands = [
     s_mult: 12,
     s_chips: 120,
     l_mult: 3,
-    l_chips: 30
+    l_chips: 40
   },
   {
     name: "Five of a Kind",
@@ -59,7 +59,7 @@ let hands = [
     s_mult: 10,
     s_chips: 100,
     l_mult: 3,
-    l_chips: 25
+    l_chips: 35
   },
   {
     name: "Straight Flush",
@@ -68,7 +68,7 @@ let hands = [
     s_mult: 8,
     s_chips: 100,
     l_mult: 3,
-    l_chips: 30
+    l_chips: 40
   },
   {
     name: "Four of a Kind",
@@ -77,7 +77,7 @@ let hands = [
     s_mult: 7,
     s_chips: 60,
     l_mult: 3,
-    l_chips: 25
+    l_chips: 30
   },
   {
     name: "Full House",
@@ -95,7 +95,7 @@ let hands = [
     s_mult: 4,
     s_chips: 35,
     l_mult: 2,
-    l_chips: 20
+    l_chips: 15
   },
   {
     name: "Straight",
@@ -130,8 +130,8 @@ let hands = [
     chips: 10,
     s_mult: 2,
     s_chips: 10,
-    l_mult: 1,
-    l_chips: 15
+    l_mult: 2,
+    l_chips: 20
   },
   {
     name: "High Card",
@@ -140,7 +140,7 @@ let hands = [
     s_mult: 1,
     s_chips: 5,
     l_mult: 1,
-    l_chips: 10
+    l_chips: 15
   }
 ];
 
