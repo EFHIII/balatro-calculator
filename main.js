@@ -178,8 +178,8 @@ function incrementLevel(inc, handIndex) {
   hand.chips = Math.max(0, hand.s_chips + (hand.level-1) * hand.l_chips);
   div.children[2].innerText = 'lvl.'+hand.level;
   div.children[2].style.backgroundColor = hand.level === 1 ? handColors[0] : handColors[((Math.ceil(Math.abs(hand.level)/6)*6+hand.level+4)%6)+1];
-  div.children[4].children[0].innerText = hand.chips;
-  div.children[4].children[1].innerText = hand.mult;
+  div.children[4].children[0].innerText = numberWithCommas(hand.chips);
+  div.children[4].children[1].innerText = numberWithCommas(hand.mult);
 
   redrawPlayfield();
 }
@@ -221,8 +221,8 @@ function setLevel(handIndex) {
   hand.mult = Math.max(1, hand.s_mult + (hand.level-1) * hand.l_mult);
   hand.chips = Math.max(0, hand.s_chips + (hand.level-1) * hand.l_chips);
   div.children[2].style.backgroundColor = hand.level === 1 ? handColors[0] : handColors[((Math.ceil(Math.abs(hand.level)/6)*6+hand.level+4)%6)+1];
-  div.children[4].children[0].innerText = hand.chips;
-  div.children[4].children[1].innerText = hand.mult;
+  div.children[4].children[0].innerText = numberWithCommas(hand.chips);
+  div.children[4].children[1].innerText = numberWithCommas(hand.mult);
 
   redrawPlayfield();
 }
