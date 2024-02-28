@@ -36,6 +36,7 @@ changeTab(0)();
 let hands = [
   {
     name: "Flush Five",
+    planet: "Eris",
     mult: 14,
     chips: 150,
     s_mult: 14,
@@ -45,6 +46,7 @@ let hands = [
   },
   {
     name: "Flush House",
+    planet: "Ceres",
     mult: 12,
     chips: 120,
     s_mult: 12,
@@ -54,6 +56,7 @@ let hands = [
   },
   {
     name: "Five of a Kind",
+    planet: "Planet X",
     mult: 10,
     chips: 100,
     s_mult: 10,
@@ -63,6 +66,7 @@ let hands = [
   },
   {
     name: "Straight Flush",
+    planet: "Neptune",
     mult: 8,
     chips: 100,
     s_mult: 8,
@@ -72,6 +76,7 @@ let hands = [
   },
   {
     name: "Four of a Kind",
+    planet: "Mars",
     mult: 7,
     chips: 60,
     s_mult: 7,
@@ -81,6 +86,7 @@ let hands = [
   },
   {
     name: "Full House",
+    planet: "Earth",
     mult: 4,
     chips: 40,
     s_mult: 4,
@@ -90,6 +96,7 @@ let hands = [
   },
   {
     name: "Flush",
+    planet: "Jupiter",
     mult: 4,
     chips: 35,
     s_mult: 4,
@@ -99,6 +106,7 @@ let hands = [
   },
   {
     name: "Straight",
+    planet: "Saturn",
     mult: 4,
     chips: 30,
     s_mult: 4,
@@ -108,6 +116,7 @@ let hands = [
   },
   {
     name: "Three of a Kind",
+    planet: "Venus",
     mult: 3,
     chips: 30,
     s_mult: 3,
@@ -117,6 +126,7 @@ let hands = [
   },
   {
     name: "Two Pair",
+    planet: "Uranus",
     mult: 2,
     chips: 20,
     s_mult: 2,
@@ -126,6 +136,7 @@ let hands = [
   },
   {
     name: "Pair",
+    planet: "Mercury",
     mult: 2,
     chips: 10,
     s_mult: 2,
@@ -135,6 +146,7 @@ let hands = [
   },
   {
     name: "High Card",
+    planet: "Pluto",
     mult: 1,
     chips: 5,
     s_mult: 1,
@@ -155,6 +167,7 @@ let handColors = [
 ];
 
 let handLevels = document.getElementById('Hands');
+let consumables = document.getElementById('consumables');
 
 function incrementLevel(inc, handIndex) {
   let hand = hands[handIndex];
@@ -167,6 +180,16 @@ function incrementLevel(inc, handIndex) {
   div.children[2].style.backgroundColor = hand.level === 1 ? handColors[0] : handColors[((Math.ceil(Math.abs(hand.level)/6)*6+hand.level+4)%6)+1];
   div.children[4].children[0].innerText = hand.chips;
   div.children[4].children[1].innerText = hand.mult;
+
+  redrawPlayfield();
+}
+
+function incrementPlanet(inc, handIndex) {
+  let hand = hands[handIndex];
+  let div = document.getElementById('planets-' + hand.id);
+  hand.planets += inc;
+  if(hand.planets < 0 || inc === 0) hand.planets = 0;
+  div.children[3].innerText = hand.planets;
 
   redrawPlayfield();
 }
@@ -187,6 +210,7 @@ handLevels.innerHTML = '';
 
 for(let i = 0; i < hands.length; i++) {
   hands[i].level = 1;
+  hands[i].planets = 0;
   hands[i].id = hands[i].name.replace(/ /g,'');
   handLevels.innerHTML += `<div class="handLevel" id="${hands[i].id}">
     <span class="lvlBtn" onclick="incrementLevel(-1, ${i})">-</span>
@@ -196,6 +220,14 @@ for(let i = 0; i < hands.length; i++) {
     <span class="levelStat">
       <span class="levelStatB">${hands[i].chips}</span>X<span class="levelStatR">${hands[i].mult}</span>
     </span>
+  </div>`;
+
+  consumables.innerHTML += `<div class="handLevel" id="planets-${hands[i].id}" style="background-color: #89b">
+    <span class="lvlBtn" onclick="incrementPlanet(-1, ${i})">-</span>
+    <span class="lvlBtn" onclick="incrementPlanet( 0, ${i})">0</span>
+    <span class="lvlBtn" onclick="incrementPlanet( 1, ${i})">+</span>
+    <span class="handLvl">0</span>
+    <span class="handName">${hands[i].planet}</span>
   </div>`;
 }
 

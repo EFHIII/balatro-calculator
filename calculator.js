@@ -12,8 +12,10 @@ let optimizeCards = true;
 let toggleJokerDiv = document.getElementById('toggleJokerBtn');
 let toggleCardDiv = document.getElementById('toggleCardBtn');
 let togglePlasmaDiv = document.getElementById('togglePlasmaBtn');
+let toggleObservatoryDiv = document.getElementById('toggleObservatoryBtn');
 
 let plasmaDeck = false;
+let observatory = false;
 
 function toggleJoker() {
   optimizeJokers = !optimizeJokers;
@@ -58,6 +60,20 @@ function togglePlasma() {
   }
   else {
     togglePlasmaDiv.innerHTML = '&nbsp;';
+  }
+}
+
+function toggleObservatory() {
+  observatory = !observatory;
+  redrawPlayfield();
+
+  if(observatory) {
+    toggleObservatoryDiv.innerText = 'X';
+    consumables.style.display = 'block';
+  }
+  else {
+    toggleObservatoryDiv.innerHTML = '&nbsp;';
+    consumables.style.display = 'none';
   }
 }
 
@@ -2460,6 +2476,23 @@ function calculatePlayScore(cards, jokers, bd = false) {
     triggerJoker(baseball, joker, cards, jokers, score, setFour, straightSkip, allFaces, smear, false, vampire, bd);
   }
 
+  // observatory
+  if(observatory) {
+    let observatoryScore = hands[typeOfHand].planets;
+    score.minMult *= 1.5 ** observatoryScore;
+    score.maxMult *= 1.5 ** observatoryScore;
+
+    if(bd && observatoryScore > 0) {
+      breakdown.push({
+        cards: [],
+        description: `Observatory: ${prodc}${numberWithCommas(1.5 ** observatoryScore)}${endc} Mult`,
+        chips: score.minChips,
+        mult: score.minMult,
+        modifier: true
+      });
+    }
+  }
+
   if(score.minChips < 1) {
     score.minChips = 1;
   }
@@ -2565,8 +2598,6 @@ function calculator() {
 
   breakdown = [];
   let b = calculatePlayScore(bestHand, bestJokers, true);
-  console.log(b);
-  console.log(bestScore);
 
   breakdownHTML = '';
   let previousChips = 0;
