@@ -1373,6 +1373,8 @@ function calculator() {
   let possibleJokers = [Object.keys(playfieldJokers)];
   if(optimizeJokers) {
     possibleJokers = permutations(Object.keys(playfieldJokers));
+  }
+  if(optimizeCards) {
     for(let i = 1; i < 6; i++) {
       let nextChosen = choose(cards, i);
       if(nextChosen.length > 0) {
