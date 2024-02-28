@@ -207,6 +207,39 @@ function setPlanet(handIndex) {
   redrawPlayfield();
 }
 
+function setLevel(handIndex) {
+  let hand = hands[handIndex];
+  let div = document.getElementById(hand.id);
+
+  if(1 * div.children[2].innerText > 0) {
+    hand.planets = Math.round(1 * div.children[2].innerText);
+  }
+  else {
+    hand.planets = 0;
+  }
+
+  hand.mult = Math.max(1, hand.s_mult + (hand.level-1) * hand.l_mult);
+  hand.chips = Math.max(0, hand.s_chips + (hand.level-1) * hand.l_chips);
+  div.children[2].style.backgroundColor = hand.level === 1 ? handColors[0] : handColors[((Math.ceil(Math.abs(hand.level)/6)*6+hand.level+4)%6)+1];
+  div.children[4].children[0].innerText = hand.chips;
+  div.children[4].children[1].innerText = hand.mult;
+
+  redrawPlayfield();
+}
+
+function removeLvlText (handIndex) {
+  let hand = hands[handIndex];
+  let div = document.getElementById(hand.id);
+  div.children[2].innerText = hand.level;
+
+}
+
+function addLvlText(handIndex) {
+  let hand = hands[handIndex];
+  let div = document.getElementById(hand.id);
+  div.children[2].innerText = 'lvl.'+hand.level;
+}
+
 let jokerValueHTML = document.getElementById('jokerVal');
 let jokerValue = 0;
 
@@ -238,7 +271,7 @@ for(let i = 0; i < hands.length; i++) {
   handLevels.innerHTML += `<div class="handLevel" id="${hands[i].id}">
     <span class="lvlBtn" onclick="incrementLevel(-1, ${i})">-</span>
     <span class="lvlBtn" onclick="incrementLevel( 1, ${i})">+</span>
-    <span class="handLvl">lvl.1</span>
+    <span contenteditable="true" class="handLvl" onfocus="removeLvlText(${i})" onblur="addLvlText(${i})" oninput="setLevel(${i})">lvl.1</span>
     <span class="handName">${hands[i].name}</span>
     <span class="levelStat">
       <span class="levelStatB">${hands[i].chips}</span>X<span class="levelStatR">${hands[i].mult}</span>
