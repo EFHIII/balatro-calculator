@@ -2393,7 +2393,7 @@ function calculatePlayScore(cards, jokers, bd = false) {
       if(bd) {
         breakdown.push({
           cards: [card],
-          description: `${rankNames[playfieldCards[card].type[1]]} of ${suitNames[playfieldCards[card].type[0]]}`,
+          description: playfieldCards[card].modifiers.stone ? 'Stone' : `${rankNames[playfieldCards[card].type[1]]} of ${suitNames[playfieldCards[card].type[0]]}`,
           chips: score.minChips,
           mult: score.minMult,
           newCard: true
