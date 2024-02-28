@@ -2627,7 +2627,7 @@ function calculator() {
         previousChips = line.chips;
         previousMult = line.mult;
     }
-    breakdownHTML += `<div class="breakdownLine"${line.hasOwnProperty('newCard') ? ' style="background-color: #fffa"' : (line.hasOwnProperty('retrigger') ? ' style="background-color: #fcc"' : (line.hasOwnProperty('modifier') ? ' style="background-color: #ccf"' : ''))}><div>` +
+    breakdownHTML += `<div class="breakdownLine"${line.hasOwnProperty('newCard') ? ' style="background-color: #fffa"' : (line.hasOwnProperty('retrigger') ? ' style="background-color: #fcc"' : (line.hasOwnProperty('modifier') ? ' style="background-color: #cdf"' : ''))}><div>` +
       breakdownCards +
       `</div><span>` +
       line.description +
