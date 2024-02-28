@@ -543,3 +543,10 @@ input {
   padding-top: 0;
   padding-bottom: 0;
 }
+
+.nameLvl {
+  font-size: 0.5em;
+  position: relative;
+  bottom: 0.2em;
+  color: #efefef;
+}

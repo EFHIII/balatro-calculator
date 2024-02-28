@@ -2,6 +2,7 @@ let bestHand = [];
 let bestJokers = [];
 
 let bestPlayScoreDiv = document.getElementById('bestPlayScore');
+let bestPlayNameDiv = document.getElementById('bestPlayName');
 let scoreChipsDiv = document.getElementById('scoreChips');
 let scoreMultDiv = document.getElementById('scoreMult');
 const chipIcon = '<span class="chipIcon"></span>';
@@ -1314,6 +1315,7 @@ function calculatePlayScore(cards, jokers) {
     score.maxChips = score.minChips;
     score.minMult = hands[typeOfHand].mult;
     score.maxMult = score.minMult;
+    score.handName = typeOfHand;
   }
 
   for(let card of cards) {
@@ -1359,10 +1361,10 @@ function calculatePlayScore(cards, jokers) {
   }
 
   if(plasmaDeck) {
-    return [Math.floor(((score.minChips+score.minMult)/2)**2), Math.floor(((score.maxChips+score.maxMult)/2)**2), score.minChips, score.minMult];
+    return [Math.floor(((score.minChips+score.minMult)/2)**2), Math.floor(((score.maxChips+score.maxMult)/2)**2), score.minChips, score.minMult, typeOfHand];
   }
   else {
-    return [Math.floor(score.minChips*score.minMult), Math.floor(score.maxChips*score.maxMult), score.minChips, score.minMult];
+    return [Math.floor(score.minChips*score.minMult), Math.floor(score.maxChips*score.maxMult), score.minChips, score.minMult, typeOfHand];
   }
 }
 
@@ -1406,7 +1408,7 @@ function calculator() {
   }
 
   let noHand = false;
-  let bestScore = [0, 0, 0, 0];
+  let bestScore = [0, 0, 0, 0, 0];
   bestHand = [];
   bestJokers = [];
 
@@ -1430,6 +1432,7 @@ function calculator() {
 
   if(bestScore[0] === bestScore[1]) {
     bestPlayScoreDiv.innerHTML = chipIcon + numberWithCommas(bestScore[0]);
+    bestPlayNameDiv.innerHTML = hands[bestScore[4]].name + `<span class="nameLvl" style="color: ${hands[bestScore[4]].level === 1 ? handColors[0] : handColors[((Math.ceil(Math.abs(hands[bestScore[4]].level)/6)*6+hands[bestScore[4]].level+4)%6)+1]}"> lvl.${hands[bestScore[4]].level}</span>`;
     scoreChipsDiv.innerText = numberWithCommas(bestScore[2]);
     scoreMultDiv.innerText = numberWithCommas(bestScore[3]);
   }
