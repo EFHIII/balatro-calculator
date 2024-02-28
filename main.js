@@ -194,6 +194,19 @@ function incrementPlanet(inc, handIndex) {
   redrawPlayfield();
 }
 
+function setPlanet(handIndex) {
+  let hand = hands[handIndex];
+  let div = document.getElementById('planets-' + hand.id);
+  if(1 * div.children[3].innerText > 0) {
+    hand.planets = Math.round(1 * div.children[3].innerText);
+  }
+  else {
+    hand.planets = 0;
+  }
+
+  redrawPlayfield();
+}
+
 let jokerValueHTML = document.getElementById('jokerVal');
 let jokerValue = 0;
 
@@ -203,6 +216,16 @@ function incrementJokerValue(inc) {
     jokerValue = 0;
   }
   jokerValueHTML.innerText = jokerValue;
+  jredrawCards();
+}
+
+function setJokerValue() {
+  if(!isNaN(jokerValueHTML.innerText)) {
+    jokerValue = Math.round(jokerValueHTML.innerText * 1);
+  }
+  else {
+    jokerValue = 0;
+  }
   jredrawCards();
 }
 
@@ -226,7 +249,7 @@ for(let i = 0; i < hands.length; i++) {
     <span class="lvlBtn" onclick="incrementPlanet(-1, ${i})">-</span>
     <span class="lvlBtn" onclick="incrementPlanet( 0, ${i})">0</span>
     <span class="lvlBtn" onclick="incrementPlanet( 1, ${i})">+</span>
-    <span class="handLvl">0</span>
+    <span contenteditable="true" class="handLvl" oninput="setPlanet(${i})">0</span>
     <span class="handName">${hands[i].planet}</span>
   </div>`;
 }
