@@ -212,10 +212,10 @@ function setLevel(handIndex) {
   let div = document.getElementById(hand.id);
 
   if(1 * div.children[2].innerText > 0) {
-    hand.planets = Math.round(1 * div.children[2].innerText);
+    hand.level = Math.round(1 * div.children[2].innerText);
   }
   else {
-    hand.planets = 0;
+    hand.level = 0;
   }
 
   hand.mult = Math.max(1, hand.s_mult + (hand.level-1) * hand.l_mult);
