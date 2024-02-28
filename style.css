@@ -242,7 +242,7 @@ html {
   display: block;
   white-space: nowrap;
   text-align: center;
-  width: 3em;
+  min-width: 2.4em;
   background-color: #f0f0f0;
   border-radius: 1em;
   color: #3a5055;
@@ -250,6 +250,8 @@ html {
   border-color: #fff;
   margin: 0.125em;
   border-width: 0.125em;
+  padding-left: 0.3em;
+  padding-right: 0.3em;
 }
 
 .levelStat {
