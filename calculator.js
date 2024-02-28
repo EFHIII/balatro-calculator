@@ -2592,6 +2592,7 @@ function calculator() {
   }
   else {
     bestPlayScoreDiv.innerHTML = numberWithCommas(bestScore[0]) + ' &lt;' + chipIcon + '&lt; ' + numberWithCommas(bestScore[1]);
+    bestPlayNameDiv.innerHTML = hands[bestScore[4]].name + `<span class="nameLvl" style="color: ${hands[bestScore[4]].level === 1 ? handColors[0] : handColors[((Math.ceil(Math.abs(hands[bestScore[4]].level)/6)*6+hands[bestScore[4]].level+4)%6)+1]}"> lvl.${hands[bestScore[4]].level}</span>`;
     scoreChipsDiv.innerText = '>' + numberWithCommas(bestScore[2]);
     scoreMultDiv.innerText = '>' + numberWithCommas(bestScore[3]);
   }
