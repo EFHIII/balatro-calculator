@@ -577,7 +577,7 @@ input {
 .breakdownLine > div:first-child {
   display: inline-block;
   float: left;
-  width: 180px;
+  min-width: 90px;
 }
 
 .breakdownLine > div:first-child > .tooltip .playfieldCard {
