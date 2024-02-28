@@ -2477,7 +2477,7 @@ function calculatePlayScore(cards, jokers, bd = false) {
     if(bd) {
       breakdown.push({
         cards: [],
-        description: `Plasma Deck: even out`,
+        description: `Plasma Deck: Balance`,
         chips: (score.minChips + score.minMult) / 2,
         mult: (score.minChips + score.minMult) / 2
       });
