@@ -2584,6 +2584,9 @@ function calculator() {
         `</div>`;
       }
     }
+    if(breakdownCards === '') {
+      breakdownCards = '<div class="tooltip"></div>';
+    }
     if(line.chips !== previousChips || line.mult !== previousMult) {
       breakdownScore = `<div class="levelStat">` +
         `<span id="scoreChips" class="levelStatB">${numberWithCommas(line.chips)}</span>X` +
