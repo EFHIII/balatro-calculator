@@ -292,7 +292,7 @@ const jokerTexts = [
     ['Crafty Joker',  '${chipc}+80${endc} Chips if played<br>hand contains<br>a ${numc}Flush${endc}'],
     ['Lucky cat', 'Gains ${prodc}0.2${endc} Mult each<br>time a ${numc}Lucky${endc} card<br>${probc}successfully${endc} triggers<br>${shadowc}(currently ${prodc}${1 + jokerValue * 0.2}${endc} Mult)${endc}'],
     ['Baseball Card', '${probc}Uncommon${endc} Jokers<br>each give ${prodc}1.5${endc} Mult'],
-    ['Bull', '${chipc}+2${endc} Chips for each<br>${moneyc}dollar${endc} you have<br>${shadowc}(Currently ${chipc}+${jokerValue * 2}${endc} Chips)${endc}'],
+    ['Bull', '${chipc}+2${endc} Chips for each<br>${moneyc}dollar${endc} you have<br>${shadowc}(Currently ${chipc}+${Math.max(0, jokerValue * 2)}${endc} Chips)${endc}'],
     ['Diet Cola', 'Sell this card to<br>create a free<br>${numc}Double Tag${endc}'],
     ['Trading Card', 'If ${numc}first discard${endc} of round<br>has only ${numc}1${endc} card, destroy<br>it and earn ${moneyc}$3${endc}']
   ],

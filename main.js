@@ -103,8 +103,8 @@ let hands = [
     chips: 30,
     s_mult: 4,
     s_chips: 30,
-    l_mult: 3,
-    l_chips: 20
+    l_mult: 2,
+    l_chips: 30
   },
   {
     name: "Three of a Kind",

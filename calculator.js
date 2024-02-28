@@ -1240,6 +1240,35 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
     }
   }
 
+  if(!retrigger && playfieldJokers[joker].modifiers.foil) {
+    score.minChips += 50;
+    score.maxChips += 50;
+
+    if(bd) {
+      breakdown.push({
+        cards: [retrigger ? retrigger : joker],
+        description: `${chipc}+50${endc} Chips`,
+        chips: score.minChips,
+        mult: score.minMult,
+        modifier: true
+      });
+    }
+  }
+  else if(!retrigger && playfieldJokers[joker].modifiers.holographic) {
+    score.minMult += 10;
+    score.maxMult += 10;
+
+    if(bd) {
+      breakdown.push({
+        cards: [retrigger ? retrigger : joker],
+        description: `${multc}+10${endc} Mult`,
+        chips: score.minChips,
+        mult: score.minMult,
+        modifier: true
+      });
+    }
+  }
+
   switch (playfieldJokers[joker].type[0]+','+playfieldJokers[joker].type[1]) {
     case '0,0':
       score.minMult += 4;
@@ -2164,13 +2193,13 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
       }
       break;
     case '14,7':
-      score.minChips += 2 * playfieldJokers[joker].value;
-      score.maxChips += 2 * (playfieldJokers[joker].value + playfieldJokers[joker].extraValue);
+      score.minChips += 2 * Math.max(0, playfieldJokers[joker].value);
+      score.maxChips += 2 * Math.max(0, playfieldJokers[joker].value + playfieldJokers[joker].extraValue);
 
       if(bd) {
         breakdown.push({
           cards: [retrigger ? retrigger : joker],
-          description: `${chipc}+${2 * playfieldJokers[joker].value}${endc} Chips`,
+          description: `${chipc}+${2 * Math.max(0, playfieldJokers[joker].value)}${endc} Chips`,
           chips: score.minChips,
           mult: score.minMult
         });
@@ -2262,35 +2291,7 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
       break;
   }
 
-  if(!retrigger && playfieldJokers[joker].modifiers.foil) {
-    score.minChips += 50;
-    score.maxChips += 50;
-
-    if(bd) {
-      breakdown.push({
-        cards: [retrigger ? retrigger : joker],
-        description: `${chipc}+50${endc} Chips`,
-        chips: score.minChips,
-        mult: score.minMult,
-        modifier: true
-      });
-    }
-  }
-  else if(!retrigger && playfieldJokers[joker].modifiers.holographic) {
-    score.minMult += 10;
-    score.maxMult += 10;
-
-    if(bd) {
-      breakdown.push({
-        cards: [retrigger ? retrigger : joker],
-        description: `${multc}+10${endc} Mult`,
-        chips: score.minChips,
-        mult: score.minMult,
-        modifier: true
-      });
-    }
-  }
-  else if(!retrigger && playfieldJokers[joker].modifiers.polychrome) {
+  if(!retrigger && playfieldJokers[joker].modifiers.polychrome) {
     score.minMult *= 1.5;
     score.maxMult *= 1.5;
 
