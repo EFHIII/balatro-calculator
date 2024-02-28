@@ -175,6 +175,10 @@ html {
   margin-bottom: 1em;
 }
 
+.menuBtns {
+  height: 3.5em;
+}
+
 .menuBtn {
   display: block;
   float: left;
@@ -534,7 +538,7 @@ html {
 #scoreChips {
   border-radius: 0.125em;
   padding: 0.125em;
-  text-shadow: 2px 3px #0005;
+  text-shadow: 0.07em 0.09em #0005;
 }
 
 input {
@@ -549,4 +553,68 @@ input {
   position: relative;
   bottom: 0.2em;
   color: #efefef;
+}
+
+#breakdown {
+  width: 100%;
+  text-align: center;
+}
+
+.breakdownLine {
+  color: black;
+  background-color: #fff;
+  margin: auto;
+  padding: 0.2em;
+  margin-top: 0.5em;
+  border-radius: 0.3em;
+  text-align: center;
+  height: 56px;
+  min-width: 20em;
+  max-width: calc(100% - 3em);
+  white-space: nowrap;
+}
+
+.breakdownLine > div:first-child {
+  display: inline-block;
+  float: left;
+  width: 180px;
+}
+
+.breakdownLine > div:first-child > .tooltip .playfieldCard {
+  animation: none;
+}
+
+.breakdownLine > div:first-child > .tooltip .playfieldCard:hover {
+  animation: none;
+  scale: 1;
+  cursor: default;
+}
+.breakdownLine > div:first-child > .tooltip .playfieldCard:after {
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.breakdownLine > div > .tooltip {
+  scale: 0.5;
+  height: 47px;
+  position: relative;
+  bottom: 0.5em;
+  width: 36px;
+}
+
+.breakdownLine > span {
+  display: inline-block;
+  white-space: nowrap;
+  margin-top: 0.2em;
+  margin-right: -0.4em;
+  position: relative;
+  top: 16px;
+}
+
+.breakdownLine > .levelStat {
+  position: sticky;
+  float: right;
+  border-radius: 0.25em;
+  top: 0px;
+  margin-top: 14px;
 }
