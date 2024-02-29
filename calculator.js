@@ -2250,7 +2250,7 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
     }
   }
 
-  if(baseball) {
+  if(!retrigger && baseball) {
     if(jokerRarity[playfieldJokers[joker].type[0]][playfieldJokers[joker].type[1]] === 1) {
       score.minMult *= 1.5;
       score.maxMult *= 1.5;
