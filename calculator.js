@@ -294,55 +294,32 @@ function hasStraight(cardsA, setFour = false, straightSkip = false) {
 
   let straight = false;
 
-  if(straightSkip) {
+  if(sortedCards.length >= (setFour ? 4 : 5)) {
+    let lines = [
+      [sortedCards[0]]
+    ];
     if(setFour) {
-      straight = (
-        sortedCards.length >= 4 &&
-        (sortedCards[0][0] === sortedCards[1][0]+1 || sortedCards[0][0] === sortedCards[1][0]+2) &&
-        (sortedCards[1][0] === sortedCards[2][0]+1 || sortedCards[1][0] === sortedCards[2][0]+2) &&
-        (sortedCards[2][0] === sortedCards[3][0]+1 || sortedCards[2][0] === sortedCards[3][0]+2)
-      ) || (
-        sortedCards.length >= 5 &&
-        (sortedCards[1][0] === sortedCards[2][0]+1 || sortedCards[1][0] === sortedCards[2][0]+2) &&
-        (sortedCards[2][0] === sortedCards[3][0]+1 || sortedCards[2][0] === sortedCards[3][0]+2) &&
-        (sortedCards[3][0] === sortedCards[4][0]+1 || sortedCards[3][0] === sortedCards[4][0]+2)
-      );
+      lines.push([sortedCards[1]]);
     }
-    else {
-      straight = (
-        sortedCards.length >= 5 &&
-        (sortedCards[0][0] === sortedCards[1][0]+1 || sortedCards[0][0] === sortedCards[1][0]+2) &&
-        (sortedCards[1][0] === sortedCards[2][0]+1 || sortedCards[1][0] === sortedCards[2][0]+2) &&
-        (sortedCards[2][0] === sortedCards[3][0]+1 || sortedCards[2][0] === sortedCards[3][0]+2) &&
-        (sortedCards[3][0] === sortedCards[4][0]+1 || sortedCards[3][0] === sortedCards[4][0]+2)
-      );
-    }
-  }
-  else {
-    if(setFour) {
-      straight = (
-        sortedCards.length >= 4 &&
-        sortedCards[0][0] === sortedCards[1][0]+1 &&
-        sortedCards[1][0] === sortedCards[2][0]+1 &&
-        sortedCards[2][0] === sortedCards[3][0]+1
-      ) || (
-        sortedCards.length >= 5 &&
-        sortedCards[1][0] === sortedCards[2][0]+1 &&
-        sortedCards[2][0] === sortedCards[3][0]+1 &&
-        sortedCards[3][0] === sortedCards[4][0]+1
-      );
-    }
-    else {
-      straight = (
-        sortedCards.length >= 5 &&
-        sortedCards[0][0] === sortedCards[1][0]+1 &&
-        sortedCards[1][0] === sortedCards[2][0]+1 &&
-        sortedCards[2][0] === sortedCards[3][0]+1 &&
-        sortedCards[3][0] === sortedCards[4][0]+1
-      );
-    }
-  }
 
+    for(let i = 1; i < sortedCards.length; i++) {
+      for(let l = 0; l < lines.length; l++) {
+        let val = lines[l][lines[l].length - 1][0];
+        if((sortedCards[i][0] + 1 === val && (lines[l].length === 1 || val < 12)) || (val === 0 && sortedCards[i][0] === 12)) {
+          lines.push([...lines[l], sortedCards[i]]);
+        }
+        else if(straightSkip) {
+          if((sortedCards[i][0] + 2 === val && (lines[l].length === 1 || val < 11)) || (val === 0 && sortedCards[i][0] === 11)) {
+            lines.push([...lines[l], sortedCards[i]]);
+          }
+        }
+      }
+    }
+
+    if(lines[lines.length - 1].length >= (setFour ? 4 : 5)) {
+      straight = true;
+    }
+  }
 
   return straight;
 }
@@ -365,32 +342,30 @@ function hasFlush(vampire, cardsA, setFour = false, smear = false) {
 
   let sortedCards = cards.filter(a => a.value !== 'stone').map(a => [a.value, a.id]).sort((a, b) => (b[0] + b[1].length/1000) - (a[0]+a[1].length/1000));
 
-  let flush = false;
-  if(smear) {
-    flush = cards.reduce((b, a) => {
-      return [
-        (b[0] === 'wild' || b[0] === 'stone') ? (a.suit === 'stone' ? 'wild' : a.suit % 2) : b[0],
-        b[1] + (b[0] === 'stone' ? 1 : (b[0] === 'wild' ? 0 : (b[0] === a.suit % 2 ? 0 : 1)))
-      ]
-    }, ['wild', 0]);
-  }
-  else {
-    flush = cards.reduce((b, a) => {
-      return [
-        (b[0] === 'wild' || b[0] === 'stone') ? (a.suit === 'stone' ? 'wild' : a.suit) : b[0],
-        b[1] + (b[0] === 'stone' ? 1 : (b[0] === 'wild' ? 0 : (b[0] === a.suit ? 0 : 1)))
-      ]
-    }, ['wild', 0]);
+
+  let flush = [];
+
+  if(sortedCards.length >= (setFour ? 4 : 5)) {
+    let flushes = [
+      [],[],[],[]
+    ];
+
+    for(let card of cards) {
+      for(let i = 0; i < 4; i++) {
+        if(card.suit !== 'stone' && (card.suit === 'wild' || (smear ? card.suit % 2 == i : card.suit === i))) {
+          flushes[i].push(card.id);
+        }
+      }
+    }
+
+    for(let i = 0; i < flushes.length; i++) {
+      if(flushes[i].length > flush.length) {
+        flush = flushes[i];
+      }
+    }
   }
 
-  if(setFour) {
-    flush = flush[0] !== 'stone' && flush[1] <= -4 + sortedCards.length;
-  }
-  else {
-    flush = sortedCards.length >= 5 && flush[0] !== 'stone' && flush[1] === 0;
-  }
-
-  return flush;
+  return flush.length >= (setFour ? 4 : 5);
 }
 
 function getTypeOfHand(vampire, cardsA, setFour = false, straightSkip = false, smear = false) {
@@ -417,81 +392,56 @@ function getTypeOfHand(vampire, cardsA, setFour = false, straightSkip = false, s
 
   cachedType[0] = sortedCards.toString();
 
-  let flush = false;
-  if(smear) {
-    flush = cards.reduce((b, a) => {
-      return [
-        (b[0] === 'wild' || b[0] === 'stone') ? (a.suit === 'stone' ? 'wild' : a.suit % 2) : b[0],
-        b[1] + (b[0] === 'stone' ? 1 : (b[0] === 'wild' ? 0 : (b[0] === a.suit % 2 ? 0 : 1)))
-      ]
-    }, ['wild', 0]);
-  }
-  else {
-    flush = cards.reduce((b, a) => {
-      return [
-        (b[0] === 'wild' || b[0] === 'stone') ? (a.suit === 'stone' ? 'wild' : a.suit) : b[0],
-        b[1] + (b[0] === 'stone' ? 1 : (b[0] === 'wild' ? 0 : (b[0] === a.suit ? 0 : 1)))
-      ]
-    }, ['wild', 0]);
-  }
+  let flush = [];
 
   let straight = false;
 
-  if(straightSkip) {
+  if(sortedCards.length >= (setFour ? 4 : 5)) {
+    let lines = [
+      [sortedCards[0]]
+    ];
     if(setFour) {
-      straight = (
-        sortedCards.length >= 4 &&
-        (sortedCards[0][0] === sortedCards[1][0]+1 || sortedCards[0][0] === sortedCards[1][0]+2) &&
-        (sortedCards[1][0] === sortedCards[2][0]+1 || sortedCards[1][0] === sortedCards[2][0]+2) &&
-        (sortedCards[2][0] === sortedCards[3][0]+1 || sortedCards[2][0] === sortedCards[3][0]+2)
-      ) || (
-        sortedCards.length >= 5 &&
-        (sortedCards[1][0] === sortedCards[2][0]+1 || sortedCards[1][0] === sortedCards[2][0]+2) &&
-        (sortedCards[2][0] === sortedCards[3][0]+1 || sortedCards[2][0] === sortedCards[3][0]+2) &&
-        (sortedCards[3][0] === sortedCards[4][0]+1 || sortedCards[3][0] === sortedCards[4][0]+2)
-      );
+      lines.push([sortedCards[1]]);
     }
-    else {
-      straight = (
-        sortedCards.length >= 5 &&
-        (sortedCards[0][0] === sortedCards[1][0]+1 || sortedCards[0][0] === sortedCards[1][0]+2) &&
-        (sortedCards[1][0] === sortedCards[2][0]+1 || sortedCards[1][0] === sortedCards[2][0]+2) &&
-        (sortedCards[2][0] === sortedCards[3][0]+1 || sortedCards[2][0] === sortedCards[3][0]+2) &&
-        (sortedCards[3][0] === sortedCards[4][0]+1 || sortedCards[3][0] === sortedCards[4][0]+2)
-      );
+
+    for(let i = 1; i < sortedCards.length; i++) {
+      for(let l = 0; l < lines.length; l++) {
+        let val = lines[l][lines[l].length - 1][0];
+        if((sortedCards[i][0] + 1 === val && (lines[l].length === 1 || val < 12)) || (val === 0 && sortedCards[i][0] === 12)) {
+          lines.push([...lines[l], sortedCards[i]]);
+        }
+        else if(straightSkip) {
+          if((sortedCards[i][0] + 2 === val && (lines[l].length === 1 || val < 11)) || (val === 0 && sortedCards[i][0] === 11)) {
+            lines.push([...lines[l], sortedCards[i]]);
+          }
+        }
+      }
     }
-  }
-  else {
-    if(setFour) {
-      straight = (
-        sortedCards.length >= 4 &&
-        sortedCards[0][0] === sortedCards[1][0]+1 &&
-        sortedCards[1][0] === sortedCards[2][0]+1 &&
-        sortedCards[2][0] === sortedCards[3][0]+1
-      ) || (
-        sortedCards.length >= 5 &&
-        sortedCards[1][0] === sortedCards[2][0]+1 &&
-        sortedCards[2][0] === sortedCards[3][0]+1 &&
-        sortedCards[3][0] === sortedCards[4][0]+1
-      );
+
+    let flushes = [
+      [],[],[],[]
+    ];
+
+    for(let card of cards) {
+      for(let i = 0; i < 4; i++) {
+        if(card.suit !== 'stone' && (card.suit === 'wild' || (smear ? card.suit % 2 == i : card.suit === i))) {
+          flushes[i].push(card.id);
+        }
+      }
     }
-    else {
-      straight = (
-        sortedCards.length >= 5 &&
-        sortedCards[0][0] === sortedCards[1][0]+1 &&
-        sortedCards[1][0] === sortedCards[2][0]+1 &&
-        sortedCards[2][0] === sortedCards[3][0]+1 &&
-        sortedCards[3][0] === sortedCards[4][0]+1
-      );
+
+    for(let i = 0; i < flushes.length; i++) {
+      if(flushes[i].length > flush.length) {
+        flush = flushes[i];
+      }
+    }
+
+    if(lines[lines.length - 1].length >= (setFour ? 4 : 5)) {
+      straight = lines[lines.length - 1].map(a => a[1]);
     }
   }
 
-  if(setFour) {
-    flush = flush[0] !== 'stone' && flush[1] <= -4 + sortedCards.length;
-  }
-  else {
-    flush = sortedCards.length >= 5 && flush[0] !== 'stone' && flush[1] === 0;
-  }
+  if(flush.length < (setFour ? 4 : 5)) flush = false;
 
   // flush five
   if(flush && sortedCards.length === 5 && sortedCards[0][0] === sortedCards[4][0]) {
@@ -510,7 +460,7 @@ function getTypeOfHand(vampire, cardsA, setFour = false, straightSkip = false, s
 
   // straight flush
   if(straight && flush) {
-    return [3, cardsA];
+    return [3, [...new Set([...straight, ...flush])]];
   }
 
   // four of a kind
@@ -540,12 +490,12 @@ function getTypeOfHand(vampire, cardsA, setFour = false, straightSkip = false, s
 
   // flush
   if(flush) {
-    return [6, cardsA];
+    return [6, flush];
   }
 
   // straight
   if(straight) {
-    return [7, cardsA];
+    return [7, straight];
   }
 
   // three of a kind
@@ -1487,36 +1437,6 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
         });
       };
       break;
-    case '2,8':
-      let lowest = 100;
-      let lowestCard = cards[0];
-      for(let card in playfieldCards) {
-        if(playfieldCards[card].modifiers.disabled && cards.indexOf(playfieldCards[card].id) < 0) {
-          lowest = 0;
-          lowestCard = card;
-        }
-        else if(!playfieldCards[card].modifiers.stone && cards.indexOf(playfieldCards[card].id) < 0) {
-          if(lowest > cardValues[playfieldCards[card].type[1]]) {
-            lowest = cardValues[playfieldCards[card].type[1]];
-            lowestCard = card;
-          }
-        }
-      }
-      if(lowest === 100) {
-        lowest = 0;
-      }
-      score.minMult += lowest * 2;
-      score.maxMult += lowest * 2;
-
-      if(bd) {
-        breakdown.push({
-          cards: [joker, lowestCard],
-          description: `${multc}+${lowest * 2}${endc} Mult`,
-          chips: score.minChips,
-          mult: score.minMult
-        });
-      };
-      break;
     case '3,0':
       if(!retrigger) {
         if(jokers.indexOf(joker) < jokers.length - 1) {
@@ -1642,7 +1562,7 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
       }
       break;
     case '4,8':
-      if(hasStraight(cards)) {
+      if(hasStraight(cards, setFour, straightSkip)) {
         score.minMult *= 3;
         score.maxMult *= 3;
 
@@ -2221,13 +2141,13 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
       }
       break;
     case '15,1':
-      score.minMult += 20 - playfieldJokers[joker].value;
-      score.maxMult += 20 - playfieldJokers[joker].value;
+      score.minMult += 20 - playfieldJokers[joker].value * 4;
+      score.maxMult += 20 - playfieldJokers[joker].value * 4;
 
       if(bd) {
         breakdown.push({
           cards: [retrigger ? retrigger : joker],
-          description: `${multc}+${20 - playfieldJokers[joker].value}${endc} Mult`,
+          description: `${multc}+${20 - playfieldJokers[joker].value * 4}${endc} Mult`,
           chips: score.minChips,
           mult: score.minMult
         });
@@ -2317,7 +2237,6 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
 }
 
 function triggerCardInHand(triggering, card, cards, jokers, score, retrigger, bd, triggerer = false, phase = 0) {
-  console.log(triggering, retrigger, triggerer);
   // apply steel cards
   if(!triggering && playfieldCards[card].modifiers.steel && cards.indexOf(playfieldCards[card].id) < 0) {
     score.minMult *= 1.5;
@@ -2338,6 +2257,47 @@ function triggerCardInHand(triggering, card, cards, jokers, score, retrigger, bd
     for(let joker of jokers) {
       if(triggering && joker !== triggering) continue;
       switch (playfieldJokers[joker].type[0]+','+playfieldJokers[joker].type[1]) {
+        case '2,8':
+          let lowest = 100;
+          let lowestCard = cards[0];
+          for(let card in playfieldCards) {
+            if(playfieldCards[card].modifiers.disabled && cards.indexOf(playfieldCards[card].id) < 0) {
+              lowest = 0;
+              lowestCard = card;
+            }
+            else if(!playfieldCards[card].modifiers.stone && cards.indexOf(playfieldCards[card].id) < 0) {
+              if(lowest > cardValues[playfieldCards[card].type[1]]) {
+                lowest = cardValues[playfieldCards[card].type[1]];
+                lowestCard = card;
+              }
+            }
+          }
+          if(lowest > 0 && lowest < 100 && card === lowestCard) {
+            score.minMult += lowest * 2;
+            score.maxMult += lowest * 2;
+
+            if(bd) {
+              breakdown.push({
+                cards: [triggerer ? triggerer : joker, lowestCard],
+                description: `${multc}+${lowest * 2}${endc} Mult`,
+                chips: score.minChips,
+                mult: score.minMult
+              });
+            };
+          }
+          break;
+        case '3,0':
+          if(!triggerer) {
+            if(jokers.indexOf(joker) < jokers.length - 1) {
+              triggerCardInHand(jokers[jokers.indexOf(joker) + 1], card, cards, jokers, score, retrigger, bd, joker);
+            }
+          }
+          else {
+            if(triggerer !== joker && jokers.indexOf(joker) < jokers.length - 1) {
+              triggerCardInHand(jokers[jokers.indexOf(joker) + 1], card, cards, jokers, score, retrigger, bd, triggerer);
+            }
+          }
+          break;
         case '6,2':
           if(!playfieldCards[card].modifiers.stone && playfieldCards[card].type[1] === 10) {
             score.minMult += 13;
@@ -2350,18 +2310,6 @@ function triggerCardInHand(triggering, card, cards, jokers, score, retrigger, bd
                 chips: score.minChips,
                 mult: score.minMult
               });
-            }
-          }
-          break;
-        case '3,0':
-          if(!triggerer) {
-            if(jokers.indexOf(joker) < jokers.length - 1) {
-              triggerCardInHand(jokers[jokers.indexOf(joker) + 1], card, cards, jokers, score, retrigger, bd, joker);
-            }
-          }
-          else {
-            if(triggerer !== joker && jokers.indexOf(joker) < jokers.length - 1) {
-              triggerCardInHand(jokers[jokers.indexOf(joker) + 1], card, cards, jokers, score, retrigger, bd, triggerer);
             }
           }
           break;

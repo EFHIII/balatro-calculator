@@ -141,8 +141,8 @@ let hands = [
     chips: 10,
     s_mult: 2,
     s_chips: 10,
-    l_mult: 2,
-    l_chips: 20
+    l_mult: 1,
+    l_chips: 15
   },
   {
     name: "High Card",
@@ -152,7 +152,7 @@ let hands = [
     s_mult: 1,
     s_chips: 5,
     l_mult: 1,
-    l_chips: 15
+    l_chips: 10
   }
 ];
 
