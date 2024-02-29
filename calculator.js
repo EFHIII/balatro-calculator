@@ -1,18 +1,18 @@
 let bestHand = [];
 let bestJokers = [];
 
-let bestPlayScoreDiv = document.getElementById('bestPlayScore');
-let bestPlayNameDiv = document.getElementById('bestPlayName');
-let scoreChipsDiv = document.getElementById('scoreChips');
-let scoreMultDiv = document.getElementById('scoreMult');
+const bestPlayScoreDiv = document.getElementById('bestPlayScore');
+const bestPlayNameDiv = document.getElementById('bestPlayName');
+const scoreChipsDiv = document.getElementById('scoreChips');
+const scoreMultDiv = document.getElementById('scoreMult');
 const chipIcon = '<span class="chipIcon"></span>';
 
 let optimizeJokers = true;
 let optimizeCards = true;
-let toggleJokerDiv = document.getElementById('toggleJokerBtn');
-let toggleCardDiv = document.getElementById('toggleCardBtn');
-let togglePlasmaDiv = document.getElementById('togglePlasmaBtn');
-let toggleObservatoryDiv = document.getElementById('toggleObservatoryBtn');
+const toggleJokerDiv = document.getElementById('toggleJokerBtn');
+const toggleCardDiv = document.getElementById('toggleCardBtn');
+const togglePlasmaDiv = document.getElementById('togglePlasmaBtn');
+const toggleObservatoryDiv = document.getElementById('toggleObservatoryBtn');
 
 let plasmaDeck = false;
 let observatory = false;
@@ -119,7 +119,7 @@ function choose(array, k) {
 
 let cachedType = ['-1'];
 
-let cardValues = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11];
+const cardValues = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11];
 
 /*
 breakdown info:
@@ -134,7 +134,7 @@ breakdown info:
 let breakdown = [];
 
 function hasPair(cardsA) {
-  let cards = cardsA.slice().map(a => {
+  const cards = cardsA.slice().map(a => {
     if(playfieldCards[a].modifiers.stone) {
       return {
         id: playfieldCards[a].id,
@@ -149,7 +149,7 @@ function hasPair(cardsA) {
     };
   });
 
-  let sortedCards = cards.filter(a => a.value !== 'stone').map(a => [a.value, a.id]).sort((a, b) => (b[0] + b[1].length/1000) - (a[0]+a[1].length/1000));
+  const sortedCards = cards.filter(a => a.value !== 'stone').map(a => [a.value, a.id]).sort((a, b) => (b[0] + b[1].length/1000) - (a[0]+a[1].length/1000));
 
   if(sortedCards.length >= 2) {
     if(sortedCards[0][0] === sortedCards[1][0]) {
@@ -174,7 +174,7 @@ function hasPair(cardsA) {
 }
 
 function hasTwoPair(cardsA) {
-  let cards = cardsA.slice().map(a => {
+  const cards = cardsA.slice().map(a => {
     if(playfieldCards[a].modifiers.stone) {
       return {
         id: playfieldCards[a].id,
@@ -189,7 +189,7 @@ function hasTwoPair(cardsA) {
     };
   });
 
-  let sortedCards = cards.filter(a => a.value !== 'stone').map(a => [a.value, a.id]).sort((a, b) => (b[0] + b[1].length/1000) - (a[0]+a[1].length/1000));
+  const sortedCards = cards.filter(a => a.value !== 'stone').map(a => [a.value, a.id]).sort((a, b) => (b[0] + b[1].length/1000) - (a[0]+a[1].length/1000));
 
   if(sortedCards.length >= 4) {
     if(sortedCards[0][0] === sortedCards[1][0]) {
@@ -205,12 +205,11 @@ function hasTwoPair(cardsA) {
     }
   }
 
-
   return false;
 }
 
 function hasThreeOfAKind(cardsA) {
-  let cards = cardsA.slice().map(a => {
+  const cards = cardsA.slice().map(a => {
     if(playfieldCards[a].modifiers.stone) {
       return {
         id: playfieldCards[a].id,
@@ -225,7 +224,7 @@ function hasThreeOfAKind(cardsA) {
     };
   });
 
-  let sortedCards = cards.filter(a => a.value !== 'stone').map(a => [a.value, a.id]).sort((a, b) => (b[0] + b[1].length/1000) - (a[0]+a[1].length/1000));
+  const sortedCards = cards.filter(a => a.value !== 'stone').map(a => [a.value, a.id]).sort((a, b) => (b[0] + b[1].length/1000) - (a[0]+a[1].length/1000));
 
   if(sortedCards.length >= 3) {
     if(sortedCards[0][0] === sortedCards[1][0] && sortedCards[1][0] === sortedCards[2][0]) {
@@ -245,7 +244,7 @@ function hasThreeOfAKind(cardsA) {
 }
 
 function hasFourOfAKind(cardsA) {
-  let cards = cardsA.slice().map(a => {
+  const cards = cardsA.slice().map(a => {
     if(playfieldCards[a].modifiers.stone) {
       return {
         id: playfieldCards[a].id,
@@ -260,7 +259,7 @@ function hasFourOfAKind(cardsA) {
     };
   });
 
-  let sortedCards = cards.filter(a => a.value !== 'stone').map(a => [a.value, a.id]).sort((a, b) => (b[0] + b[1].length/1000) - (a[0]+a[1].length/1000));
+  const sortedCards = cards.filter(a => a.value !== 'stone').map(a => [a.value, a.id]).sort((a, b) => (b[0] + b[1].length/1000) - (a[0]+a[1].length/1000));
 
   if(sortedCards.length >= 4) {
     if(sortedCards[0][0] === sortedCards[3][0]) {
@@ -275,7 +274,7 @@ function hasFourOfAKind(cardsA) {
 }
 
 function hasStraight(cardsA, setFour = false, straightSkip = false) {
-  let cards = cardsA.slice().map(a => {
+  const cards = cardsA.slice().map(a => {
     if(playfieldCards[a].modifiers.stone) {
       return {
         id: playfieldCards[a].id,
@@ -290,12 +289,12 @@ function hasStraight(cardsA, setFour = false, straightSkip = false) {
     };
   });
 
-  let sortedCards = cards.filter(a => a.value !== 'stone').map(a => [a.value, a.id]).sort((a, b) => (b[0] + b[1].length/1000) - (a[0]+a[1].length/1000));
+  const sortedCards = cards.filter(a => a.value !== 'stone').map(a => [a.value, a.id]).sort((a, b) => (b[0] + b[1].length/1000) - (a[0]+a[1].length/1000));
 
   let straight = false;
 
   if(sortedCards.length >= (setFour ? 4 : 5)) {
-    let lines = [
+    const lines = [
       [sortedCards[0]],
       [sortedCards[1]],
     ];
@@ -305,7 +304,7 @@ function hasStraight(cardsA, setFour = false, straightSkip = false) {
 
     for(let i = 1; i < sortedCards.length; i++) {
       for(let l = 0; l < lines.length; l++) {
-        let val = lines[l][lines[l].length - 1][0];
+        const val = lines[l][lines[l].length - 1][0];
         if(sortedCards[i][0] + 1 === val) {
           lines.push([...lines[l], sortedCards[i]]);
         }
@@ -317,7 +316,7 @@ function hasStraight(cardsA, setFour = false, straightSkip = false) {
 
     for(let i = 0; i < sortedCards.length; i++) {
       for(let l = 0; l < lines.length; l++) {
-        let val = lines[l][lines[l].length - 1][0];
+        const val = lines[l][lines[l].length - 1][0];
         if(val === 0 && sortedCards[i][0] === 12) {
           lines.push([...lines[l], sortedCards[i]]);
         }
@@ -336,7 +335,7 @@ function hasStraight(cardsA, setFour = false, straightSkip = false) {
 }
 
 function hasFlush(vampire, cardsA, setFour = false, smear = false) {
-  let cards = cardsA.slice().map(a => {
+  const cards = cardsA.slice().map(a => {
     if(playfieldCards[a].modifiers.stone) {
       return {
         id: playfieldCards[a].id,
@@ -351,7 +350,7 @@ function hasFlush(vampire, cardsA, setFour = false, smear = false) {
     };
   });
 
-  let sortedCards = cards.filter(a => a.value !== 'stone').map(a => [a.value, a.id]).sort((a, b) => (b[0] + b[1].length/1000) - (a[0]+a[1].length/1000));
+  const sortedCards = cards.filter(a => a.value !== 'stone').map(a => [a.value, a.id]).sort((a, b) => (b[0] + b[1].length/1000) - (a[0]+a[1].length/1000));
 
 
   let flush = [];
@@ -361,7 +360,8 @@ function hasFlush(vampire, cardsA, setFour = false, smear = false) {
       [],[],[],[]
     ];
 
-    for(let card of cards) {
+    for(let c = 0; c < cards.length; c++) {
+      const card = cards[c];
       for(let i = 0; i < 4; i++) {
         if(card.suit !== 'stone' && (card.suit === 'wild' || (smear ? card.suit % 2 == i : card.suit === i))) {
           flushes[i].push(card.id);
@@ -380,7 +380,7 @@ function hasFlush(vampire, cardsA, setFour = false, smear = false) {
 }
 
 function getTypeOfHand(vampire, cardsA, setFour = false, straightSkip = false, smear = false) {
-  let cards = cardsA.slice().map(a => {
+  const cards = cardsA.slice().map(a => {
     if(playfieldCards[a].modifiers.stone) {
       return {
         id: playfieldCards[a].id,
@@ -395,7 +395,7 @@ function getTypeOfHand(vampire, cardsA, setFour = false, straightSkip = false, s
     };
   });
 
-  let sortedCards = cards.filter(a => a.value !== 'stone').map(a => [a.value, a.id]).sort((a, b) => (b[0] + b[1].length/1000) - (a[0]+a[1].length/1000));
+  const sortedCards = cards.filter(a => a.value !== 'stone').map(a => [a.value, a.id]).sort((a, b) => (b[0] + b[1].length/1000) - (a[0]+a[1].length/1000));
 
   if(cachedType[0] === sortedCards.toString()) {
     return cachedType[1];
@@ -408,7 +408,7 @@ function getTypeOfHand(vampire, cardsA, setFour = false, straightSkip = false, s
   let straight = false;
 
   if(sortedCards.length >= (setFour ? 4 : 5)) {
-    let lines = [
+    const lines = [
       [sortedCards[0]],
       [sortedCards[1]],
     ];
@@ -418,7 +418,7 @@ function getTypeOfHand(vampire, cardsA, setFour = false, straightSkip = false, s
 
     for(let i = 1; i < sortedCards.length; i++) {
       for(let l = 0; l < lines.length; l++) {
-        let val = lines[l][lines[l].length - 1][0];
+        const val = lines[l][lines[l].length - 1][0];
         if(sortedCards[i][0] + 1 === val) {
           lines.push([...lines[l], sortedCards[i]]);
         }
@@ -430,7 +430,7 @@ function getTypeOfHand(vampire, cardsA, setFour = false, straightSkip = false, s
 
     for(let i = 0; i < sortedCards.length; i++) {
       for(let l = 0; l < lines.length; l++) {
-        let val = lines[l][lines[l].length - 1][0];
+        const val = lines[l][lines[l].length - 1][0];
         if(val === 0 && sortedCards[i][0] === 12) {
           lines.push([...lines[l], sortedCards[i]]);
         }
@@ -444,7 +444,8 @@ function getTypeOfHand(vampire, cardsA, setFour = false, straightSkip = false, s
       [],[],[],[]
     ];
 
-    for(let card of cards) {
+    for(let c = 0; c < cards.length; c++) {
+      const card = cards[c];
       for(let i = 0; i < 4; i++) {
         if(card.suit !== 'stone' && (card.suit === 'wild' || (smear ? card.suit % 2 == i : card.suit === i))) {
           flushes[i].push(card.id);
@@ -724,10 +725,11 @@ function triggerCard(triggering, card, cards, jokers, score, retrigger = false, 
     }
   }
 
-  let isFace = allFaces || (!playfieldCards[card].modifiers.stone && playfieldCards[card].type[1] >= 9 && playfieldCards[card].type[1] <= 11);
+  const isFace = allFaces || (!playfieldCards[card].modifiers.stone && playfieldCards[card].type[1] >= 9 && playfieldCards[card].type[1] <= 11);
 
   // score joker on card
-  for(let joker of jokers) {
+  for(let j = 0; j < jokers.length; j++) {
+    const joker = jokers[j];
     if(stage === 2) break;
     if(triggering && joker !== triggering) {
       continue;
@@ -1102,7 +1104,8 @@ function triggerCard(triggering, card, cards, jokers, score, retrigger = false, 
     triggerCard(false, card, cards, jokers, score, true, allFaces, vampire, bd);
   }
 
-  for(let joker of jokers) {
+  for(let j = 0; j < jokers.length; j++) {
+    const joker = jokers[j];
     if(stage === 1) break;
     if(triggering && joker !== triggering) {
       continue;
@@ -1192,6 +1195,49 @@ function triggerCard(triggering, card, cards, jokers, score, retrigger = false, 
   }
 }
 
+function triggerBaseball(uncommonJoker, cards, jokers, score, retrigger = false, triggerer = false, bd = false) {
+  for(let j = 0; j < jokers.length; j++) {
+    const joker = jokers[j];
+    if(retrigger && retrigger !== joker) continue;
+
+    switch(playfieldJokers[joker].type[0]+','+playfieldJokers[joker].type[1]) {
+      case '3,0':
+        if(!triggerer) {
+          if(jokers.indexOf(joker) < jokers.length - 1) {
+            triggerBaseball(uncommonJoker, cards, jokers, score, jokers[jokers.indexOf(joker) + 1], joker, bd);
+          }
+        }
+        else {
+          if(triggerer !== joker && jokers.indexOf(joker) < jokers.length - 1) {
+            triggerBaseball(uncommonJoker, cards, jokers, score, jokers[jokers.indexOf(joker) + 1], triggerer, bd);
+          }
+        }
+        break;
+      case '7,7':
+        if(!triggerer && joker !== jokers[0]) {
+          triggerBaseball(uncommonJoker, cards, jokers, score, jokers[0], joker, bd);
+        }
+        else if(triggerer !== joker && triggerer !== jokers[0] && joker !== jokers[0]) {
+          triggerBaseball(uncommonJoker, cards, jokers, score, jokers[0], triggerer, bd);
+        }
+        break;
+      case '14,6':
+        score.minMult *= 1.5;
+        score.maxMult *= 1.5;
+
+        if(bd) {
+          breakdown.push({
+            cards: [triggerer ? triggerer : joker, uncommonJoker],
+            description: `${prodc}1.5${endc} Mult`,
+            chips: score.minChips,
+            mult: score.minMult
+          });
+        }
+        break;
+    }
+  }
+}
+
 function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, straightSkip = false, allFaces = false, smear = false, retrigger = false, vampire = false, bd) {
   let heart = false;
   let diamond = false;
@@ -1201,7 +1247,8 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
   let wild = 0;
   let faces = 0;
 
-  for(let card of cards) {
+  for(let c = 0; c < cards.length; c++) {
+    const card = cards[c];
     if(!playfieldCards[card].modifiers.stone && !playfieldCards[card].modifiers.disabled) {
       if(playfieldCards[card].modifiers.wild && !vampire) {
         wild++;
@@ -2252,8 +2299,7 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
 
   if(!retrigger && baseball) {
     if(jokerRarity[playfieldJokers[joker].type[0]][playfieldJokers[joker].type[1]] === 1) {
-      score.minMult *= 1.5;
-      score.maxMult *= 1.5;
+      triggerBaseball(joker, cards, jokers, score, false, false, bd);
     }
   }
 }
@@ -2276,7 +2322,8 @@ function triggerCardInHand(triggering, card, cards, jokers, score, retrigger, bd
   }
 
   if(!triggering || phase === 0) {
-    for(let joker of jokers) {
+    for(let j = 0; j < jokers.length; j++) {
+      const joker = jokers[j];
       if(triggering && joker !== triggering) continue;
       switch (playfieldJokers[joker].type[0]+','+playfieldJokers[joker].type[1]) {
         case '2,8':
@@ -2363,7 +2410,8 @@ function triggerCardInHand(triggering, card, cards, jokers, score, retrigger, bd
   }
 
   if(!triggering || phase === 1) {
-    for(let joker of jokers) {
+    for(let j = 0; j < jokers.length; j++) {
+      const joker = jokers[j];
       if(triggering && joker !== triggering) continue;
       switch (playfieldJokers[joker].type[0]+','+playfieldJokers[joker].type[1]) {
         case '1,4':
@@ -2401,7 +2449,8 @@ function triggerCardInHand(triggering, card, cards, jokers, score, retrigger, bd
 }
 
 function calculatePlayScore(cards, jokers, bd = false) {
-  for(let joker of jokers) {
+  for(let j = 0; j < jokers.length; j++) {
+    const joker = jokers[j];
     playfieldJokers[joker].extraValue = 0;
   }
 
@@ -2412,18 +2461,18 @@ function calculatePlayScore(cards, jokers, bd = false) {
     maxMult: 1
   };
 
-  let setFour = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===6 && playfieldJokers[b].type[1]===6), false);
-  let straightSkip = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===12 && playfieldJokers[b].type[1]===3), false);
-  let allFaces = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===3 && playfieldJokers[b].type[1]===6), false);
-  let smear = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===6 && playfieldJokers[b].type[1]===4), false);
+  const setFour = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===6 && playfieldJokers[b].type[1]===6), false);
+  const straightSkip = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===12 && playfieldJokers[b].type[1]===3), false);
+  const allFaces = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===3 && playfieldJokers[b].type[1]===6), false);
+  const smear = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===6 && playfieldJokers[b].type[1]===4), false);
 
-  let scoreAll = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===10 && playfieldJokers[b].type[1]===6), false);
+  const scoreAll = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===10 && playfieldJokers[b].type[1]===6), false);
 
-  let vampire = Object.keys(playfieldJokers).reduce((a,b) => a || ((playfieldJokers[b].type[0]===12 && playfieldJokers[b].type[1]===2) ? playfieldJokers[b] : false), false);
-  let baseball = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===14 && playfieldJokers[b].type[1]===6), false);
+  const vampire = Object.keys(playfieldJokers).reduce((a,b) => a || ((playfieldJokers[b].type[0]===12 && playfieldJokers[b].type[1]===2) ? playfieldJokers[b] : false), false);
+  const baseball = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===14 && playfieldJokers[b].type[1]===6), false);
 
   if(vampire) {
-    let keys = [
+    const keys = [
       'mult',
       'increment',
       'glass',
@@ -2432,8 +2481,10 @@ function calculatePlayScore(cards, jokers, bd = false) {
       'wild',
       'steel'
     ];
-    for(let card of cards) {
-      for(let key of keys) {
+    for(let c = 0; c < cards.length; c++) {
+      const card = cards[c];
+      for(let k = 0; k < keys.length; k++) {
+        const key = keys[k];
         if(playfieldCards[card].modifiers[key]) {
           vampire.extraValue++;
           if(bd) {
@@ -2453,7 +2504,7 @@ function calculatePlayScore(cards, jokers, bd = false) {
   // figure out type of hand
   cachedType[1] = getTypeOfHand(vampire, cards, setFour, straightSkip, smear);
 
-  let [typeOfHand, involvedCards] = cachedType[1];
+  const [typeOfHand, involvedCards] = cachedType[1];
 
   if(typeOfHand >= 0) {
     score.minChips = hands[typeOfHand].chips;
@@ -2472,7 +2523,8 @@ function calculatePlayScore(cards, jokers, bd = false) {
     }
   }
 
-  for(let card of cards) {
+  for(let c = 0; c < cards.length; c++) {
+    const card = cards[c];
     // score card
     if(scoreAll || involvedCards.indexOf(card) >= 0 || playfieldCards[card].modifiers.stone) {
       if(bd) {
@@ -2489,20 +2541,23 @@ function calculatePlayScore(cards, jokers, bd = false) {
   }
 
   // trigger cards in hand
-  for(let card of Object.keys(playfieldCards).sort().reverse()) {
+  const theSortedCards = Object.keys(playfieldCards).sort().reverse();
+  for(let c = 0; c < theSortedCards.length; c++) {
+    const card = theSortedCards[c];
     if(cards.indexOf(card) < 0) {
       triggerCardInHand(false, card, cards, jokers, score, false, bd);
     }
   }
 
   // score joker
-  for(let joker of jokers) {
+  for(let j = 0; j < jokers.length; j++) {
+    const joker = jokers[j];
     triggerJoker(baseball, joker, cards, jokers, score, setFour, straightSkip, allFaces, smear, false, vampire, bd);
   }
 
   // observatory
   if(observatory) {
-    let observatoryScore = hands[typeOfHand].planets;
+    const observatoryScore = hands[typeOfHand].planets;
     score.minMult *= 1.5 ** observatoryScore;
     score.maxMult *= 1.5 ** observatoryScore;
 
@@ -2592,7 +2647,7 @@ function calculator() {
 
   for(let i = 0; i < possibleHands.length; i++) {
     for(let j = 0; j < possibleJokers.length; j++) {
-      let score = calculatePlayScore(possibleHands[i], possibleJokers[j]);
+      const score = calculatePlayScore(possibleHands[i], possibleJokers[j]);
       if(score[0] > bestScore[0]) {
         bestScore = score;
         bestHand = possibleHands[i];
@@ -2622,7 +2677,7 @@ function calculator() {
   }
 
   breakdown = [];
-  let b = calculatePlayScore(bestHand, bestJokers, true);
+  const b = calculatePlayScore(bestHand, bestJokers, true);
 
   breakdownHTML = '';
   let previousChips = 0;

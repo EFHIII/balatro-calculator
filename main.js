@@ -1,11 +1,11 @@
-let menuBtns = [
+const menuBtns = [
   document.getElementById('JokersBtn'),
   document.getElementById('CardsBtn'),
   document.getElementById('HandsBtn'),
   document.getElementById('BreakdownBtn'),
 ];
 
-let tabs = [
+const tabs = [
   document.getElementById('Jokers'),
   document.getElementById('Cards'),
   document.getElementById('Hands'),
@@ -33,7 +33,7 @@ function changeTab(tab) {
 
 changeTab(0)();
 
-let hands = [
+const hands = [
   {
     name: "Flush Five",
     planet: "Eris",
@@ -156,7 +156,7 @@ let hands = [
   }
 ];
 
-let handColors = [
+const handColors = [
   '#efefef',
   '#95acff',
   '#65efaf',
@@ -166,12 +166,12 @@ let handColors = [
   '#caa0ef'
 ];
 
-let handLevels = document.getElementById('Hands');
-let consumables = document.getElementById('consumables');
+const handLevels = document.getElementById('Hands');
+const consumables = document.getElementById('consumables');
 
 function incrementLevel(inc, handIndex) {
-  let hand = hands[handIndex];
-  let div = document.getElementById(hand.id);
+  const hand = hands[handIndex];
+  const div = document.getElementById(hand.id);
   hand.level += inc;
   if(hand.level < 0) hand.level = 0;
   hand.mult = Math.max(1, hand.s_mult + (hand.level-1) * hand.l_mult);
@@ -185,8 +185,8 @@ function incrementLevel(inc, handIndex) {
 }
 
 function incrementPlanet(inc, handIndex) {
-  let hand = hands[handIndex];
-  let div = document.getElementById('planets-' + hand.id);
+  const hand = hands[handIndex];
+  const div = document.getElementById('planets-' + hand.id);
   hand.planets += inc;
   if(hand.planets < 0 || inc === 0) hand.planets = 0;
   div.children[3].innerText = hand.planets;
@@ -195,8 +195,8 @@ function incrementPlanet(inc, handIndex) {
 }
 
 function setPlanet(handIndex) {
-  let hand = hands[handIndex];
-  let div = document.getElementById('planets-' + hand.id);
+  const hand = hands[handIndex];
+  const div = document.getElementById('planets-' + hand.id);
   if(1 * div.children[3].innerText > 0) {
     hand.planets = Math.round(1 * div.children[3].innerText);
   }
@@ -208,8 +208,8 @@ function setPlanet(handIndex) {
 }
 
 function setLevel(handIndex) {
-  let hand = hands[handIndex];
-  let div = document.getElementById(hand.id);
+  const hand = hands[handIndex];
+  const div = document.getElementById(hand.id);
 
   if(1 * div.children[2].innerText > 0) {
     hand.level = Math.round(1 * div.children[2].innerText);
@@ -228,19 +228,19 @@ function setLevel(handIndex) {
 }
 
 function removeLvlText (handIndex) {
-  let hand = hands[handIndex];
-  let div = document.getElementById(hand.id);
+  const hand = hands[handIndex];
+  const div = document.getElementById(hand.id);
   div.children[2].innerText = hand.level;
 
 }
 
 function addLvlText(handIndex) {
-  let hand = hands[handIndex];
-  let div = document.getElementById(hand.id);
+  const hand = hands[handIndex];
+  const div = document.getElementById(hand.id);
   div.children[2].innerText = 'lvl.'+hand.level;
 }
 
-let jokerValueHTML = document.getElementById('jokerVal');
+const jokerValueHTML = document.getElementById('jokerVal');
 let jokerValue = 0;
 
 function incrementJokerValue(inc) {
@@ -287,7 +287,7 @@ for(let i = 0; i < hands.length; i++) {
   </div>`;
 }
 
-let modifiers = {
+const modifiers = {
   foil: false,
   holographic: false,
   polychrome: false,
@@ -305,7 +305,7 @@ let modifiers = {
 let modifierString = ', url(assets/Enhancers.png) -71px 0px';
 let modifierPostString = '';
 
-let jmodifiers = {
+const jmodifiers = {
   foil: false,
   holographic: false,
   polychrome: false
@@ -404,8 +404,8 @@ function toggleCardModifier(name) {
   redrawCards();
 }
 
-let cardsDiv = document.getElementById('cards');
-let jcardsDiv = document.getElementById('jokers');
+const cardsDiv = document.getElementById('cards');
+const jcardsDiv = document.getElementById('jokers');
 
 function cardString(i, j) {
   if(modifiers.stone) {
@@ -450,8 +450,8 @@ function jredrawCards() {
   for(let i = 0; i < 16; i++) {
     if(i === 9) {i++;}
     for(let j = 0; j < 10; j++) {
-      let title = (jokerTexts.length > i && jokerTexts[i].length > j) ? jokerTexts[i][j][0] : 'WIP';
-      let description = (jokerTexts.length > i && jokerTexts[i].length > j) ? eval('`' + jokerTexts[i][j][1] + '`') : 'WIP';
+      const title = (jokerTexts.length > i && jokerTexts[i].length > j) ? jokerTexts[i][j][0] : 'WIP';
+      const description = (jokerTexts.length > i && jokerTexts[i].length > j) ? eval('`' + jokerTexts[i][j][1] + '`') : 'WIP';
       if(title.toLowerCase().indexOf(searchVal.toLowerCase()) >= 0 || description.replace(/\<[^\>]+\>/g,'').toLowerCase().indexOf(searchVal.toLowerCase()) >= 0) {
         jmodifierString = '';
         switch(`${i},${j}`) {
@@ -481,12 +481,12 @@ function jredrawCards() {
 redrawCards();
 jredrawCards();
 
-let jokerAreaDiv = document.getElementById('jokerArea');
-let bestPlayDiv = document.getElementById('bestPlay');
-let cardsInHandDiv = document.getElementById('cardsInHand');
+const jokerAreaDiv = document.getElementById('jokerArea');
+const bestPlayDiv = document.getElementById('bestPlay');
+const cardsInHandDiv = document.getElementById('cardsInHand');
 
-let jokerLimitDiv = document.getElementById('jokerLimit');
-let handLimitDiv = document.getElementById('handLimit');
+const jokerLimitDiv = document.getElementById('jokerLimit');
+const handLimitDiv = document.getElementById('handLimit');
 
 let playfieldJokers = {};
 let playfieldCards = {};
@@ -599,7 +599,7 @@ function redrawPlayfield() {
 
 function moveJokerLeft(id) {
   if(optimizeJokers) toggleJoker();
-  let index = bestJokers.indexOf(id);
+  const index = bestJokers.indexOf(id);
   if(index > 0) {
     bestJokers.splice(index, 1);
     bestJokers.splice(index - 1, 0, id);
@@ -660,7 +660,7 @@ function moveCardUp(id) {
   redrawPlayfield();
 }
 
-let searchDiv = document.getElementById('SearchVal');
+const searchDiv = document.getElementById('SearchVal');
 
 function searchJoker() {
   searchVal = searchDiv.value;
