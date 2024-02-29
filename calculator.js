@@ -1847,13 +1847,13 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
       }
       break;
     case '8,9':
-      score.minMult += 2 + 2 * playfieldJokers[joker].value;
-      score.maxMult += 2 + 2 * playfieldJokers[joker].value;
+      score.minMult += 2 * playfieldJokers[joker].value;
+      score.maxMult += 2 * playfieldJokers[joker].value;
 
       if(bd) {
         breakdown.push({
           cards: [retrigger ? retrigger : joker],
-          description: `${multc}+${2 + 2 * playfieldJokers[joker].value}${endc} Mult`,
+          description: `${multc}+${2 * playfieldJokers[joker].value}${endc} Mult`,
           chips: score.minChips,
           mult: score.minMult
         });
