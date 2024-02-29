@@ -2080,20 +2080,6 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
         });
       }
       break;
-    case '12,6':
-      let kingsinHand = Object.keys(playfieldCards).reduce((a,b) => a + (playfieldCards[b].modifiers.stone ? 0 : (playfieldCards[b].type[1] === 11 ? (cards.indexOf(b) < 0 ? 1 : 0) : 0)), 0);
-      score.minMult *= 1 + 1.5 * kingsinHand;
-      score.maxMult *= 1 + 1.5 * kingsinHand;
-
-      if(bd) {
-        breakdown.push({
-          cards: [retrigger ? retrigger : joker],
-          description: `${prodc}${1 + 1.5 * kingsinHand}${endc} Mult`,
-          chips: score.minChips,
-          mult: score.minMult
-        });
-      }
-      break;
     case '12,9':
       score.minMult *= 1 + 0.2 * playfieldJokers[joker].value;
       score.maxMult *= 1 + 0.2 * playfieldJokers[joker].value;
@@ -2330,6 +2316,120 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
   }
 }
 
+function triggerCardInHand(triggering, card, cards, jokers, score, retrigger, bd, triggerer = false, phase = 0) {
+  console.log(triggering, retrigger, triggerer);
+  // apply steel cards
+  if(!triggering && playfieldCards[card].modifiers.steel && cards.indexOf(playfieldCards[card].id) < 0) {
+    score.minMult *= 1.5;
+    score.maxMult *= 1.5;
+
+    if(bd) {
+      breakdown.push({
+        cards: triggerer ? [triggerer, card] : [card],
+        description: `${prodc}1.5${endc} Mult`,
+        chips: score.minChips,
+        mult: score.minMult,
+        modifier: true
+      });
+    }
+  }
+
+  if(!triggering || phase === 0) {
+    for(let joker of jokers) {
+      if(triggering && joker !== triggering) continue;
+      switch (playfieldJokers[joker].type[0]+','+playfieldJokers[joker].type[1]) {
+        case '6,2':
+          if(!playfieldCards[card].modifiers.stone && playfieldCards[card].type[1] === 10) {
+            score.minMult += 13;
+            score.maxMult += 13;
+
+            if(bd) {
+              breakdown.push({
+                cards: [triggerer ? triggerer : joker, card],
+                description: `${multc}+${13}${endc} Mult`,
+                chips: score.minChips,
+                mult: score.minMult
+              });
+            }
+          }
+          break;
+        case '3,0':
+          if(!triggerer) {
+            if(jokers.indexOf(joker) < jokers.length - 1) {
+              triggerCardInHand(jokers[jokers.indexOf(joker) + 1], card, cards, jokers, score, retrigger, bd, joker);
+            }
+          }
+          else {
+            if(triggerer !== joker && jokers.indexOf(joker) < jokers.length - 1) {
+              triggerCardInHand(jokers[jokers.indexOf(joker) + 1], card, cards, jokers, score, retrigger, bd, triggerer);
+            }
+          }
+          break;
+        case '7,7':
+          if(!triggerer && joker !== jokers[0]) {
+            triggerCardInHand(jokers[0], card, cards, jokers, score, retrigger, bd, joker);
+          }
+          else if(triggerer !== joker && triggerer !== jokers[0] && joker !== jokers[0]) {
+            triggerCardInHand(jokers[0], card, cards, jokers, score, retrigger, bd, triggerer);
+          }
+          break;
+        case '12,6':
+          if(!playfieldCards[card].modifiers.stone && playfieldCards[card].type[1] === 11) {
+            score.minMult *= 1.5;
+            score.maxMult *= 1.5;
+
+            if(bd) {
+              breakdown.push({
+                cards: [triggerer ? triggerer : joker, card],
+                description: `${prodc}${1.5}${endc} Mult`,
+                chips: score.minChips,
+                mult: score.minMult
+              });
+            }
+          }
+          break;
+      }
+    }
+  }
+
+  if(!triggering || phase === 1) {
+    for(let joker of jokers) {
+      if(triggering && joker !== triggering) continue;
+      switch (playfieldJokers[joker].type[0]+','+playfieldJokers[joker].type[1]) {
+        case '1,4':
+          if(!retrigger) {
+            triggerCardInHand(false, card, cards, jokers, score, true, bd, false, 1);
+          }
+          break;
+        case '3,0':
+          if(!triggerer) {
+            if(jokers.indexOf(joker) < jokers.length - 1) {
+              triggerCardInHand(jokers[jokers.indexOf(joker) + 1], card, cards, jokers, score, retrigger, bd, joker, 1);
+            }
+          }
+          else {
+            if(triggerer !== joker && jokers.indexOf(joker) < jokers.length - 1) {
+              triggerCardInHand(jokers[jokers.indexOf(joker) + 1], card, cards, jokers, score, retrigger, bd, triggerer, 1);
+            }
+          }
+          break;
+        case '7,7':
+          if(!triggerer && joker !== jokers[0]) {
+            triggerCardInHand(jokers[0], card, cards, jokers, score, retrigger, bd, joker, 1);
+          }
+          else if(triggerer !== joker && triggerer !== jokers[0] && joker !== jokers[0]) {
+            triggerCardInHand(jokers[0], card, cards, jokers, score, retrigger, bd, triggerer, 1);
+          }
+          break;
+      }
+    }
+  }
+
+  if(!triggering && !retrigger && playfieldCards[card].modifiers.double) {
+    triggerCardInHand(false, card, cards, jokers, score, true, bd, triggerer);
+  }
+}
+
 function calculatePlayScore(cards, jokers, bd = false) {
   for(let joker of jokers) {
     playfieldJokers[joker].extraValue = 0;
@@ -2351,7 +2451,6 @@ function calculatePlayScore(cards, jokers, bd = false) {
 
   let vampire = Object.keys(playfieldJokers).reduce((a,b) => a || ((playfieldJokers[b].type[0]===12 && playfieldJokers[b].type[1]===2) ? playfieldJokers[b] : false), false);
   let baseball = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===14 && playfieldJokers[b].type[1]===6), false);
-  let shootTheMoon = Object.keys(playfieldJokers).reduce((a,b) => a || ((playfieldJokers[b].type[0]===6 && playfieldJokers[b].type[1]===2) ? playfieldJokers[b] : false), false);
 
   if(vampire) {
     let keys = [
@@ -2419,55 +2518,10 @@ function calculatePlayScore(cards, jokers, bd = false) {
     }
   }
 
-  // apply steel cards
-  for(let card in playfieldCards) {
-    if(playfieldCards[card].modifiers.steel && cards.indexOf(playfieldCards[card].id) < 0) {
-      score.minMult *= 1.5;
-      score.maxMult *= 1.5;
-
-      if(bd) {
-        breakdown.push({
-          cards: [card],
-          description: `${prodc}1.5${endc} Mult`,
-          chips: score.minChips,
-          mult: score.minMult
-        });
-      }
-
-      for(let joker of jokers) {
-        switch (playfieldJokers[joker].type[0]+','+playfieldJokers[joker].type[1]) {
-          case '1,4':
-            score.minMult *= 1.5;
-            score.maxMult *= 1.5;
-
-            if(bd) {
-              breakdown.push({
-                cards: [card, triggerer ? triggerer : joker],
-                description: `Retrigger: ${prodc}1.5${endc} Mult`,
-                chips: score.minChips,
-                mult: score.minMult,
-                retrigger: true
-              });
-            }
-            break;
-        }
-      }
-    }
-  }
-
-  // shoot the moon
-  if(shootTheMoon) {
-    let queensinHand = Object.keys(playfieldCards).reduce((a,b) => a + (playfieldCards[b].modifiers.stone ? 0 : (playfieldCards[b].type[1] === 10 ? (cards.indexOf(b) < 0 ? 1 : 0) : 0)), 0);
-    score.minMult += 13 * queensinHand;
-    score.maxMult += 13 * queensinHand;
-
-    if(bd) {
-      breakdown.push({
-        cards: [shootTheMoon.id],
-        description: `${multc}+${13 * queensinHand}${endc} Mult`,
-        chips: score.minChips,
-        mult: score.minMult
-      });
+  // trigger cards in hand
+  for(let card of Object.keys(playfieldCards).sort().reverse()) {
+    if(cards.indexOf(card) < 0) {
+      triggerCardInHand(false, card, cards, jokers, score, false, bd);
     }
   }
 

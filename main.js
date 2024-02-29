@@ -524,7 +524,7 @@ function removeJoker(id) {
 }
 
 function addCard(i, j) {
-  let id = (''+j).padStart(2, 0)+(4-i)+Object.keys(modifiers).map(a=>modifiers[a]?'1':'0').join('');
+  let id = ((j === 10 && !modifiers.stone) ? (!modifiers.steel ? '993' : '992') : '') + (''+j).padStart(2, 0)+(4-i)+Object.keys(modifiers).map(a=>modifiers[a]?'1':'0').join('');
   while(playfieldCards.hasOwnProperty(id)) {
     id += '#';
   }
