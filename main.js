@@ -278,12 +278,12 @@ for(let i = 0; i < hands.length; i++) {
     </span>
   </div>`;
 
-  consumables.innerHTML += `<div class="handLevel" id="planets-${hands[i].id}" style="background-color: #89b">
+  consumables.innerHTML += `<div class="handLevel" id="planets-${hands[i].id}" style="background-color: #89b; text-align: center;">
     <span class="lvlBtn" onclick="incrementPlanet(-1, ${i})">-</span>
     <span class="lvlBtn" onclick="incrementPlanet( 0, ${i})">0</span>
     <span class="lvlBtn" onclick="incrementPlanet( 1, ${i})">+</span>
     <span contenteditable="true" class="handLvl" oninput="setPlanet(${i})">0</span>
-    <span class="handName">${hands[i].planet}</span>
+    <div style="display: flex;"><div style="color: #cef; width: 100%;">${hands[i].planet}</div><div style="width: 100%;">${hands[i].name}</div></dpv>
   </div>`;
 }
 

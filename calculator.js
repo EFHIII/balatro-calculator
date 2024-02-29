@@ -296,22 +296,33 @@ function hasStraight(cardsA, setFour = false, straightSkip = false) {
 
   if(sortedCards.length >= (setFour ? 4 : 5)) {
     let lines = [
-      [sortedCards[0]]
+      [sortedCards[0]],
+      [sortedCards[1]],
     ];
     if(setFour) {
-      lines.push([sortedCards[1]]);
+      lines.push([sortedCards[2]]);
     }
 
     for(let i = 1; i < sortedCards.length; i++) {
       for(let l = 0; l < lines.length; l++) {
         let val = lines[l][lines[l].length - 1][0];
-        if((sortedCards[i][0] + 1 === val && (lines[l].length === 1 || val < 12)) || (val === 0 && sortedCards[i][0] === 12)) {
+        if(sortedCards[i][0] + 1 === val) {
           lines.push([...lines[l], sortedCards[i]]);
         }
-        else if(straightSkip) {
-          if((sortedCards[i][0] + 2 === val && (lines[l].length === 1 || val < 11)) || (val === 0 && sortedCards[i][0] === 11)) {
-            lines.push([...lines[l], sortedCards[i]]);
-          }
+        else if(straightSkip && sortedCards[i][0] + 2 === val) {
+          lines.push([...lines[l], sortedCards[i]]);
+        }
+      }
+    }
+
+    for(let i = 0; i < sortedCards.length; i++) {
+      for(let l = 0; l < lines.length; l++) {
+        let val = lines[l][lines[l].length - 1][0];
+        if(val === 0 && sortedCards[i][0] === 12) {
+          lines.push([...lines[l], sortedCards[i]]);
+        }
+        else if(straightSkip && val === 1 && sortedCards[i][0] === 12) {
+          lines.push([...lines[l], sortedCards[i]]);
         }
       }
     }
@@ -398,22 +409,33 @@ function getTypeOfHand(vampire, cardsA, setFour = false, straightSkip = false, s
 
   if(sortedCards.length >= (setFour ? 4 : 5)) {
     let lines = [
-      [sortedCards[0]]
+      [sortedCards[0]],
+      [sortedCards[1]],
     ];
     if(setFour) {
-      lines.push([sortedCards[1]]);
+      lines.push([sortedCards[2]]);
     }
 
     for(let i = 1; i < sortedCards.length; i++) {
       for(let l = 0; l < lines.length; l++) {
         let val = lines[l][lines[l].length - 1][0];
-        if((sortedCards[i][0] + 1 === val && (lines[l].length === 1 || val < 12)) || (val === 0 && sortedCards[i][0] === 12)) {
+        if(sortedCards[i][0] + 1 === val) {
           lines.push([...lines[l], sortedCards[i]]);
         }
-        else if(straightSkip) {
-          if((sortedCards[i][0] + 2 === val && (lines[l].length === 1 || val < 11)) || (val === 0 && sortedCards[i][0] === 11)) {
-            lines.push([...lines[l], sortedCards[i]]);
-          }
+        else if(straightSkip && sortedCards[i][0] + 2 === val) {
+          lines.push([...lines[l], sortedCards[i]]);
+        }
+      }
+    }
+
+    for(let i = 0; i < sortedCards.length; i++) {
+      for(let l = 0; l < lines.length; l++) {
+        let val = lines[l][lines[l].length - 1][0];
+        if(val === 0 && sortedCards[i][0] === 12) {
+          lines.push([...lines[l], sortedCards[i]]);
+        }
+        else if(straightSkip && val === 1 && sortedCards[i][0] === 12) {
+          lines.push([...lines[l], sortedCards[i]]);
         }
       }
     }
