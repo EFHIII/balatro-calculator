@@ -208,6 +208,10 @@ function incrementPlanet(inc, handIndex) {
 function setPlanet(handIndex) {
   const hand = hands[handIndex];
   const div = document.getElementById('planets-' + hand.id);
+  if(div.children[3].innerText.indexOf('\n') >= 0) {
+    div.children[3].innerText = div.children[3].innerText.replace(/[\r\n]/g, '');
+    div.children[3].blur();
+  }
   if(1 * div.children[3].innerText > 0) {
     hand.planets = Math.round(1 * div.children[3].innerText);
   }
@@ -222,6 +226,10 @@ function setLevel(handIndex) {
   const hand = hands[handIndex];
   const div = document.getElementById(hand.id);
 
+  if(div.children[2].innerText.indexOf('\n') >= 0) {
+    div.children[2].innerText = div.children[2].innerText.replace(/[\r\n]/g, '');
+    div.children[2].blur();
+  }
   if(1 * div.children[2].innerText > 0) {
     hand.level = Math.round(1 * div.children[2].innerText);
   }
@@ -264,6 +272,10 @@ function incrementJokerValue(inc) {
 }
 
 function setJokerValue() {
+  if(jokerValueHTML.innerText.indexOf('\n') >= 0) {
+    jokerValueHTML.innerText = jokerValueHTML.innerText.replace(/[\r\n]/g, '');
+    jokerValueHTML.blur();
+  }
   if(!isNaN(jokerValueHTML.innerText)) {
     jokerValue = Math.round(jokerValueHTML.innerText * 1);
   }
@@ -731,6 +743,11 @@ function incrementModifyJokerValue(inc) {
 
 function setModifyJokerValue() {
   let joker = playfieldJokers[modifyingJoker];
+
+  if(modifyingJokerValDiv.innerText.indexOf('\n') >= 0) {
+    modifyingJokerValDiv.innerText = modifyingJokerValDiv.innerText.replace(/[\r\n]/g, '');
+    modifyingJokerValDiv.blur();
+  }
 
   if(!isNaN(modifyingJokerValDiv.innerText)) {
     joker.value = Math.round(modifyingJokerValDiv.innerText * 1);
