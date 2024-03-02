@@ -83,7 +83,7 @@ a:hover {
   flex-direction: column;
 }
 
-#jokers > div, #cards > div, #modifyJoker > div {
+#jokers > div, #cards > div, #modifyJoker > div, #handModifiers {
   display: flex;
   justify-content: center;
 }
@@ -421,14 +421,15 @@ html {
 }
 
 .tooltip:has(.modifierCard) {
-  width: 8.333%;
+  width: 100%;
 }
 
 .tooltip:has(.jmodifierCard) {
   width: 33.33%;
 }
 
-#jokerArea .tooltip:has(.jokerCard), .tooltip:has(.playfieldCard) {
+#jokerArea .tooltip:has(.jokerCard),
+.tooltip:has(.playfieldCard) {
   width: 100%;
 }
 
@@ -464,7 +465,9 @@ html {
 }
 
 .jokerCard:hover + .removeJoker + .tooltiptext,
-.jokerCard:hover + .tooltiptext {
+.jokerCard:hover + .tooltiptext,
+.modifierCard:hover + .tooltiptext,
+.jmodifierCard:hover + .tooltiptext {
   visibility: visible;
   z-index: 3;
 }
@@ -485,11 +488,31 @@ html {
   border-radius: 0.5em;
   margin: 0.25em;
   text-align: center;
-  box-shadow: 0em 0.1em 0em #ababab;
+  box-shadow: 0 0.1em 0 #ababab;
   min-height: 2em;
 
 	background-color: white;
 	color: black;
+  white-space: nowrap;
+}
+
+.modifierName {
+	display: flex;
+  align-items: center;
+  padding: 0.25em;
+  padding-left: 1em;
+  padding-right: 1em;
+  border-radius: 0.5em;
+  margin: 0.25em;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  box-shadow: 0 0.1em 0 #474c8f;
+  text-shadow: #474c8f -1px 2px;
+  width: fit-content;
+
+	background-color: #757cdc;
+	color: #fff;
   white-space: nowrap;
 }
 
@@ -661,4 +684,10 @@ input {
 
 #modifyJoker {
   height: 450px;
+}
+
+.modifierCard + .tooltiptext,
+.jmodifierCard + .tooltiptext {
+  left: -1em;
+  translate: -50%;
 }
