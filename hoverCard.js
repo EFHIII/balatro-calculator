@@ -5,10 +5,10 @@ function transforms(x, y, el) {
   el.style.transform = '';
   let box = el.getBoundingClientRect();
 
-  let calcX = -(y - box.y - (box.height / 2)) / constrain;
-  let calcY = (x - box.x - (box.width / 2)) / constrain;
+  let calcX = -(y - box.y - (box.height / 2)) / (el.dataset.scale == 2 ? constrain * 2 : constrain);
+  let calcY = (x - box.x - (box.width / 2)) / (el.dataset.scale == 2 ? constrain * 2 : constrain);
 
-  return `perspective(94px) ` +
+  return `perspective(${94}px) ` +
   `rotateX(${calcX}deg) ` +
   `rotateY(${calcY}deg)`;
 };

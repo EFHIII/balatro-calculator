@@ -3,6 +3,7 @@ const menuBtns = [
   document.getElementById('CardsBtn'),
   document.getElementById('HandsBtn'),
   document.getElementById('BreakdownBtn'),
+  document.getElementById('ModifyJokerBtn'),
 ];
 
 const tabs = [
@@ -10,6 +11,7 @@ const tabs = [
   document.getElementById('Cards'),
   document.getElementById('Hands'),
   document.getElementById('Breakdown'),
+  document.getElementById('ModifyJoker'),
 ];
 
 let searchVal = '';
@@ -19,15 +21,24 @@ for(let i = 0; i < menuBtns.length; i++) {
   tabs[i].style.display = "none";
 }
 
+let revertToTab = 0;
+let modifyingJoker = false;
+let modifyingJokerValue = 0;
+
+let modifyingJokerValDiv = document.getElementById('modifyJokerVal');
+let modifyJokerDiv = document.getElementById('modifyJoker');
 
 function changeTab(tab) {
-  return ()=>{
+  return () => {
+    revertToTab = tab === 4 ? revertToTab : tab;
     for(let i = 0; i < menuBtns.length; i++) {
       menuBtns[i].classList.remove('active');
       tabs[i].style.display = "none";
     }
     menuBtns[tab].classList.add('active');
     tabs[tab].style.display = "block";
+
+    modifyingJoker = false;
   }
 }
 
@@ -311,8 +322,6 @@ const jmodifiers = {
   polychrome: false
 };
 
-let jmodifierPostString = 'url(assets/Jokers.png) 0px -855px, ';
-
 function jtoggleCardModifier(name) {
   if(('foil holographic polychrome'.indexOf(name) >= 0) && !jmodifiers[name]) {
     jmodifiers.foil = false;
@@ -320,19 +329,6 @@ function jtoggleCardModifier(name) {
     jmodifiers.polychrome = false;
   }
   jmodifiers[name] = !jmodifiers[name];
-
-  if(jmodifiers.foil) {
-    jmodifierPostString = 'url(assets/Editions.png) -71px 0, ';
-  }
-  else if(jmodifiers.holographic) {
-    jmodifierPostString = 'url(assets/Editions.png) -142px 0, ';
-  }
-  else if(jmodifiers.polychrome) {
-    jmodifierPostString = 'url(assets/Editions.png) -213px 0, ';
-  }
-  else {
-    jmodifierPostString = '';
-  }
 
   jredrawCards();
 }
@@ -431,8 +427,23 @@ function redrawCards() {
   cardsDiv.innerHTML = txt;
 }
 
-function jokerString(i, j) {
+function jokerString(i, j, modifiers) {
   let jmodifierString = 'url(assets/Jokers.png) 0px -855px, ';
+  let jmodifierPostString = '';
+
+  if(modifiers.foil) {
+    jmodifierPostString = 'url(assets/Editions.png) -71px 0, ';
+  }
+  else if(modifiers.holographic) {
+    jmodifierPostString = 'url(assets/Editions.png) -142px 0, ';
+  }
+  else if(modifiers.polychrome) {
+    jmodifierPostString = 'url(assets/Editions.png) -213px 0, ';
+  }
+  else {
+    jmodifierPostString = '';
+  }
+
   switch(`${i},${j}`) {
     case '8,3': jmodifierString = `url(assets/Jokers.png) -${71*3}px -${95*9}px, `; break;
     case '8,4': jmodifierString = `url(assets/Jokers.png) -${71*4}px -${95*9}px, `; break;
@@ -453,16 +464,7 @@ function jredrawCards() {
       const title = (jokerTexts.length > i && jokerTexts[i].length > j) ? jokerTexts[i][j][0] : 'WIP';
       const description = (jokerTexts.length > i && jokerTexts[i].length > j) ? eval('`' + jokerTexts[i][j][1] + '`') : 'WIP';
       if(title.toLowerCase().indexOf(searchVal.toLowerCase()) >= 0 || description.replace(/\<[^\>]+\>/g,'').toLowerCase().indexOf(searchVal.toLowerCase()) >= 0) {
-        jmodifierString = '';
-        switch(`${i},${j}`) {
-          case '8,3': jmodifierString = `url(assets/Jokers.png) -${71*3}px -${95*9}px, `; break;
-          case '8,4': jmodifierString = `url(assets/Jokers.png) -${71*4}px -${95*9}px, `; break;
-          case '8,5': jmodifierString = `url(assets/Jokers.png) -${71*5}px -${95*9}px, `; break;
-          case '8,6': jmodifierString = `url(assets/Jokers.png) -${71*6}px -${95*9}px, `; break;
-          case '8,7': jmodifierString = `url(assets/Jokers.png) -${71*7}px -${95*9}px, `; break;
-          case '12,4': jmodifierString = `url(assets/Jokers.png) -${71*2}px -${95*9}px, `; break;
-        }
-        txt += `<div class='tooltip'><div class="jokerCard" ${jokerString(i, j)} onclick="addJoker(${i}, ${j})" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div><span class='tooltiptext'>` +
+        txt += `<div class='tooltip'><div class="jokerCard" ${jokerString(i, j, jmodifiers)} onclick="addJoker(${i}, ${j})" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div><span class='tooltiptext'>` +
         `<span class='title'>${title}</span>` +
         `<span class='desc'><span class='descContent'>${description}</span></span>` +
         `</span></div>`;
@@ -502,7 +504,7 @@ function addJoker(i, j) {
     type: [i, j],
     modifiers: {...jmodifiers},
     value: jokerValue,
-    string: jokerString(i, j),
+    string: jokerString(i, j, jmodifiers),
     tooltip: (jokerTexts.length > i && jokerTexts[i].length > j) ? [jokerTexts[i][j][0], eval('`' + jokerTexts[i][j][1] + '`')] : ['WIP', 'WIP']
   };
 
@@ -521,6 +523,8 @@ function removeJoker(id) {
   jokerLimitDiv.innerText = Object.keys(playfieldJokers).length;
 
   redrawPlayfield();
+
+  changeTab(revertToTab)();
 }
 
 function addCard(i, j) {
@@ -558,7 +562,9 @@ function redrawPlayfield() {
 
   let txt = '';
   for(let id of bestJokers) {
-    txt += `<div class='tooltip'><div id="${id}" class="jokerCard" ${playfieldJokers[id].string} onclick="removeJoker('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div><span class='tooltiptext'>` +
+    txt += `<div class='tooltip'><div id="${id}" class="jokerCard" ${playfieldJokers[id].string} onclick="modifyJoker('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
+    `<div class="removeJoker" onclick="removeJoker('${id}')">X</div>` +
+    `<span class='tooltiptext'>` +
     `<span class='title'>${playfieldJokers[id].tooltip[0]}</span>` +
     `<span class='desc'><span class='descContent'>${playfieldJokers[id].tooltip[1]}</span></span>` +
     `</span>` +
@@ -566,7 +572,8 @@ function redrawPlayfield() {
     `<div class="positionButtons">` +
     `<div class="lvlBtn" onclick="moveJokerLeft('${id}')">&lt;</div>` +
     `<div class="lvlBtn" onclick="moveJokerRight('${id}')">&gt;</div>` +
-    `</div></div>` +
+    `</div>` +
+    `</div>` +
     `</div>`;
   }
   jokerAreaDiv.innerHTML = txt;
@@ -665,4 +672,78 @@ const searchDiv = document.getElementById('SearchVal');
 function searchJoker() {
   searchVal = searchDiv.value;
   jredrawCards();
+}
+
+let modifyTab = changeTab(4);
+
+function modifyJoker(id) {
+  modifyTab();
+  modifyingJoker = id;
+  modifyingJokerValDiv.innerText = playfieldJokers[modifyingJoker].value;
+
+  updateModifyingJoker();
+}
+
+function updateModifyingJoker() {
+  if(!playfieldJokers.hasOwnProperty(modifyingJoker)) return;
+
+  modifyJokerDiv.innerHTML = `<div><div class='tooltip'><div data-scale='2' class="jokerCard" ${playfieldJokers[modifyingJoker].string} onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
+  `<span class='tooltiptext'>` +
+  `<span class='title'>${playfieldJokers[modifyingJoker].tooltip[0]}</span>` +
+  `<span class='desc'><span class='descContent'>${playfieldJokers[modifyingJoker].tooltip[1]}</span></span>` +
+  `</span>` +
+  `</div></div>`;
+
+}
+
+function mjtoggleCardModifier(name) {
+  if(!modifyingJoker) return;
+  let joker = playfieldJokers[modifyingJoker];
+  if(('foil holographic polychrome'.indexOf(name) >= 0) && !joker.modifiers[name]) {
+    joker.modifiers.foil = false;
+    joker.modifiers.holographic = false;
+    joker.modifiers.polychrome = false;
+  }
+  joker.modifiers[name] = !joker.modifiers[name];
+  joker.string = jokerString(joker.type[0], joker.type[1], joker.modifiers);
+
+  redrawPlayfield();
+  updateModifyingJoker();
+}
+
+function incrementModifyJokerValue(inc) {
+  if(!modifyingJoker) return;
+  let joker = playfieldJokers[modifyingJoker];
+  joker.value += inc;
+  if(inc === 0) {
+    joker.value = 0;
+  }
+  modifyingJokerValDiv.innerText = joker.value;
+
+  let tmp = jokerValue;
+  jokerValue = joker.value;
+  joker.tooltip[1] = (jokerTexts.length > joker.type[0] && jokerTexts[joker.type[0]].length > joker.type[1]) ? eval('`' + jokerTexts[joker.type[0]][joker.type[1]][1] + '`') : 'WIP'
+  jokerValue = tmp;
+
+  redrawPlayfield();
+  updateModifyingJoker();
+}
+
+function setModifyJokerValue() {
+  let joker = playfieldJokers[modifyingJoker];
+
+  if(!isNaN(modifyingJokerValDiv.innerText)) {
+    joker.value = Math.round(modifyingJokerValDiv.innerText * 1);
+  }
+  else {
+    joker.value = 0;
+  }
+
+  let tmp = jokerValue;
+  jokerValue = joker.value;
+  joker.tooltip[1] = (jokerTexts.length > joker.type[0] && jokerTexts[joker.type[0]].length > joker.type[1]) ? eval('`' + jokerTexts[joker.type[0]][joker.type[1]][1] + '`') : 'WIP'
+  jokerValue = tmp;
+
+  redrawPlayfield();
+  updateModifyingJoker();
 }

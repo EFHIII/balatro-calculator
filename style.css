@@ -78,17 +78,19 @@ a:hover {
   margin: 0.5em;
 }
 
-#jokers, #cards {
+#jokers, #cards, #modifyJoker {
   display: flex;
   flex-direction: column;
 }
 
-#jokers > div, #cards > div {
+#jokers > div, #cards > div, #modifyJoker > div {
   display: flex;
   justify-content: center;
 }
 
-#jokers > div > .tooltip:last-child, #cards > div > .tooltip:last-child {
+#jokers > div > .tooltip:last-child,
+#cards > div > .tooltip:last-child,
+#modifyJoker > div > .tooltip:last-child {
   width: 100%;
 }
 
@@ -461,6 +463,7 @@ html {
   top: calc(100% + 1em);
 }
 
+.jokerCard:hover + .removeJoker + .tooltiptext,
 .jokerCard:hover + .tooltiptext {
   visibility: visible;
   z-index: 3;
@@ -619,4 +622,43 @@ input {
   border-radius: 0.25em;
   top: 0px;
   margin-top: 14px;
+}
+
+.jokerCard:hover + .removeJoker,
+.removeJoker:hover {
+  visibility: visible;
+  top: -40%;
+  height: 60%;
+  color: #fff;
+}
+
+.removeJoker {
+  color: #fff0;
+  background-color: #f00;
+  position: relative;
+  margin-left: 20%;
+  margin-right: 20%;
+  border-radius: 5px;
+  cursor: pointer;
+  visibility: hidden;
+  height: 0%;
+  top: 20%;
+  transition: 0.2s;
+  padding-top: 8px;
+}
+
+#modifyJoker .tooltip {
+  scale: 2;
+  translate: 0 50%;
+}
+
+#modifyJoker .tooltip > .tooltiptext {
+  top: calc(100% + 1em);
+  visibility: visible;
+  scale: 0.75;
+  translate: -12.5% -12%;
+}
+
+#modifyJoker {
+  height: 450px;
 }
