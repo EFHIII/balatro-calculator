@@ -1910,13 +1910,13 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
       }
       break;
     case '10,4':
-      score.minChips += 100 - 5 * playfieldJokers[joker].value;
-      score.maxChips += 100 - 5 * playfieldJokers[joker].value;
+      score.minChips += Math.max(0, 100 - 5 * playfieldJokers[joker].value);
+      score.maxChips += Math.max(0, 100 - 5 * playfieldJokers[joker].value);
 
       if(bd) {
         breakdown.push({
           cards: [retrigger ? retrigger : joker],
-          description: `${chipc}+${100 - 5 * playfieldJokers[joker].value}${endc} Chips`,
+          description: `${chipc}+${Math.max(0, 100 - 5 * playfieldJokers[joker].value)}${endc} Chips`,
           chips: score.minChips,
           mult: score.minMult
         });
