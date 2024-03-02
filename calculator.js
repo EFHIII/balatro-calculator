@@ -1571,7 +1571,7 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
       }
       break;
     case '4,4':
-      if((club && notClub) || (wild >= 2) || (wild === 1 && (club || notClub))) {
+      if((club && nonClub) || (wild >= 2) || (wild === 1 && (club || nonClub))) {
         score.minMult *= 2;
         score.maxMult *= 2;
 
