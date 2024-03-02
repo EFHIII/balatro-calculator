@@ -2210,26 +2210,26 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
       }
       break;
     case '15,1':
-      score.minMult += 20 - playfieldJokers[joker].value * 4;
-      score.maxMult += 20 - playfieldJokers[joker].value * 4;
+      score.minMult += Math.max(0, 20 - playfieldJokers[joker].value * 4);
+      score.maxMult += Math.max(0, 20 - playfieldJokers[joker].value * 4);
 
       if(bd) {
         breakdown.push({
           cards: [retrigger ? retrigger : joker],
-          description: `${multc}+${20 - playfieldJokers[joker].value * 4}${endc} Mult`,
+          description: `${multc}+${Math.max(0, 20 - playfieldJokers[joker].value * 4)}${endc} Mult`,
           chips: score.minChips,
           mult: score.minMult
         });
       }
       break;
     case '15,2':
-      score.minMult *= 2 - 0.01 * playfieldJokers[joker].value;
-      score.maxMult *= 2 - 0.01 * playfieldJokers[joker].value;
+      score.minMult *= Math.max(0, 2 - 0.01 * playfieldJokers[joker].value);
+      score.maxMult *= Math.max(0, 2 - 0.01 * playfieldJokers[joker].value);
 
       if(bd) {
         breakdown.push({
           cards: [retrigger ? retrigger : joker],
-          description: `${prodc}${2 - 0.01 * playfieldJokers[joker].value}${endc} Mult`,
+          description: `${prodc}${Math.max(0, 2 - 0.01 * playfieldJokers[joker].value)}${endc} Mult`,
           chips: score.minChips,
           mult: score.minMult
         });

@@ -241,12 +241,12 @@ const jokerTexts = [
     ['Burglar', 'When ${numc}Blind${endc} is selected,<br>gain ${chipc}+3${endc} Hands and<br>${numc}lose all discards${endc}'],
     ['Blackboard', '${prodc}3${endc} Mult if all<br>cards held in hand<br>are ${spadec} or ${clubc}'],
     ['Runner', 'Gains ${chipc}+10${endc} Chips<br>if played hand<br>contains a ${numc}Straight${endc}<br>${shadowc}(Currently ${chipc}+${20 + jokerValue * 10}${endc} Chips)${endc}'],
-    ['Ice Cream', '${chipc}+100${endc} Chips<br>${chipc}-5${endc} Chips for<br>every hand played<br>${shadowc}(Currently ${chipc}${jokerValue > 20 ? "" : "+"}${100 - jokerValue * 5}${endc} Chips)${endc}'],
+    ['Ice Cream', '${chipc}+100${endc} Chips<br>${chipc}-5${endc} Chips for<br>every hand played<br>${shadowc}(Currently ${chipc}${jokerValue > 20 ? "" : "+"}${Math.max(0, 100 - jokerValue * 5)}${endc} Chips)${endc}'],
     ['DNA', 'If ${numc}first hand${endc} of round<br>has only ${numc}1${endc} card, add a<br>permanent copy to deck<br>and draw it to ${numc}hand${endc}'],
     ['Splash', 'Every ${numc} played card${endc}<br>counts in scoring'],
     ['Blue Joker', '${chipc}+2${endc} Chips for each<br>remaining card in ${numc}Deck${endc}<br>${shadowc}(Currently ${chipc}+${104 + jokerValue * 2}${endc} Chips)${endc}'],
     ['Sixth Sense', 'If ${numc}first hand${endc} of round is<br>a single ${numc}6${endc}, destroy it and<br>create a ${spectralc} card${roomc}'],
-    ['Constellation', 'Gains ${prodc}0.1${endc} Mult<br>per ${planetc} card used<br>${shadowc}(Currently ${prodc}${1 + jokerValue * 0.1}${endc} Mult)${endc}']
+    ['Constellation', 'Gains ${prodc}0.1${endc} Mult<br>per ${planetc} card used<br>${shadowc}(Currently ${prodc}${Math.max(0, 1 + jokerValue * 0.1)}${endc} Mult)${endc}']
   ],
   [
     ['Hiker', 'Every played ${numc}card${endc}<br>permanently gains<br>${chipc}+4${endc} Chips when scored'],
@@ -298,7 +298,7 @@ const jokerTexts = [
   ],
   [
     ['Flash Card', '${multc}+2${endc} Mult per<br>${numc}reroll${endc} in the shop<br>${shadowc}(Currently ${multc}+${jokerValue * 2}${endc} Mult)${endc}'],
-    ['Popcorn', '${multc}${jokerValue <= 5 ? "+" : ""}${20 - jokerValue * 4}${endc} Mult<br>${multc}-4${endc} Mult per<br>round played'],
+    ['Popcorn', '${multc}${jokerValue <= 5 ? "+" : ""}${Math.max(0, 20 - jokerValue * 4)}${endc} Mult<br>${multc}-4${endc} Mult per<br>round played'],
     ['Ramen', '${prodc}${Math.max(0, 2 - jokerValue * 0.01)}${endc} Mult,<br>loses ${prodc}0.01${endc} Mult<br>per ${numc}card${endc} discarded'],
     ['Seltzer', 'Retrigger all<br>cards played for<br>the next ${numc}10${endc} hands' + toggleJokerc],
     ['Spare Trousers', 'Gain ${multc}+2${endc} Mult if<br>played hand contains<br>a ${numc}Two Pair${endc}<br>${shadowc}(Currently ${multc}+${jokerValue * 2}${endc} Mult)${endc}'],
