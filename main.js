@@ -208,9 +208,11 @@ function incrementPlanet(inc, handIndex) {
 function setPlanet(handIndex) {
   const hand = hands[handIndex];
   const div = document.getElementById('planets-' + hand.id);
+  let willBlur = false;
+
   if(div.children[3].innerText.indexOf('\n') >= 0) {
     div.children[3].innerText = div.children[3].innerText.replace(/[\r\n]/g, '');
-    div.children[3].blur();
+    willBlur = true;
   }
   if(1 * div.children[3].innerText > 0) {
     hand.planets = Math.round(1 * div.children[3].innerText);
@@ -219,16 +221,19 @@ function setPlanet(handIndex) {
     hand.planets = 0;
   }
 
+  if(willBlur) div.children[3].blur();
+
   redrawPlayfield();
 }
 
 function setLevel(handIndex) {
   const hand = hands[handIndex];
   const div = document.getElementById(hand.id);
+  let willBlur = false;
 
   if(div.children[2].innerText.indexOf('\n') >= 0) {
     div.children[2].innerText = div.children[2].innerText.replace(/[\r\n]/g, '');
-    div.children[2].blur();
+    willBlur = true;
   }
   if(1 * div.children[2].innerText > 0) {
     hand.level = Math.round(1 * div.children[2].innerText);
@@ -242,6 +247,8 @@ function setLevel(handIndex) {
   div.children[2].style.backgroundColor = hand.level === 1 ? handColors[0] : handColors[((Math.ceil(Math.abs(hand.level)/6)*6+hand.level+4)%6)+1];
   div.children[4].children[0].innerText = numberWithCommas(hand.chips);
   div.children[4].children[1].innerText = numberWithCommas(hand.mult);
+
+  if(willBlur) div.children[2].blur();
 
   redrawPlayfield();
 }
@@ -272,9 +279,11 @@ function incrementJokerValue(inc) {
 }
 
 function setJokerValue() {
+  let willBlur = false;
+
   if(jokerValueHTML.innerText.indexOf('\n') >= 0) {
     jokerValueHTML.innerText = jokerValueHTML.innerText.replace(/[\r\n]/g, '');
-    jokerValueHTML.blur();
+    willBlur = true;
   }
   if(!isNaN(jokerValueHTML.innerText)) {
     jokerValue = Math.round(jokerValueHTML.innerText * 1);
@@ -282,6 +291,9 @@ function setJokerValue() {
   else {
     jokerValue = 0;
   }
+
+  if(willBlur) jokerValueHTML.blur();
+
   jredrawCards();
 }
 
@@ -331,39 +343,23 @@ let modifierPostString = '';
 const jmodifiers = {
   foil: false,
   holographic: false,
-  polychrome: false
+  polychrome: false,
+  disabled: false
 };
 
 function jtoggleCardModifier(name) {
-  if(('foil holographic polychrome'.indexOf(name) >= 0) && !jmodifiers[name]) {
+  if(('foil holographic polychrome disabled'.indexOf(name) >= 0) && !jmodifiers[name]) {
     jmodifiers.foil = false;
     jmodifiers.holographic = false;
     jmodifiers.polychrome = false;
+    jmodifiers.disabled = false;
   }
   jmodifiers[name] = !jmodifiers[name];
 
   jredrawCards();
 }
 
-function toggleCardModifier(name) {
-  if(('stone increment mult wild chance glass steel'.indexOf(name) >= 0) && !modifiers[name]) {
-    modifiers.stone = false;
-    modifiers.increment = false;
-    modifiers.mult = false;
-    modifiers.wild = false;
-    modifiers.chance = false;
-    modifiers.glass = false;
-    modifiers.steel = false;
-  }
-
-  if(('foil holographic polychrome disabled'.indexOf(name) >= 0) && !modifiers[name]) {
-    modifiers.foil = false;
-    modifiers.holographic = false;
-    modifiers.polychrome = false;
-    modifiers.disabled = false;
-  }
-  modifiers[name] = !modifiers[name];
-
+function setModifierString() {
   if(modifiers.stone) {
     modifierString = ', url(assets/Enhancers.png) 142px 0';
   }
@@ -386,7 +382,7 @@ function toggleCardModifier(name) {
     modifierString = ', url(assets/Enhancers.png) -426px -95px';
   }
   else {
-      modifierString = ', url(assets/Enhancers.png) -71px 0px';
+    modifierString = ', url(assets/Enhancers.png) -71px 0px';
   }
 
   if(modifiers.double) {
@@ -408,6 +404,28 @@ function toggleCardModifier(name) {
   else if(modifiers.disabled) {
     modifierPostString += 'url(assets/Editions.png) 71px 0, ';
   }
+}
+
+function toggleCardModifier(name) {
+  if(('stone increment mult wild chance glass steel'.indexOf(name) >= 0) && !modifiers[name]) {
+    modifiers.stone = false;
+    modifiers.increment = false;
+    modifiers.mult = false;
+    modifiers.wild = false;
+    modifiers.chance = false;
+    modifiers.glass = false;
+    modifiers.steel = false;
+  }
+
+  if(('foil holographic polychrome disabled'.indexOf(name) >= 0) && !modifiers[name]) {
+    modifiers.foil = false;
+    modifiers.holographic = false;
+    modifiers.polychrome = false;
+    modifiers.disabled = false;
+  }
+  modifiers[name] = !modifiers[name];
+
+  setModifierString();
 
   redrawCards();
 }
@@ -451,6 +469,9 @@ function jokerString(i, j, modifiers) {
   }
   else if(modifiers.polychrome) {
     jmodifierPostString = 'url(assets/Editions.png) -213px 0, ';
+  }
+  else if(modifiers.disabled) {
+    jmodifierPostString = 'url(assets/Editions.png) 71px 0, ';
   }
   else {
     jmodifierPostString = '';
@@ -571,6 +592,8 @@ function removeCard(id) {
 
 function redrawPlayfield() {
   calculator();
+
+  compileHand();
 
   let txt = '';
   for(let id of bestJokers) {
@@ -711,10 +734,11 @@ function updateModifyingJoker() {
 function mjtoggleCardModifier(name) {
   if(!modifyingJoker) return;
   let joker = playfieldJokers[modifyingJoker];
-  if(('foil holographic polychrome'.indexOf(name) >= 0) && !joker.modifiers[name]) {
+  if(('foil holographic polychrome disabled'.indexOf(name) >= 0) && !joker.modifiers[name]) {
     joker.modifiers.foil = false;
     joker.modifiers.holographic = false;
     joker.modifiers.polychrome = false;
+    joker.modifiers.disabled = false;
   }
   joker.modifiers[name] = !joker.modifiers[name];
   joker.string = jokerString(joker.type[0], joker.type[1], joker.modifiers);
@@ -743,10 +767,11 @@ function incrementModifyJokerValue(inc) {
 
 function setModifyJokerValue() {
   let joker = playfieldJokers[modifyingJoker];
+  let willBlur = false;
 
   if(modifyingJokerValDiv.innerText.indexOf('\n') >= 0) {
     modifyingJokerValDiv.innerText = modifyingJokerValDiv.innerText.replace(/[\r\n]/g, '');
-    modifyingJokerValDiv.blur();
+    willBlur = true;
   }
 
   if(!isNaN(modifyingJokerValDiv.innerText)) {
@@ -760,6 +785,8 @@ function setModifyJokerValue() {
   jokerValue = joker.value;
   joker.tooltip[1] = (jokerTexts.length > joker.type[0] && jokerTexts[joker.type[0]].length > joker.type[1]) ? eval('`' + jokerTexts[joker.type[0]][joker.type[1]][1] + '`') : 'WIP'
   jokerValue = tmp;
+
+  if(willBlur) modifyingJokerValDiv.blur();
 
   redrawPlayfield();
   updateModifyingJoker();

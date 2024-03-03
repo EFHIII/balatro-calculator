@@ -41,6 +41,10 @@
         <span class='limitText'><span id='handLimit'>0</span>/8</span><br>
         <div class="toggleArea" style="margin-bottom: 1em">
         <div id="togglePlasma" class="handLevel">
+          <span id="toggleTheFintBtn" class="lvlBtn" onclick="toggleTheFlint()">&nbsp;</span>
+          <span class="handName">The Flint</span>
+        </div>
+        <div id="togglePlasma" class="handLevel">
           <span id="togglePlasmaBtn" class="lvlBtn" onclick="togglePlasma()">&nbsp;</span>
           <span class="handName">Plasma Deck</span>
         </div>
@@ -80,6 +84,9 @@
             </div><div class="tooltip">
               <div class="jmodifierCard" style="background: url(assets/Editions.png) -213px 0, url(assets/Enhancers.png) -71px 0px" onclick="jtoggleCardModifier('polychrome')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>
               <span class="tooltiptext"><span class="desc"><span class="descContent"><span style="color: #fff; background-color: #ff4d40; border-left: solid; border: solid; border-color: #ff4d40; border-width: 0px 2px 1px 2px; padding-left: 1px; border-radius: 3px;">X1.5</span> Mult</span></span><span class="modifierName"><span class="descContent">Polychrome</span></span></span>
+            </div><div class="tooltip">
+              <div class="jmodifierCard" style="background: url(assets/Editions.png) 71px 0, url(assets/Enhancers.png) -71px 0px" onclick="jtoggleCardModifier('disabled')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>
+              <span class="tooltiptext"><span class="desc"><span class="descContent">Does not trigger</span></span><span class="modifierName"><span class="descContent">Disabled</span></span></span>
             </div>
           </div>
           <div id="jokers" style="text-align: center"></div>
@@ -148,6 +155,9 @@
             </div><div class="tooltip">
               <div class="jmodifierCard" style="background: url(assets/Editions.png) -213px 0, url(assets/Enhancers.png) -71px 0px" onclick="mjtoggleCardModifier('polychrome')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>
               <span class="tooltiptext"><span class="desc"><span class="descContent"><span style="color: #fff; background-color: #ff4d40; border-left: solid; border: solid; border-color: #ff4d40; border-width: 0px 2px 1px 2px; padding-left: 1px; border-radius: 3px;">X1.5</span> Mult</span></span><span class="modifierName"><span class="descContent">Polychrome</span></span></span>
+            </div><div class="tooltip">
+              <div class="jmodifierCard" style="background: url(assets/Editions.png) 71px 0, url(assets/Enhancers.png) -71px 0px" onclick="mjtoggleCardModifier('disabled')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>
+              <span class="tooltiptext"><span class="desc"><span class="descContent">Does not trigger</span></span><span class="modifierName"><span class="descContent">Disabled</span></span></span>
             </div>
           </div>
           <div id="modifyJoker" style="text-align: center"></div>
@@ -161,5 +171,6 @@
     <script type="text/javascript" src="cards.js"></script>
     <script type="text/javascript" src="calculator.js"></script>
     <script type="text/javascript" src="main.js"></script>
+    <script type="text/javascript" src="hand-url.js"></script>
   </body>
 </html>

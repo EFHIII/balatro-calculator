@@ -11,9 +11,11 @@ let optimizeJokers = true;
 let optimizeCards = true;
 const toggleJokerDiv = document.getElementById('toggleJokerBtn');
 const toggleCardDiv = document.getElementById('toggleCardBtn');
+const toggleTheFlintDiv = document.getElementById('toggleTheFintBtn');
 const togglePlasmaDiv = document.getElementById('togglePlasmaBtn');
 const toggleObservatoryDiv = document.getElementById('toggleObservatoryBtn');
 
+let theFlint = false;
 let plasmaDeck = false;
 let observatory = false;
 
@@ -60,6 +62,18 @@ function togglePlasma() {
   }
   else {
     togglePlasmaDiv.innerHTML = '&nbsp;';
+  }
+}
+
+function toggleTheFlint() {
+  theFlint = !theFlint;
+  redrawPlayfield();
+
+  if(theFlint) {
+    toggleTheFlintDiv.innerText = 'X';
+  }
+  else {
+    toggleTheFlintDiv.innerHTML = '&nbsp;';
   }
 }
 
@@ -1070,7 +1084,7 @@ function triggerCard(triggering, card, cards, jokers, score, retrigger = false, 
         }
         break;
       case '15,8':
-        if(!playfieldCards[card].modifiers.stone && (playfieldCards[card].type[1] === 4 || playfieldCards[card].type[1] === 10)) {
+        if(!playfieldCards[card].modifiers.stone && (playfieldCards[card].type[1] === 2 || playfieldCards[card].type[1] === 8)) {
           score.minChips += 10;
           score.maxChips += 10;
           score.minMult += 4;
@@ -1239,6 +1253,7 @@ function triggerBaseball(uncommonJoker, cards, jokers, score, retrigger = false,
 }
 
 function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, straightSkip = false, allFaces = false, smear = false, retrigger = false, vampire = false, bd) {
+  if(playfieldJokers[joker].modifiers.disabled) return;
   let heart = false;
   let diamond = false;
   let club = false;
@@ -2520,6 +2535,23 @@ function calculatePlayScore(cards, jokers, bd = false) {
         mult: score.minMult,
         newCard: true
       });
+    }
+
+    if(theFlint) {
+      score.minChips /= 2;
+      score.maxChips /= 2;
+      score.minMult /= 2;
+      score.maxMult /= 2;
+
+      if(bd) {
+        breakdown.push({
+          cards: involvedCards,
+          description: `The Flint`,
+          chips: score.minChips,
+          mult: score.minMult,
+          newCard: true
+        });
+      }
     }
   }
 

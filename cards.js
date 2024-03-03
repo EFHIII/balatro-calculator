@@ -309,9 +309,3 @@ const jokerTexts = [
     ['Castle', 'This Joker gains ${chipc}+3${endc} Chips<br>per discarded ${[heartc, clubc, diamondc, spadec][Math.abs(jokerValue) % 4]} card,<br>suit changes every round<br>${shadowc}(Currently ${chipc}+${jokerValue * 3}${endc} Chips)${endc}']
   ]
 ];
-
-const jokerStats = [
-  [
-    {blueprint_compat: true, eternal_compat: true, cost: 3},
-  ],
-];
