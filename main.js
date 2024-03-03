@@ -53,7 +53,7 @@ const hands = [
     s_mult: 14,
     s_chips: 150,
     l_mult: 3,
-    l_chips: 35
+    l_chips: 40
   },
   {
     name: "Flush House",
