@@ -225,7 +225,7 @@ function compileHand() {
 
   let queryParams = new URLSearchParams(window.location.search);
   if(binary.length === 0) {
-    history.replaceState(null, null, queryParams.toString().replace(/\?.+/, ''));
+    history.replaceState(null, null, '');
   }
   else {
     queryParams.set("hand", bitsToBase64(binary));
