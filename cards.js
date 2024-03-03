@@ -246,7 +246,7 @@ const jokerTexts = [
     ['Splash', 'Every ${numc} played card${endc}<br>counts in scoring'],
     ['Blue Joker', '${chipc}+2${endc} Chips for each<br>remaining card in ${numc}Deck${endc}<br>${shadowc}(Currently ${chipc}+${104 + jokerValue * 2}${endc} Chips)${endc}'],
     ['Sixth Sense', 'If ${numc}first hand${endc} of round is<br>a single ${numc}6${endc}, destroy it and<br>create a ${spectralc} card${roomc}'],
-    ['Constellation', 'Gains ${prodc}0.1${endc} Mult<br>per ${planetc} card used<br>${shadowc}(Currently ${prodc}${numberWithCommas(Math.max(0, 1 + jokerValue * 0.1))}${endc} Mult)${endc}']
+    ['Constellation', 'Gains ${prodc}0.1${endc} Mult<br>per ${planetc} card used<br>${shadowc}(Currently ${prodc}${(Math.max(0, 10 + jokerValue))/10}${endc} Mult)${endc}']
   ],
   [
     ['Hiker', 'Every played ${numc}card${endc}<br>permanently gains<br>${chipc}+4${endc} Chips when scored'],
@@ -263,14 +263,14 @@ const jokerTexts = [
   [
     ['Séance', 'If ${numc}poker hand${endc} is a<br>${numc}Straight Flush${endc}, craeate a<br>random ${spectralc} card${roomc}'],
     ['Riff-Raff', 'When ${numc}Blind${endc} is selected,<br>create ${numc}2${endc} ${commonc} ${numc}Jokers${endc}${roomc}'],
-    ['Vampire', 'Gains ${prodc}0.2${endc} Mult per<br>${numc}Enhanced card${endc} played,<br>removes card ${numc}Enhancement${endc}<br>${shadowc}(Currently ${prodc}${numberWithCommas(1 + jokerValue * 0.2)}${endc} Mult)${endc}'],
+    ['Vampire', 'Gains ${prodc}0.2${endc} Mult per<br>${numc}Enhanced card${endc} played,<br>removes card ${numc}Enhancement${endc}<br>${shadowc}(Currently ${prodc}${(10 + jokerValue * 2) / 10}${endc} Mult)${endc}'],
     ['Shortcut', 'Allows ${numc}Straights${endc} to be<br>made with gaps of ${numc}1 rank${endc}<br>${shadowc}(ex: ${numc}2 3 5 7 8${endc})${endc}'],
     ['Hologram', 'Gains ${prodc}0.25${endc} Mult<br> per ${numc}playing card${endc} added<br>to your deck<br>${shadowc}(Currently ${prodc}${1 + jokerValue * 0.25}${endc} Mult)${endc}'],
     ['Vagabond', 'Create a ${tarotc} card<br>if hand is played<br>with ${moneyc}$3${endc} or less'],
     ['Baron', 'Each ${numc}King${endc}<br>held in hand<br>gives ${prodc}1.5${endc} Mult'],
     ['Cloud 9', 'Earn ${moneyc}$1${endc} for each<br>${numc}9${endc} in your ${numc}full deck${endc}<br>at end of round<br>${shadowc}(Currently ${moneyc}$${jokerValue}${endc})${endc}'],
     ['Rocket', 'Earn ${moneyc}$${1 + jokerValue * 2}${endc} at end of<br>round. Gains ${moneyc}$2${endc} when<br>${numc}Boss Blind${endc} is defeated'],
-    ['Obelisk', '${prodc}0.2${endc} Mult per<br>consecutive hand played<br>without playing your<br>must played ${numc}poker hand${endc}<br>${shadowc}(Currently ${prodc}${numberWithCommas(1 + jokerValue * 0.2)}${endc} Mult)${endc}']
+    ['Obelisk', '${prodc}0.2${endc} Mult per<br>consecutive hand played<br>without playing your<br>must played ${numc}poker hand${endc}<br>${shadowc}(Currently ${prodc}${(10 + jokerValue * 2) / 10}${endc} Mult)${endc}']
   ],
   [
     ['Midas Mask', 'All ${numc}face${endc} cards<br>become ${numc}Gold${endc} cards<br>when played'],
@@ -290,7 +290,7 @@ const jokerTexts = [
     ['Clever Joker',  '${chipc}+150${endc} Chips if played<br>hand contains<br>a ${numc}Four of a Kind${endc}'],
     ['Devious Joker',  '${chipc}+100${endc} Chips if played<br>hand contains<br>a ${numc}Straight${endc}'],
     ['Crafty Joker',  '${chipc}+80${endc} Chips if played<br>hand contains<br>a ${numc}Flush${endc}'],
-    ['Lucky cat', 'Gains ${prodc}0.2${endc} Mult each<br>time a ${numc}Lucky${endc} card<br>${probc}successfully${endc} triggers<br>${shadowc}(currently ${prodc}${numberWithCommas(1 + jokerValue * 0.2)}${endc} Mult)${endc}'],
+    ['Lucky cat', 'Gains ${prodc}0.2${endc} Mult each<br>time a ${numc}Lucky${endc} card<br>${probc}successfully${endc} triggers<br>${shadowc}(currently ${prodc}${(10 + jokerValue * 2) / 10}${endc} Mult)${endc}'],
     ['Baseball Card', '${probc}Uncommon${endc} Jokers<br>each give ${prodc}1.5${endc} Mult'],
     ['Bull', '${chipc}+2${endc} Chips for each<br>${moneyc}dollar${endc} you have<br>${shadowc}(Currently ${chipc}+${Math.max(0, jokerValue * 2)}${endc} Chips)${endc}'],
     ['Diet Cola', 'Sell this card to<br>create a free<br>${numc}Double Tag${endc}'],
@@ -299,7 +299,7 @@ const jokerTexts = [
   [
     ['Flash Card', '${multc}+2${endc} Mult per<br>${numc}reroll${endc} in the shop<br>${shadowc}(Currently ${multc}+${jokerValue * 2}${endc} Mult)${endc}'],
     ['Popcorn', '${multc}${jokerValue <= 5 ? "+" : ""}${Math.max(0, 20 - jokerValue * 4)}${endc} Mult<br>${multc}-4${endc} Mult per<br>round played'],
-    ['Ramen', '${prodc}${numberWithCommas(Math.max(0, 2 - jokerValue * 0.01))}${endc} Mult,<br>loses ${prodc}0.01${endc} Mult<br>per ${numc}card${endc} discarded'],
+    ['Ramen', '${prodc}${(Math.max(0, 200 - jokerValue)) / 100}${endc} Mult,<br>loses ${prodc}0.01${endc} Mult<br>per ${numc}card${endc} discarded'],
     ['Seltzer', 'Retrigger all<br>cards played for<br>the next ${numc}10${endc} hands' + toggleJokerc],
     ['Spare Trousers', 'Gain ${multc}+2${endc} Mult if<br>played hand contains<br>a ${numc}Two Pair${endc}<br>${shadowc}(Currently ${multc}+${jokerValue * 2}${endc} Mult)${endc}'],
     ['Campfire', 'This Joker gains ${prodc}0.5${endc} Mult<br>for each card ${numc}sold${endc}, resets<br>when ${numc}Boss Blind${endc} is defeated<br>${shadowc}(Currently ${prodc}${1 + jokerValue * 0.5}${endc} Mult)${endc}'],
