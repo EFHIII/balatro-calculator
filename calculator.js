@@ -2601,6 +2601,12 @@ function calculatePlayScore(cards, jokers, bd = false) {
   let cardsInHand = [];
   let lowestCards = [];
 
+  for(let id of Object.keys(playfieldCards).sort().reverse()) {
+    if(bestHand.indexOf(id) >= 0) continue;
+    if(id.indexOf('99') !== 0) continue;
+    cardsInHand.push(id);
+  }
+
   if(raisedFist) {
     let ignoreCard = -1;
 
@@ -2652,6 +2658,7 @@ function calculatePlayScore(cards, jokers, bd = false) {
   for(let id of Object.keys(playfieldCards).sort().reverse()) {
     if(bestHand.indexOf(id) >= 0) continue;
     if(lowestCards.indexOf(id) >= 0) continue;
+    if(id.indexOf('99') === 0) continue;
     cardsInHand.push(id);
   }
 
