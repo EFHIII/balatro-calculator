@@ -223,11 +223,11 @@ function compileHand() {
     binary.pop();
   }
 
-  let queryParams = new URLSearchParams(window.location.search);
   if(binary.length === 0) {
-    history.replaceState(null, null, '');
+    history.replaceState(null, null, '?');
   }
   else {
+    let queryParams = new URLSearchParams(window.location.search);
     queryParams.set("hand", bitsToBase64(binary));
     history.replaceState(null, null, '?' + queryParams.toString());
   }
