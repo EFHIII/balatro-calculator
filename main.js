@@ -627,8 +627,70 @@ function redrawPlayfield() {
   bestPlayDiv.innerHTML = txt;
 
   txt = '';
+
+  let lowestCards = [];
+
+  if(Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0] === 2 && playfieldJokers[b].type[1] === 8 && !playfieldJokers[b].modifiers.disabled), false)) {
+    let lowest = 100;
+    for(let card in playfieldCards) {
+      if(!playfieldCards[card].modifiers.stone && bestHand.indexOf(card) < 0) {
+        if(lowest > cardValues[playfieldCards[card].type[1]]) {
+          lowest = cardValues[playfieldCards[card].type[1]];
+          lowestCards = [card];
+        }
+        else if(lowest === cardValues[playfieldCards[card].type[1]]) {
+          lowestCards.push(card);
+        }
+      }
+    }
+
+    let index = 0;
+    let highScore = 0;
+    for(let i = 0; i < lowestCards.length; i++) {
+      const card = lowestCards[i];
+      if(!playfieldCards[card].modifiers.disabled) {
+        let thisScore = 1;
+        if(playfieldCards[card].modifiers.steel) {
+          thisScore += 2;
+        }
+        if(playfieldCards[card].modifiers.double) {
+          thisScore += 4;
+        }
+        if(thisScore > highScore) {
+          highScore = thisScore;
+          index = i;
+        }
+      }
+    }
+
+    ignoreCard = -1;
+
+    if(lowest > 0 && lowest < 100) {
+      ignoreCard = lowestCards[index];
+
+      for(let id of Object.keys(playfieldCards).sort().reverse()) {
+        if(lowestCards.indexOf(id) < 0) continue;
+        if(id === ignoreCard) continue;
+        txt += `<div class="tooltip"><div id="${id}" class="playfieldCard" ${playfieldCards[id].string} onclick="removeCard('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
+        `<div style="position: absolute; top: 100%; width: 100%;">` +
+        `<div class="positionButtons">` +
+        `<div class="lvlBtn" onclick="moveCardUp('${id}')">^</div>` +
+        `</div></div>` +
+        `</div>`;
+      }
+
+      txt += `<div class="tooltip"><div id="${ignoreCard}" class="playfieldCard" ${playfieldCards[ignoreCard].string} onclick="removeCard('${ignoreCard}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
+      `<div style="position: absolute; top: 100%; width: 100%;">` +
+      `<div class="positionButtons">` +
+      `<div class="lvlBtn" onclick="moveCardUp('${ignoreCard}')">^</div>` +
+      `</div></div>` +
+      `</div>`;
+    }
+  }
+  
   for(let id of Object.keys(playfieldCards).sort().reverse()) {
     if(bestHand.indexOf(id) >= 0) continue;
+    if(lowestCards.indexOf(id) >= 0) continue;
     txt += `<div class="tooltip"><div id="${id}" class="playfieldCard" ${playfieldCards[id].string} onclick="removeCard('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
     `<div style="position: absolute; top: 100%; width: 100%;">` +
     `<div class="positionButtons">` +

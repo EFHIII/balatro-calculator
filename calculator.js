@@ -151,13 +151,13 @@ function hasPair(cardsA) {
   const cards = cardsA.slice().map(a => {
     if(playfieldCards[a].modifiers.stone) {
       return {
-        id: playfieldCards[a].id,
+        id: a,
         suit: 'stone',
         value: 'stone'
       };
     }
     return {
-      id: playfieldCards[a].id,
+      id: a,
       suit: playfieldCards[a].modifiers.wild ? 'wild' : playfieldCards[a].type[0],
       value: playfieldCards[a].type[1]
     };
@@ -191,13 +191,13 @@ function hasTwoPair(cardsA) {
   const cards = cardsA.slice().map(a => {
     if(playfieldCards[a].modifiers.stone) {
       return {
-        id: playfieldCards[a].id,
+        id: a,
         suit: 'stone',
         value: 'stone'
       };
     }
     return {
-      id: playfieldCards[a].id,
+      id: a,
       suit: playfieldCards[a].modifiers.wild ? 'wild' : playfieldCards[a].type[0],
       value: playfieldCards[a].type[1]
     };
@@ -226,13 +226,13 @@ function hasThreeOfAKind(cardsA) {
   const cards = cardsA.slice().map(a => {
     if(playfieldCards[a].modifiers.stone) {
       return {
-        id: playfieldCards[a].id,
+        id: a,
         suit: 'stone',
         value: 'stone'
       };
     }
     return {
-      id: playfieldCards[a].id,
+      id: a,
       suit: playfieldCards[a].modifiers.wild ? 'wild' : playfieldCards[a].type[0],
       value: playfieldCards[a].type[1]
     };
@@ -261,13 +261,13 @@ function hasFourOfAKind(cardsA) {
   const cards = cardsA.slice().map(a => {
     if(playfieldCards[a].modifiers.stone) {
       return {
-        id: playfieldCards[a].id,
+        id: a,
         suit: 'stone',
         value: 'stone'
       };
     }
     return {
-      id: playfieldCards[a].id,
+      id: a,
       suit: playfieldCards[a].modifiers.wild ? 'wild' : playfieldCards[a].type[0],
       value: playfieldCards[a].type[1]
     };
@@ -291,13 +291,13 @@ function hasStraight(cardsA, setFour = false, straightSkip = false) {
   const cards = cardsA.slice().map(a => {
     if(playfieldCards[a].modifiers.stone) {
       return {
-        id: playfieldCards[a].id,
+        id: a,
         suit: 'stone',
         value: 'stone'
       };
     }
     return {
-      id: playfieldCards[a].id,
+      id: a,
       suit: playfieldCards[a].modifiers.wild ? 'wild' : playfieldCards[a].type[0],
       value: playfieldCards[a].type[1]
     };
@@ -352,13 +352,13 @@ function hasFlush(vampire, cardsA, setFour = false, smear = false) {
   const cards = cardsA.slice().map(a => {
     if(playfieldCards[a].modifiers.stone) {
       return {
-        id: playfieldCards[a].id,
+        id: a,
         suit: 'stone',
         value: 'stone'
       };
     }
     return {
-      id: playfieldCards[a].id,
+      id: a,
       suit: (playfieldCards[a].modifiers.wild && !vampire) ? 'wild' : playfieldCards[a].type[0],
       value: playfieldCards[a].type[1]
     };
@@ -397,13 +397,13 @@ function getTypeOfHand(vampire, cardsA, setFour = false, straightSkip = false, s
   const cards = cardsA.slice().map(a => {
     if(playfieldCards[a].modifiers.stone) {
       return {
-        id: playfieldCards[a].id,
+        id: a,
         suit: 'stone',
         value: 'stone'
       };
     }
     return {
-      id: playfieldCards[a].id,
+      id: a,
       suit: (playfieldCards[a].modifiers.wild && !vampire) ? 'wild' : playfieldCards[a].type[0],
       value: playfieldCards[a].type[1]
     };
@@ -2324,7 +2324,7 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
 
 function triggerCardInHand(triggering, card, cards, jokers, score, retrigger, bd, triggerer = false, phase = 0) {
   // apply steel cards
-  if(!triggering && playfieldCards[card].modifiers.steel && cards.indexOf(playfieldCards[card].id) < 0) {
+  if(!triggering && !playfieldCards[card].modifiers.disabled && playfieldCards[card].modifiers.steel && cards.indexOf(card) < 0) {
     score.minMult *= 1.5;
     score.maxMult *= 1.5;
 
@@ -2347,26 +2347,44 @@ function triggerCardInHand(triggering, card, cards, jokers, score, retrigger, bd
       switch (playfieldJokers[joker].type[0]+','+playfieldJokers[joker].type[1]) {
         case '2,8':
           let lowest = 100;
-          let lowestCard = cards[0];
+          let lowestCards = [cards[0]];
           for(let card in playfieldCards) {
-            if(playfieldCards[card].modifiers.disabled && cards.indexOf(playfieldCards[card].id) < 0) {
-              lowest = 0;
-              lowestCard = card;
-            }
-            else if(!playfieldCards[card].modifiers.stone && cards.indexOf(playfieldCards[card].id) < 0) {
+            if(!playfieldCards[card].modifiers.stone && cards.indexOf(card) < 0) {
               if(lowest > cardValues[playfieldCards[card].type[1]]) {
                 lowest = cardValues[playfieldCards[card].type[1]];
-                lowestCard = card;
+                lowestCards = [card];
+              }
+              else if(lowest === cardValues[playfieldCards[card].type[1]]) {
+                lowestCards.push(card);
               }
             }
           }
-          if(lowest > 0 && lowest < 100 && card === lowestCard) {
+          let index = 0;
+          let highScore = 0;
+          for(let i = 0; i < lowestCards.length; i++) {
+            const card = lowestCards[i];
+            if(!playfieldCards[card].modifiers.disabled) {
+              let thisScore = 1;
+              if(playfieldCards[card].modifiers.steel) {
+                thisScore += 2;
+              }
+              if(playfieldCards[card].modifiers.double) {
+                thisScore += 4;
+              }
+              if(thisScore > highScore) {
+                highScore = thisScore;
+                index = i;
+              }
+            }
+          }
+
+          if(lowest > 0 && lowest < 100 && lowestCards[index] === card) {
             score.minMult += lowest * 2;
             score.maxMult += lowest * 2;
 
             if(bd) {
               breakdown.push({
-                cards: [triggerer ? triggerer : joker, lowestCard],
+                cards: [triggerer ? triggerer : joker, card],
                 description: `${multc}+${lowest * 2}${endc} Mult`,
                 chips: score.minChips,
                 mult: score.minMult
@@ -2491,6 +2509,8 @@ function calculatePlayScore(cards, jokers, bd = false) {
   const vampire = Object.keys(playfieldJokers).reduce((a,b) => a || ((playfieldJokers[b].type[0]===12 && playfieldJokers[b].type[1]===2 && !playfieldJokers[b].modifiers.disabled) ? playfieldJokers[b] : false), false);
   const baseball = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===14 && playfieldJokers[b].type[1]===6 && !playfieldJokers[b].modifiers.disabled), false);
 
+  const raisedFist = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0] === 2 && playfieldJokers[b].type[1] === 8 && !playfieldJokers[b].modifiers.disabled), false);
+
   if(vampire) {
     const keys = [
       'mult',
@@ -2578,9 +2598,65 @@ function calculatePlayScore(cards, jokers, bd = false) {
   }
 
   // trigger cards in hand
-  const theSortedCards = Object.keys(playfieldCards).sort().reverse();
-  for(let c = 0; c < theSortedCards.length; c++) {
-    const card = theSortedCards[c];
+  let cardsInHand = [];
+  let lowestCards = [];
+
+  if(raisedFist) {
+    let ignoreCard = -1;
+
+    let lowest = 100;
+    for(let card in playfieldCards) {
+      if(!playfieldCards[card].modifiers.stone && bestHand.indexOf(card) < 0) {
+        if(lowest > cardValues[playfieldCards[card].type[1]]) {
+          lowest = cardValues[playfieldCards[card].type[1]];
+          lowestCards = [card];
+        }
+        else if(lowest === cardValues[playfieldCards[card].type[1]]) {
+          lowestCards.push(card);
+        }
+      }
+    }
+
+    let index = 0;
+    let highScore = 0;
+    for(let i = 0; i < lowestCards.length; i++) {
+      const card = lowestCards[i];
+      if(!playfieldCards[card].modifiers.disabled) {
+        let thisScore = 1;
+        if(playfieldCards[card].modifiers.steel) {
+          thisScore += 2;
+        }
+        if(playfieldCards[card].modifiers.double) {
+          thisScore += 4;
+        }
+        if(thisScore > highScore) {
+          highScore = thisScore;
+          index = i;
+        }
+      }
+    }
+
+    if(lowest > 0 && lowest < 100) {
+      ignoreCard = lowestCards[index];
+
+      for(let id of Object.keys(playfieldCards).sort().reverse()) {
+        if(lowestCards.indexOf(id) < 0) continue;
+        if(id === ignoreCard) continue;
+        cardsInHand.push(id);
+      }
+
+      cardsInHand.push(ignoreCard);
+    }
+  }
+
+  for(let id of Object.keys(playfieldCards).sort().reverse()) {
+    if(bestHand.indexOf(id) >= 0) continue;
+    if(lowestCards.indexOf(id) >= 0) continue;
+    cardsInHand.push(id);
+  }
+
+  for(let c = 0; c < cardsInHand.length; c++) {
+    const card = cardsInHand[c];
     if(cards.indexOf(card) < 0) {
       triggerCardInHand(false, card, cards, jokers, score, false, bd);
     }
