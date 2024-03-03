@@ -744,6 +744,7 @@ function triggerCard(triggering, card, cards, jokers, score, retrigger = false, 
   // score joker on card
   for(let j = 0; j < jokers.length; j++) {
     const joker = jokers[j];
+    if(playfieldJokers[joker].modifiers.disabled) continue;
     if(stage === 2) break;
     if(triggering && joker !== triggering) {
       continue;
@@ -1120,6 +1121,7 @@ function triggerCard(triggering, card, cards, jokers, score, retrigger = false, 
 
   for(let j = 0; j < jokers.length; j++) {
     const joker = jokers[j];
+    if(playfieldJokers[joker].modifiers.disabled) continue;
     if(stage === 1) break;
     if(triggering && joker !== triggering) {
       continue;
@@ -1212,6 +1214,7 @@ function triggerCard(triggering, card, cards, jokers, score, retrigger = false, 
 function triggerBaseball(uncommonJoker, cards, jokers, score, retrigger = false, triggerer = false, bd = false) {
   for(let j = 0; j < jokers.length; j++) {
     const joker = jokers[j];
+    if(playfieldJokers[joker].modifiers.disabled) continue;
     if(retrigger && retrigger !== joker) continue;
 
     switch(playfieldJokers[joker].type[0]+','+playfieldJokers[joker].type[1]) {
@@ -2339,6 +2342,7 @@ function triggerCardInHand(triggering, card, cards, jokers, score, retrigger, bd
   if(!triggering || phase === 0) {
     for(let j = 0; j < jokers.length; j++) {
       const joker = jokers[j];
+      if(playfieldJokers[joker].modifiers.disabled) continue;
       if(triggering && joker !== triggering) continue;
       switch (playfieldJokers[joker].type[0]+','+playfieldJokers[joker].type[1]) {
         case '2,8':
@@ -2427,6 +2431,7 @@ function triggerCardInHand(triggering, card, cards, jokers, score, retrigger, bd
   if(!triggering || phase === 1) {
     for(let j = 0; j < jokers.length; j++) {
       const joker = jokers[j];
+      if(playfieldJokers[joker].modifiers.disabled) continue;
       if(triggering && joker !== triggering) continue;
       switch (playfieldJokers[joker].type[0]+','+playfieldJokers[joker].type[1]) {
         case '1,4':
@@ -2476,15 +2481,15 @@ function calculatePlayScore(cards, jokers, bd = false) {
     maxMult: 1
   };
 
-  const setFour = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===6 && playfieldJokers[b].type[1]===6), false);
-  const straightSkip = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===12 && playfieldJokers[b].type[1]===3), false);
-  const allFaces = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===3 && playfieldJokers[b].type[1]===6), false);
-  const smear = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===6 && playfieldJokers[b].type[1]===4), false);
+  const setFour = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===6 && playfieldJokers[b].type[1]===6 && !playfieldJokers[b].modifiers.disabled), false);
+  const straightSkip = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===12 && playfieldJokers[b].type[1]===3 && !playfieldJokers[b].modifiers.disabled), false);
+  const allFaces = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===3 && playfieldJokers[b].type[1]===6 && !playfieldJokers[b].modifiers.disabled), false);
+  const smear = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===6 && playfieldJokers[b].type[1]===4 && !playfieldJokers[b].modifiers.disabled), false);
 
-  const scoreAll = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===10 && playfieldJokers[b].type[1]===6), false);
+  const scoreAll = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===10 && playfieldJokers[b].type[1]===6 && !playfieldJokers[b].modifiers.disabled), false);
 
-  const vampire = Object.keys(playfieldJokers).reduce((a,b) => a || ((playfieldJokers[b].type[0]===12 && playfieldJokers[b].type[1]===2) ? playfieldJokers[b] : false), false);
-  const baseball = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===14 && playfieldJokers[b].type[1]===6), false);
+  const vampire = Object.keys(playfieldJokers).reduce((a,b) => a || ((playfieldJokers[b].type[0]===12 && playfieldJokers[b].type[1]===2 && !playfieldJokers[b].modifiers.disabled) ? playfieldJokers[b] : false), false);
+  const baseball = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0]===14 && playfieldJokers[b].type[1]===6 && !playfieldJokers[b].modifiers.disabled), false);
 
   if(vampire) {
     const keys = [
