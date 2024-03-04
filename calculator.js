@@ -750,21 +750,6 @@ function triggerCard(triggering, card, cards, jokers, score, retrigger = false, 
       continue;
     }
     switch (playfieldJokers[joker].type[0]+','+playfieldJokers[joker].type[1]) {
-      case '1,3':
-        if(!retrigger && isFace) {
-          if(bd) {
-            breakdown.push({
-              cards: [card, triggerer ? triggerer : joker],
-              description: `Retrigger`,
-              chips: score.minChips,
-              mult: score.minMult,
-              retrigger: true
-            });
-          }
-
-          triggerCard(false, card, cards, jokers, score, true, allFaces, vampire, bd);
-        }
-        break;
       case '1,6':
         if(!playfieldCards[card].modifiers.stone && (playfieldCards[card].type[0] === 2 || (playfieldCards[card].modifiers.wild && !vampire))) {
           score.minMult += 4;
@@ -1127,6 +1112,21 @@ function triggerCard(triggering, card, cards, jokers, score, retrigger = false, 
       continue;
     }
     switch (playfieldJokers[joker].type[0]+','+playfieldJokers[joker].type[1]) {
+      case '1,3':
+        if(!retrigger && isFace) {
+          if(bd) {
+            breakdown.push({
+              cards: [card, triggerer ? triggerer : joker],
+              description: `Retrigger`,
+              chips: score.minChips,
+              mult: score.minMult,
+              retrigger: true
+            });
+          }
+
+          triggerCard(false, card, cards, jokers, score, true, allFaces, vampire, bd);
+        }
+        break;
       case '2,5':
         if(!retrigger && !playfieldCards[card].modifiers.stone && playfieldCards[card].type[1] < 4) {
 
