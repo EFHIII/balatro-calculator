@@ -2540,7 +2540,6 @@ function calculatePlayScore(cards, jokers, bd = false) {
             mult: 0,
           });
         }
-        break;
       }
       else {
         for(let k = 0; k < keys.length; k++) {
