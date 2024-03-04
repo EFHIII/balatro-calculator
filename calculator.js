@@ -2550,7 +2550,7 @@ function calculatePlayScore(cards, jokers, bd = false) {
             if(bd) {
               breakdown.push({
                 cards: [vampire.id, card],
-                description: `Remove ${numc}Enhancement, Vampire gains ${prodc}0.2${endc} Mult`,
+                description: `Remove ${numc}Enhancement${endc}, Vampire gains ${prodc}0.2${endc} Mult`,
                 chips: 0,
                 mult: 0,
               });
