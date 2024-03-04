@@ -228,7 +228,7 @@ function compileHand() {
   }
   else {
     let queryParams = new URLSearchParams(window.location.search);
-    queryParams.set("hand", bitsToBase64(binary));
+    queryParams.set("hand", toUrlSafe(bitsToBase64(binary)));
     history.replaceState(null, null, '?' + queryParams.toString());
   }
 }
@@ -255,6 +255,15 @@ function intFromBits(bits, binary) {
     if(subBits[i]) ans += 1 << i;
   }
   return ans;
+}
+
+function toUrlSafe(str) {
+  return str.replace(/\+/g,'-').replace(/\//g,'_');
+}
+
+function fromUrlSafe(str) {
+  if(str.indexOf('/') > 0 || str.indexOf('+') > 0) return str;
+  return str.replace(/_/g,'/').replace(/-/g,'+');
 }
 
 function parseHand(bits) {
@@ -418,6 +427,6 @@ function parseHand(bits) {
 
 (new URL(window.location.href)).searchParams.forEach((x, y) => {
   if(y === 'hand') {
-    parseHand(base64ToBits(x));
+    parseHand(base64ToBits(fromUrlSafe(x)));
   }
 });
