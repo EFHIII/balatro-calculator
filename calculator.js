@@ -2067,13 +2067,13 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
       }
       break;
     case '12,2':
-      score.minMult *= 1 + 0.2 * (playfieldJokers[joker].value + playfieldJokers[joker].extraValue);
-      score.maxMult *= 1 + 0.2 * (playfieldJokers[joker].value + playfieldJokers[joker].extraValue);
+      score.minMult *= (10 + 2 * (playfieldJokers[joker].value + playfieldJokers[joker].extraValue)) / 10;
+      score.maxMult *= (10 + 2 * (playfieldJokers[joker].value + playfieldJokers[joker].extraValue)) / 10;
 
       if(bd) {
         breakdown.push({
           cards: [retrigger ? retrigger : joker],
-          description: `${prodc}+${1 + 0.2 * playfieldJokers[joker].value + playfieldJokers[joker].extraValue}${endc} Mult`,
+          description: `${prodc}${(10 + 2 * (playfieldJokers[joker].value + playfieldJokers[joker].extraValue)) / 10}${endc} Mult`,
           chips: score.minChips,
           mult: score.minMult
         });
@@ -2530,19 +2530,33 @@ function calculatePlayScore(cards, jokers, bd = false) {
     ];
     for(let c = 0; c < cards.length; c++) {
       const card = cards[c];
-      for(let k = 0; k < keys.length; k++) {
-        const key = keys[k];
-        if(playfieldCards[card].modifiers[key] || (midas && playfieldCards[card].type[1] >= 8 && playfieldCards[card].type[1] <= 10) || (midas && allFaces)) {
-          vampire.extraValue++;
-          if(bd) {
-            breakdown.push({
-              cards: [vampire.id, card],
-              description: `Remove ${numc}Enhancement${endc}, vampire gains ${prodc}0.2${endc} Mult`,
-              chips: 0,
-              mult: 0,
-            });
+      if((midas && playfieldCards[card].type[1] >= 8 && playfieldCards[card].type[1] <= 10) || (midas && allFaces)) {
+        vampire.extraValue++;
+        if(bd) {
+          breakdown.push({
+            cards: [vampire.id, card],
+            description: `Remove Midas ${numc}Gold${endc}, Vampire gains ${prodc}0.2${endc} Mult`,
+            chips: 0,
+            mult: 0,
+          });
+        }
+        break;
+      }
+      else {
+        for(let k = 0; k < keys.length; k++) {
+          const key = keys[k];
+          if(playfieldCards[card].modifiers[key]) {
+            vampire.extraValue++;
+            if(bd) {
+              breakdown.push({
+                cards: [vampire.id, card],
+                description: `Remove ${numc}Enhancement, Vampire gains ${prodc}0.2${endc} Mult`,
+                chips: 0,
+                mult: 0,
+              });
+            }
+            break;
           }
-          break;
         }
       }
     }
@@ -2848,7 +2862,7 @@ function calculator() {
 function numberWithCommas(x) {
   if(x < 1e21) {
     if(x % 1 !== 0) {
-      return Math.floor(x).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '.' + (Math.floor((x % 1) * 1000)+'').padStart(3, 0).replace(/0+$/, '');
+      return Math.floor(x).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '.' + (Math.floor(Math.round((x % 1) * 10000) / 10)+'').padStart(3, 0).replace(/0+$/, '');
     }
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
