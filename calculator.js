@@ -1731,14 +1731,19 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
       }
       break;
     case '5,9':
-      // TODO: calculate properly
-      score.minMult += playfieldJokers[joker].value;
-      score.maxMult += playfieldJokers[joker].value;
+      let val = 0;
+      let index = jokers.indexOf(joker);
+      for(let i = 0; i < index; i++) {
+        val += playfieldJokers[jokers[i]].sell;
+      }
+
+      score.minMult += val;
+      score.maxMult += val;
 
       if(bd) {
         breakdown.push({
           cards: [retrigger ? retrigger : joker],
-          description: `${multc}+${playfieldJokers[joker].value}${endc} Mult`,
+          description: `${multc}+${val}${endc} Mult`,
           chips: score.minChips,
           mult: score.minMult
         });
@@ -2511,6 +2516,8 @@ function calculatePlayScore(cards, jokers, bd = false) {
 
   const raisedFist = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0] === 2 && playfieldJokers[b].type[1] === 8 && !playfieldJokers[b].modifiers.disabled), false);
 
+  const midas = Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0] === 13 && playfieldJokers[b].type[1] === 0 && !playfieldJokers[b].modifiers.disabled), false);
+
   if(vampire) {
     const keys = [
       'mult',
@@ -2525,7 +2532,7 @@ function calculatePlayScore(cards, jokers, bd = false) {
       const card = cards[c];
       for(let k = 0; k < keys.length; k++) {
         const key = keys[k];
-        if(playfieldCards[card].modifiers[key]) {
+        if(playfieldCards[card].modifiers[key] || (midas && playfieldCards[card].type[1] >= 8 && playfieldCards[card].type[1] <= 10) || (midas && allFaces)) {
           vampire.extraValue++;
           if(bd) {
             breakdown.push({

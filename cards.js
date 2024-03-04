@@ -67,25 +67,25 @@ const probc = `<span style='color: #35bd87'>`;
 
 const shadowc = `<span style='color: #ababab'>`;
 
-const diamondc = `<span style='color: #f50'>Diamond</span>`;
-const heartc = `<span style='color: #f00'>Heart</span>`;
-const spadec = `<span style='color: #505'>Spade</span>`;
-const clubc = `<span style='color: #050'>Club</span>`;
+const diamondc = `<span style='color: #f15a27'>Diamond</span>`;
+const heartc = `<span style='color: #f11b51'>Heart</span>`;
+const spadec = `<span style='color: #242c56'>Spade</span>`;
+const clubc = `<span style='color: #074540'>Club</span>`;
 
-const diamondsc = `<span style='color: #f50'>Diamonds</span>`;
-const heartsc = `<span style='color: #f00'>Hearts</span>`;
-const spadesc = `<span style='color: #505'>Spades</span>`;
-const clubsc = `<span style='color: #050'>Clubs</span>`;
+const diamondsc = `<span style='color: #f15a27'>Diamonds</span>`;
+const heartsc = `<span style='color: #f11b51'>Hearts</span>`;
+const spadesc = `<span style='color: #242c56'>Spades</span>`;
+const clubsc = `<span style='color: #074540'>Clubs</span>`;
 
-const spectralc = `<span style='color: #00f'>Spectral</span>`;
-const planetc = `<span style='color: #0af'>Planet</span>`;
-const tarotc = `<span style='color: #f0f'>Tarot</span>`;
+const spectralc = `<span style='color: #2e76fd'>Spectral</span>`;
+const planetc = `<span style='color: #00a7ca'>Planet</span>`;
+const tarotc = `<span style='color: #9e74ce'>Tarot</span>`;
 
-const celestialc = `<span style='color: #0af'>Celestial Packs</span>`;
+const celestialc = `<span style='color: #00a7ca'>Celestial Packs</span>`;
 
 const negativec = `<span style='color: #55a'>Negative</span>`;
 
-const commonc = `<span style='color: #09f'>Common</span>`;
+const commonc = `<span style='color: #0095ff'>Common</span>`;
 
 const roomc = `<br>${shadowc}(Must have room)${endc}`;
 
@@ -104,6 +104,25 @@ const rarityNames = [
   'Uncommon',
   'Rare',
   'Legendary'
+];
+
+const jokerPrice = [
+  [2, 2, 2, 2, 2, 2, 2, 2, 3, 3],
+  [2, 2, 3, 3, 3, 2, 2, 2, 2, 2],
+  [3, 2, 2, 3, 3, 3, 2, 3, 2, 2],
+  [4, 3, 2, 2, 2, 2, 3, 3, 2, 2],
+  [4, 2, 2, 3, 3, 4, 4, 4, 4, 4],
+  [2, 3, 3, 3, 3, 3, 3, 2, 4, 2],
+  [3, 2, 2, 2, 3, 3, 3, 2, 3, 2],
+  [4, 4, 3, 3, 3, 3, 3, 4, 3, 3],
+  [3, 3, 3, 5, 5, 5, 5, 5, 3, 3],
+  [],
+  [2, 3, 3, 2, 2, 4, 2, 2, 4, 3],
+  [3, 2, 2, 2, 2, 2, 3, 2, 3, 2],
+  [4, 2, 3, 3, 3, 3, 4, 3, 3, 4],
+  [3, 3, 2, 3, 3, 3, 3, 2, 3, 2],
+  [2, 2, 2, 2, 2, 3, 4, 3, 3, 3],
+  [3, 2, 3, 3, 3, 4, 2, 4, 2, 3],
 ];
 
 const jokerRarity = [
@@ -197,7 +216,7 @@ const jokerTexts = [
     ['Showman', '${numc}Joker${endc}, ${tarotc}, ${planetc},<br>and ${spectralc} cards may<br>appear multiple times'],
     ['Fortune Teller', '${multc}+1${endc} Mult per ${tarotc}<br>card used this run<br>${shadowc}(Currently ${multc}${jokerValue}${endc})${endc}'],
     ['Hit the Road', 'Gains ${prodc}0.5${endc} Mult<br>per discarded<br>${numc}Jack${endc} this round<br>${shadowc}(Currently ${prodc}${1 + jokerValue * 0.5}${endc})${endc}'],
-    ['Swashbuckler', 'Adds the sell value of<br>all owned ${numc}Jokers${endc} left<br>of this card to Mult<br>${shadowc}(Currently ${multc}+${jokerValue}${endc} Mult)${endc}'],
+    ['Swashbuckler', 'Adds the sell value of<br>all owned ${numc}Jokers${endc} left<br>of this card to Mult'],
   ],
   [
     ['Flower Pot', '${prodc}3${endc} Mult if played<br>hand has a scoring<br>${diamondc} card, ${clubc} card,<br>${heartc} card, and ${spadec} card'],
@@ -255,7 +274,7 @@ const jokerTexts = [
     ['Superposition', 'Create a ${tarotc} card if<br>poker hand contains an<br>${numc}Ace${endc} and a ${numc}Straight${endc}${roomc}'],
     ['To Do List', 'Earn ${moneyc}$5${endc} if ${numc}poker hand${endc}<br>is a ${numc}Pair${endc},<br>poker hand changes<br>on every payout'],
     ['Cavendish', '${prodc}3${endc} Mult<br>${probc}1 in 1000${endc} chance this<br>card is destroy<br>at end of round'],
-    ['Card sharp', '${prodc}3${endc} Mult if played<br>${numc}poker hand${endc} has already<br>been played this round' + toggleJokerc],
+    ['Card Sharp', '${prodc}3${endc} Mult if played<br>${numc}poker hand${endc} has already<br>been played this round' + toggleJokerc],
     ['Red Card', 'Gains ${multc}+3${endc} Mult when any<br>${numc}Booster Pack${endc} is skipped<br>${shadowc}(Currently ${multc}+${jokerValue * 3}${endc} Mult)${endc}'],
     ['Madness', 'When ${numc}Blind${endc} is selected,<br>gain ${prodc}0.5${endc} Mult and<br>${numc}destroy${endc} a random Joker<br>${shadowc}(Currently ${prodc}${1 + jokerValue * 0.5}${endc})${endc}'],
     ['Square Joker', 'Gain ${chipc}+4${endc} Chips if<br>played hand has<br>exactly ${numc}4${endc} card<br>${shadowc}(Currently ${chipc}+${16 + jokerValue * 4}${endc} Chips)${endc}']

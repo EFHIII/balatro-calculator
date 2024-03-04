@@ -145,6 +145,15 @@
               <span contenteditable="true" id="modifyJokerVal" class="handLvl" style="width: auto; padding-left: 0.25em; padding-right: 0.25em; min-width: 2.5em;" oninput="setModifyJokerValue()">0</span>
             </div>
           </div>
+          <div style="text-align: center;">
+            <div id="modifyJokerSellValue" class="handLevel" style="display: inline-block; width: auto; margin: 0.2em; min-width: 0">
+              <span class="lvlBtn" onclick="incrementModifyJokerSellValue(-1)">-</span>
+              <span class="lvlBtn" onclick="incrementModifyJokerSellValue( 0)">0</span>
+              <span class="lvlBtn" onclick="incrementModifyJokerSellValue( 1)">+</span>
+              <span style="display: block; float: left; margin-left: 0.7em; margin-right:0.5em;margin-top: 0.125em;">Sell</span>
+              <span contenteditable="true" id="modifyJokerSellVal" class="handLvl" style="width: auto; padding-left: 0.25em; padding-right: 0.25em; min-width: 2.5em;" oninput="setModifyJokerSellValue()">0</span>
+            </div>
+          </div>
           <div id="modifyJokerModifiers" style="text-align: center;">
             <div class="tooltip">
               <div class="jmodifierCard" style="background: url(assets/Editions.png) -71px 0, url(assets/Enhancers.png) -71px 0px" onclick="mjtoggleCardModifier('foil')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>

@@ -26,6 +26,7 @@ let modifyingJoker = false;
 let modifyingJokerValue = 0;
 
 let modifyingJokerValDiv = document.getElementById('modifyJokerVal');
+let modifyingJokerSellValDiv = document.getElementById('modifyJokerSellVal');
 let modifyJokerDiv = document.getElementById('modifyJoker');
 
 function changeTab(tab) {
@@ -526,7 +527,7 @@ const handLimitDiv = document.getElementById('handLimit');
 let playfieldJokers = {};
 let playfieldCards = {};
 
-function addJoker(i, j) {
+function addJoker(i, j, sell = false) {
   let id = 'j'+(Math.random()+'').slice(2);
   while(playfieldJokers.hasOwnProperty(id)) {
     id = 'j'+(Math.random()+'').slice(2);
@@ -537,6 +538,7 @@ function addJoker(i, j) {
     type: [i, j],
     modifiers: {...jmodifiers},
     value: jokerValue,
+    sell: sell ? sell : (jokerPrice[i][j] + ((jmodifiers.foil || jmodifiers.holographic || jmodifiers.polychrome) ? 1 : 0)),
     string: jokerString(i, j, jmodifiers),
     tooltip: (jokerTexts.length > i && jokerTexts[i].length > j) ? [jokerTexts[i][j][0], eval('`' + jokerTexts[i][j][1] + '`')] : ['WIP', 'WIP']
   };
@@ -729,18 +731,24 @@ function moveJokerLeft(id) {
 }
 
 function moveJokerRight(id) {
-  if(optimizeJokers) toggleJoker();
   let index = bestJokers.indexOf(id);
   if(index < bestJokers.length) {
     bestJokers.splice(index, 1);
     bestJokers.splice(index + 1, 0, id);
   }
   let newPlayfield = {};
-  for(joker of bestJokers) {
+  for(let i = 0; i < bestJokers.length; i++) {
+    let joker = bestJokers[i];
     newPlayfield[joker] = playfieldJokers[joker];
   }
   playfieldJokers = newPlayfield;
-  redrawPlayfield();
+
+  if(optimizeJokers) {
+    toggleJoker();
+  }
+  else {
+    redrawPlayfield();
+  }
 }
 
 function moveHandCardLeft(id) {
@@ -789,6 +797,7 @@ function modifyJoker(id) {
   modifyTab();
   modifyingJoker = id;
   modifyingJokerValDiv.innerText = playfieldJokers[modifyingJoker].value;
+  modifyingJokerSellValDiv.innerText = playfieldJokers[modifyingJoker].sell;
 
   updateModifyingJoker();
 }
@@ -861,6 +870,41 @@ function setModifyJokerValue() {
   jokerValue = tmp;
 
   if(willBlur) modifyingJokerValDiv.blur();
+
+  redrawPlayfield();
+  updateModifyingJoker();
+}
+
+function incrementModifyJokerSellValue(inc) {
+  if(!modifyingJoker) return;
+  let joker = playfieldJokers[modifyingJoker];
+  joker.sell += inc;
+  if(inc === 0) {
+    joker.sell = 0;
+  }
+  modifyingJokerSellValDiv.innerText = joker.sell;
+
+  redrawPlayfield();
+  updateModifyingJoker();
+}
+
+function setModifyJokerSellValue() {
+  let joker = playfieldJokers[modifyingJoker];
+  let willBlur = false;
+
+  if(modifyingJokerSellValDiv.innerText.indexOf('\n') >= 0) {
+    modifyingJokerSellValDiv.innerText = modifyingJokerSellValDiv.innerText.replace(/[\r\n]/g, '');
+    willBlur = true;
+  }
+
+  if(!isNaN(modifyingJokerSellValDiv.innerText)) {
+    joker.sell = Math.round(modifyingJokerSellValDiv.innerText * 1);
+  }
+  else {
+    joker.sell = 0;
+  }
+
+  if(willBlur) modifyingJokerSellValDiv.blur();
 
   redrawPlayfield();
   updateModifyingJoker();
