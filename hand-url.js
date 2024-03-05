@@ -229,7 +229,6 @@ function compileHand() {
     }
   }
 
-
   // hand counts (for supernova/obelisk/card sharp) - 1 bit
   if(false) {
     binary.push(1);

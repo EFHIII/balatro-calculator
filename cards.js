@@ -429,7 +429,7 @@ const jokerTexts = [
     ['Flash Card', '${multc}+2${endc} Mult per<br>${numc}reroll${endc} in the shop<br>${shadowc}(Currently ${multc}+${jokerValue * 2}${endc} Mult)${endc}'],
     ['Popcorn', '${multc}${jokerValue <= 5 ? "+" : ""}${Math.max(0, 20 - jokerValue * 4)}${endc} Mult<br>${multc}-4${endc} Mult per<br>round played'],
     ['Ramen', '${prodc}${(Math.max(0, 200 - jokerValue)) / 100}${endc} Mult,<br>loses ${prodc}0.01${endc} Mult<br>per ${numc}card${endc} discarded'],
-    ['Seltzer', 'Retrigger all<br>cards played for<br>the next ${numc}10${endc} hands' + toggleJokerc],
+    ['Seltzer', 'Retrigger all<br>cards played for<br>the next ${numc}10${endc} hands'],
     ['Spare Trousers', 'Gain ${multc}+2${endc} Mult if<br>played hand contains<br>a ${numc}Two Pair${endc}<br>${shadowc}(Currently ${multc}+${jokerValue * 2}${endc} Mult)${endc}'],
     ['Campfire', 'This Joker gains ${prodc}0.5${endc} Mult<br>for each card ${numc}sold${endc}, resets<br>when ${numc}Boss Blind${endc} is defeated<br>${shadowc}(Currently ${prodc}${1 + jokerValue * 0.5}${endc} Mult)${endc}'],
     ['Smiley Face', 'Played ${numc}face${endc} cards<br>give ${multc}+4${endc} Mult<br>when scored'],

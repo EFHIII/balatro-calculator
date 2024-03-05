@@ -1193,7 +1193,7 @@ function triggerCard(triggering, card, cards, jokers, score, retrigger = false, 
         }
         break;
       case '15,3':
-        if(!retrigger && playfieldJokers[joker].extraValue) {
+        if(!retrigger) {
           if(bd) {
             breakdown.push({
               cards: [card, triggerer ? triggerer : joker],
