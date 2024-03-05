@@ -155,7 +155,7 @@ function compileHand() {
     }
 
     // non-expected sell value? - 1 bit
-    if(joker.sell === (jokerPrice[joker.type[0]][joker.type[1]] + ((joker.modifiers.foil || joker.modifiers.holographic || joker.modifiers.polychrome) ? 1 : 0))) {
+    if(joker.sell === Math.floor((jokerPrice[joker.type[0]][joker.type[1]] + ((joker.modifiers.foil || joker.modifiers.holographic || joker.modifiers.polychrome) ? 1 : 0)) / 2)) {
       binary.push(0);
     }
     else {
