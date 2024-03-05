@@ -370,7 +370,7 @@ const jokerTexts = [
     ['Burglar', 'When ${numc}Blind${endc} is selected,<br>gain ${chipc}+3${endc} Hands and<br>${numc}lose all discards${endc}'],
     ['Blackboard', '${prodc}3${endc} Mult if all<br>cards held in hand<br>are ${spadec} or ${clubc}'],
     ['Runner', 'Gains ${chipc}+10${endc} Chips<br>if played hand<br>contains a ${numc}Straight${endc}<br>${shadowc}(Currently ${chipc}+${20 + jokerValue * 10}${endc} Chips)${endc}'],
-    ['Ice Cream', '$${chipc}${jokerValue > 20 ? "" : "+"}${Math.max(0, 100 - jokerValue * 5)}${endc} Chips<br>${chipc}-5${endc} Chips for<br>every hand played'],
+    ['Ice Cream', '${chipc}${jokerValue > 20 ? "" : "+"}${Math.max(0, 100 - jokerValue * 5)}${endc} Chips<br>${chipc}-5${endc} Chips for<br>every hand played'],
     ['DNA', 'If ${numc}first hand${endc} of round<br>has only ${numc}1${endc} card, add a<br>permanent copy to deck<br>and draw it to ${numc}hand${endc}'],
     ['Splash', 'Every ${numc} played card${endc}<br>counts in scoring'],
     ['Blue Joker', '${chipc}+2${endc} Chips for each<br>remaining card in ${numc}Deck${endc}<br>${shadowc}(Currently ${chipc}+${104 + jokerValue * 2}${endc} Chips)${endc}'],
