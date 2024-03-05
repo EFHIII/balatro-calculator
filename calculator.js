@@ -1576,13 +1576,13 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
       }
       break;
     case '4,2':
-      score.minChips += playfieldJokers[joker].value;
-      score.maxChips += playfieldJokers[joker].value;
+      score.minMult += playfieldJokers[joker].value;
+      score.maxMult += playfieldJokers[joker].value;
 
       if(bd) {
         breakdown.push({
           cards: [retrigger ? retrigger : joker],
-          description: `${chipc}+${playfieldJokers[joker].value}${endc} Chips`,
+          description: `${multc}+${playfieldJokers[joker].value}${endc} Mult`,
           chips: score.minChips,
           mult: score.minMult
         });
@@ -2046,7 +2046,7 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
         if(bd) {
           breakdown.push({
             cards: [retrigger ? retrigger : joker],
-            description: `${multc}+${20 + 4 * playfieldJokers[joker].value}${endc} Mult`,
+            description: `${chipc}+${20 + 4 * playfieldJokers[joker].value}${endc} Chips`,
             chips: score.minChips,
             mult: score.minMult
           });
@@ -2059,7 +2059,7 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
         if(bd) {
           breakdown.push({
             cards: [retrigger ? retrigger : joker],
-            description: `${multc}+${16 + 4 * playfieldJokers[joker].value}${endc} Mult`,
+            description: `${chipc}+${16 + 4 * playfieldJokers[joker].value}${endc} Chips`,
             chips: score.minChips,
             mult: score.minMult
           });

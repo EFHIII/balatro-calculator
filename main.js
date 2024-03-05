@@ -304,6 +304,7 @@ for(let i = 0; i < hands.length; i++) {
   hands[i].level = 1;
   hands[i].planets = 0;
   hands[i].id = hands[i].name.replace(/ /g,'');
+  hands[i].played = 0;
   handLevels.innerHTML += `<div class="handLevel" id="${hands[i].id}">
     <span class="lvlBtn" onclick="incrementLevel(-1, ${i})">-</span>
     <span class="lvlBtn" onclick="incrementLevel( 1, ${i})">+</span>

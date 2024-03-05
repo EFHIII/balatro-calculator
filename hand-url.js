@@ -229,10 +229,30 @@ function compileHand() {
     }
   }
 
+
+  // hand counts (for supernova) - 1 bits
+  if(false) {
+    binary.push(1);
+    for(let i = 0; i < hands.length; i++) {
+      if(hands[i].played > 0) {
+        binary.push(1);
+        binary.push(...intToBinary(hands[i].played, 16));
+      }
+      else {
+        binary.push(0);
+      }
+    }
+  }
+  else {
+    binary.push(0);
+  }
+
+  // remove trailing 0s
   while(binary.length > 0 && binary[binary.length - 1] === 0) {
     binary.pop();
   }
 
+  // set URL
   if(binary.length === 0) {
     history.replaceState(null, null, '?');
   }
