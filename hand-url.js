@@ -230,16 +230,15 @@ function compileHand() {
   }
 
 
-  // hand counts (for supernova) - 1 bits
+  // hand counts (for supernova/obelisk/card sharp) - 1 bit
   if(false) {
     binary.push(1);
     for(let i = 0; i < hands.length; i++) {
-      if(hands[i].played > 0) {
-        binary.push(1);
+      binary.push(hands[i].playedThisRound ? 0 : 1);
+
+      binary.push(hands[i].played ? 1 : 0);
+      if(hands[i].played) {
         binary.push(...intToBinary(hands[i].played, 16));
-      }
-      else {
-        binary.push(0);
       }
     }
   }
