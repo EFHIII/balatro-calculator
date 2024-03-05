@@ -59,20 +59,20 @@ const hands = [
   {
     name: "Flush House",
     planet: "Ceres",
-    mult: 12,
-    chips: 120,
-    s_mult: 12,
-    s_chips: 120,
+    mult: 14,
+    chips: 140,
+    s_mult: 14,
+    s_chips: 140,
     l_mult: 3,
     l_chips: 40
   },
   {
     name: "Five of a Kind",
     planet: "Planet X",
-    mult: 10,
-    chips: 100,
-    s_mult: 10,
-    s_chips: 100,
+    mult: 12,
+    chips: 120,
+    s_mult: 12,
+    s_chips: 120,
     l_mult: 3,
     l_chips: 35
   },
