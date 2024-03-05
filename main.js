@@ -538,7 +538,7 @@ function addJoker(i, j, sell = false) {
     type: [i, j],
     modifiers: {...jmodifiers},
     value: jokerValue,
-    sell: sell ? sell : (jokerPrice[i][j] + ((jmodifiers.foil || jmodifiers.holographic || jmodifiers.polychrome) ? 1 : 0)),
+    sell: sell !== false ? sell : (jokerPrice[i][j] + ((jmodifiers.foil || jmodifiers.holographic || jmodifiers.polychrome) ? 1 : 0)),
     string: jokerString(i, j, jmodifiers),
     tooltip: (jokerTexts.length > i && jokerTexts[i].length > j) ? [jokerTexts[i][j][0], eval('`' + jokerTexts[i][j][1] + '`')] : ['WIP', 'WIP']
   };
@@ -879,7 +879,7 @@ function incrementModifyJokerSellValue(inc) {
   if(!modifyingJoker) return;
   let joker = playfieldJokers[modifyingJoker];
   joker.sell += inc;
-  if(inc === 0) {
+  if(inc === 0 || joker.sell < 0) {
     joker.sell = 0;
   }
   modifyingJokerSellValDiv.innerText = joker.sell;
@@ -898,7 +898,7 @@ function setModifyJokerSellValue() {
   }
 
   if(!isNaN(modifyingJokerSellValDiv.innerText)) {
-    joker.sell = Math.round(modifyingJokerSellValDiv.innerText * 1);
+    joker.sell = Math.max(0, Math.round(modifyingJokerSellValDiv.innerText * 1));
   }
   else {
     joker.sell = 0;

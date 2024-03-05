@@ -153,6 +153,16 @@ function compileHand() {
       // value - 16 bits
       binary.push(...signed16(joker.value));
     }
+
+    // non-expected sell value? - 1 bit
+    if(joker.sell === (jokerPrice[joker.type[0]][joker.type[1]] + ((joker.modifiers.foil || joker.modifiers.holographic || joker.modifiers.polychrome) ? 1 : 0))) {
+      binary.push(0);
+    }
+    else {
+      binary.push(1);
+      // value - 16 bits
+      binary.push(...intToBinary(joker.sell, 16));
+    }
   }
 
   // number of cards - 16 bits
@@ -228,7 +238,7 @@ function compileHand() {
   }
   else {
     let queryParams = new URLSearchParams(window.location.search);
-    queryParams.set("hand", toUrlSafe(bitsToBase64(binary)));
+    queryParams.set("h", toUrlSafe(bitsToBase64(binary)));
     history.replaceState(null, null, '?' + queryParams.toString());
   }
 }
@@ -266,7 +276,7 @@ function fromUrlSafe(str) {
   return str.replace(/_/g,'/').replace(/-/g,'+');
 }
 
-function parseHand(bits) {
+function parseOldHand(bits) {
   if(bits.length === 0) {
     return;
   }
@@ -425,8 +435,175 @@ function parseHand(bits) {
   redrawPlayfield();
 }
 
+function parseHand(bits) {
+  if(bits.length === 0) {
+    return;
+  }
+  atBit = 0;
+
+  if(optimizeJokers) toggleJoker();
+  if(optimizeCards) toggleCard();
+
+  // number of jokers - 16 bits
+  let numberOfJokers = intFromBits(16, bits);
+
+  for(let i = 0; i < numberOfJokers; i++) {
+    const type = [intFromBits(4, bits), intFromBits(4, bits)];
+
+    jmodifiers.foil = false;
+    jmodifiers.holographic = false;
+    jmodifiers.polychrome = false;
+    jmodifiers.disabled = false;
+
+    if(intFromBits(1, bits)) {
+      switch(intFromBits(2, bits)) {
+        case 0:
+          jmodifiers.foil = true;
+          break;
+        case 1:
+          jmodifiers.holographic = true;
+          break;
+        case 2:
+          jmodifiers.polychrome = true;
+          break;
+        case 3:
+          jmodifiers.disabled = true;
+          break;
+      }
+    }
+
+    jokerValue = 0;
+    if(intFromBits(1, bits)) {
+      let sign = intFromBits(1, bits) ? -1 : 1;
+      jokerValue = sign * intFromBits(15, bits);
+    }
+
+    if(intFromBits(1, bits)) {
+      addJoker(...type, intFromBits(16, bits));
+    }
+    else {
+      addJoker(...type);
+    }
+  }
+
+  jmodifiers.foil = false;
+  jmodifiers.holographic = false;
+  jmodifiers.polychrome = false;
+  jmodifiers.disabled = false;
+  jokerValue = 0;
+
+  // number of cards - 16 bits
+  let numberOfCards = intFromBits(16, bits);
+
+  // number of cards in hand - 3 bits
+  let numberOfCardsInHand = intFromBits(3, bits);
+
+  for(let i = 0; i < numberOfCards; i++) {
+    const type = [intFromBits(2, bits), intFromBits(4, bits)];
+
+    modifiers.foil = false;
+    modifiers.holographic = false;
+    modifiers.polychrome = false;
+    modifiers.disabled = false;
+
+    modifiers.stone = false;
+    modifiers.increment = false;
+    modifiers.mult = false;
+    modifiers.wild = false;
+    modifiers.chance = false;
+    modifiers.glass = false;
+    modifiers.steel = false;
+
+    if(intFromBits(1, bits)) {
+      switch(intFromBits(2, bits)) {
+        case 0:
+          modifiers.foil = true;
+          break;
+        case 1:
+          modifiers.holographic = true;
+          break;
+        case 2:
+          modifiers.polychrome = true;
+          break;
+        case 3:
+          modifiers.disabled = true;
+          break;
+      }
+    }
+
+    switch(intFromBits(3, bits)) {
+      case 1: modifiers.chance = true; break;
+      case 2: modifiers.glass = true; break;
+      case 3: modifiers.increment = true; break;
+      case 4: modifiers.mult = true; break;
+      case 5: modifiers.steel = true; break;
+      case 6: modifiers.stone = true; break;
+      case 7: modifiers.wild = true; break;
+    }
+
+    modifiers.double = intFromBits(1, bits) ? true : false;
+
+    setModifierString();
+
+    addCard(...type);
+
+    if(i < numberOfCardsInHand) {
+      const keys = Object.keys(playfieldCards);
+      bestHand.push(keys[keys.length - 1]);
+    }
+  }
+
+  modifiers.foil = false;
+  modifiers.holographic = false;
+  modifiers.polychrome = false;
+  modifiers.disabled = false;
+
+  modifiers.stone = false;
+  modifiers.increment = false;
+  modifiers.mult = false;
+  modifiers.wild = false;
+  modifiers.chance = false;
+  modifiers.glass = false;
+  modifiers.steel = false;
+
+  modifiers.double = false;
+
+  if(theFlint != intFromBits(1, bits)) {
+    toggleTheFlint();
+  }
+
+  if(plasmaDeck != intFromBits(1, bits)) {
+    togglePlasma();
+  }
+
+  for(let i = 0; i < hands.length; i++) {
+    if(intFromBits(1, bits) === 1) {
+      hands[i].level = intFromBits(16, bits) + 1;
+      incrementLevel(-1, i);
+    }
+  }
+
+  if(observatory != intFromBits(1, bits)) {
+    toggleObservatory();
+  }
+
+  if(observatory) {
+    for(let i = 0; i < hands.length; i++) {
+      if(intFromBits(1, bits) === 1) {
+        hands[i].planets = intFromBits(16, bits) + 1;
+        incrementPlanet(-1, i);
+      }
+    }
+  }
+
+  redrawPlayfield();
+}
+
 (new URL(window.location.href)).searchParams.forEach((x, y) => {
   if(y === 'hand') {
+    parseOldHand(base64ToBits(fromUrlSafe(x)));
+  }
+  else if(y === 'h') {
     parseHand(base64ToBits(fromUrlSafe(x)));
   }
 });
