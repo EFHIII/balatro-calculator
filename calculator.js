@@ -1437,7 +1437,7 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
           chips: score.minChips,
           mult: score.minMult
         });
-      };
+      }
       break;
     case '1,2':
       if(playfieldJokers[joker].value) {
@@ -1522,7 +1522,7 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
           chips: score.minChips,
           mult: score.minMult
         });
-      };
+      }
       break;
     case '3,0':
       if(!retrigger) {
@@ -1547,7 +1547,7 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
           chips: score.minChips,
           mult: score.minMult
         });
-      };
+      }
       break;
     case '3,3':
       score.minMult += 3 * playfieldJokers[joker].value;
@@ -1560,7 +1560,7 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
           chips: score.minChips,
           mult: score.minMult
         });
-      };
+      }
       break;
     case '4,0':
       score.minChips += 10 + (8 * (playfieldJokers[joker].value + playfieldJokers[joker].extraValue));
@@ -1573,7 +1573,7 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
           chips: score.minChips,
           mult: score.minMult
         });
-      };
+      }
       break;
     case '4,2':
       score.minChips += playfieldJokers[joker].value;
@@ -2394,7 +2394,7 @@ function triggerCardInHand(triggering, card, cards, jokers, score, retrigger, bd
                 chips: score.minChips,
                 mult: score.minMult
               });
-            };
+            }
           }
           break;
         case '3,0':
@@ -2622,7 +2622,7 @@ function calculatePlayScore(cards, jokers, bd = false) {
   let lowestCards = [];
 
   for(let id of Object.keys(playfieldCards).sort().reverse()) {
-    if(bestHand.indexOf(id) >= 0) continue;
+    if(involvedCards.indexOf(id) >= 0) continue;
     if(id.indexOf('99') !== 0) continue;
     cardsInHand.push(id);
   }
@@ -2632,7 +2632,7 @@ function calculatePlayScore(cards, jokers, bd = false) {
 
     let lowest = 100;
     for(let card in playfieldCards) {
-      if(!playfieldCards[card].modifiers.stone && bestHand.indexOf(card) < 0) {
+      if(!playfieldCards[card].modifiers.stone && involvedCards.indexOf(card) < 0) {
         if(lowest > cardValues[playfieldCards[card].type[1]]) {
           lowest = cardValues[playfieldCards[card].type[1]];
           lowestCards = [card];
@@ -2676,7 +2676,7 @@ function calculatePlayScore(cards, jokers, bd = false) {
   }
 
   for(let id of Object.keys(playfieldCards).sort().reverse()) {
-    if(bestHand.indexOf(id) >= 0) continue;
+    if(involvedCards.indexOf(id) >= 0) continue;
     if(lowestCards.indexOf(id) >= 0) continue;
     if(id.indexOf('99') === 0) continue;
     cardsInHand.push(id);
@@ -2733,7 +2733,7 @@ function calculatePlayScore(cards, jokers, bd = false) {
         chips: (score.minChips + score.minMult) / 2,
         mult: (score.minChips + score.minMult) / 2
       });
-    };
+    }
     return [Math.floor(((score.minChips+score.minMult)/2)**2), Math.floor(((score.maxChips+score.maxMult)/2)**2), score.minChips, score.minMult, typeOfHand];
   }
   else {
@@ -2753,7 +2753,7 @@ function calculator() {
     for(let i = 1; i < 6; i++) {
       let nextChosen = choose(cards, i);
       if(nextChosen.length > 0) {
-        chosen = chosen.concat(nextChosen, i);
+        chosen = chosen.concat(nextChosen);
       }
     }
     for(let j = 0; j < chosen.length; j++) {
@@ -2763,6 +2763,7 @@ function calculator() {
       possibleHands = [[]];
     }
   }
+
 
   if(possibleJokers.length === 0) {
     possibleJokers = [[]];
@@ -2788,6 +2789,7 @@ function calculator() {
   for(let i = 0; i < possibleHands.length; i++) {
     for(let j = 0; j < possibleJokers.length; j++) {
       const score = calculatePlayScore(possibleHands[i], possibleJokers[j]);
+
       if(score[0] > bestScore[0]) {
         bestScore = score;
         bestHand = possibleHands[i];

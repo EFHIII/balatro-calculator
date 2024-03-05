@@ -568,6 +568,8 @@ function parseHand(bits) {
 
   modifiers.double = false;
 
+  setModifierString();
+
   if(theFlint != intFromBits(1, bits)) {
     toggleTheFlint();
   }
