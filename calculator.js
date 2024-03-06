@@ -2861,7 +2861,7 @@ function calculator() {
 }
 
 function numberWithCommas(x) {
-  if(x < 1e21) {
+  if(x < 1e11) {
     if(x % 1 !== 0) {
       return Math.floor(x).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '.' + (Math.floor(Math.round((x % 1) * 10000) / 10)+'').padStart(3, 0).replace(/0+$/, '');
     }
