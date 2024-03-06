@@ -1518,7 +1518,7 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
       if(bd) {
         breakdown.push({
           cards: [retrigger ? retrigger : joker],
-          description: `${prodc}+${1 + 0.25 * playfieldJokers[joker].value}${endc} Mult`,
+          description: `${prodc}${1 + 0.25 * playfieldJokers[joker].value}${endc} Mult`,
           chips: score.minChips,
           mult: score.minMult
         });
