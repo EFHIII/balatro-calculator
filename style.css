@@ -316,7 +316,7 @@ html {
   position: absolute;
   left: 0;
   display: inline-block;
-  width: 100%;
+  width: 0;
   height: 100%;
   padding: 0;
   image-rendering: pixelated;
@@ -338,6 +338,10 @@ html {
   top: 0;
   background: inherit;
   position: absolute;
+
+  mask-image: url(assets/Jokers.png);
+  mask-position: inherit;
+  mask-mode: alpha;
 }
 
 .jokerCard:hover:after, .playingCard:hover:after, .jmodifierCard:hover:after, .modifierCard:hover:after, .playfieldCard:hover:after {
@@ -690,4 +694,12 @@ input {
 .jmodifierCard + .tooltiptext {
   left: -1em;
   translate: -50%;
+}
+
+.polychrome:after {
+  background-blend-mode: normal, color;
+}
+
+.jokerCard.polychrome:after {
+  background-blend-mode: color;
 }

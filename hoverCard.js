@@ -6,7 +6,13 @@ function transforms(x, y, el) {
   let box = el.getBoundingClientRect();
 
   let calcX = -(y - box.y - (box.height / 2)) / (el.dataset.scale == 2 ? constrain * 2 : constrain);
-  let calcY = (x - box.x - (box.width / 2)) / (el.dataset.scale == 2 ? constrain * 2 : constrain);
+  let calcY = (x - box.x - ((box.width ? box.width : 71) / 2)) / (el.dataset.scale == 2 ? constrain * 2 : constrain);
+
+  if(box.width === 0) {
+    return `translate(35.5px) perspective(${94}px) ` +
+    `rotateX(${calcX}deg) ` +
+    `rotateY(${calcY}deg) translate(-35.5px)`;
+  }
 
   return `perspective(${94}px) ` +
   `rotateX(${calcX}deg) ` +

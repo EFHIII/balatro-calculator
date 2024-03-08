@@ -343,6 +343,8 @@ const modifiers = {
 let modifierString = ', url(assets/Enhancers.png) -71px 0px';
 let modifierPostString = '';
 
+let modifierClass = '';
+
 const jmodifiers = {
   foil: false,
   holographic: false,
@@ -363,6 +365,8 @@ function jtoggleCardModifier(name) {
 }
 
 function setModifierString() {
+  modifierClass = '';
+
   if(modifiers.stone) {
     modifierString = ', url(assets/Enhancers.png) 142px 0';
   }
@@ -402,6 +406,7 @@ function setModifierString() {
     modifierPostString += 'url(assets/Editions.png) -142px 0, ';
   }
   else if(modifiers.polychrome) {
+    modifierClass = ' polychrome';
     modifierPostString += 'url(assets/Editions.png) -213px 0, ';
   }
   else if(modifiers.disabled) {
@@ -438,11 +443,11 @@ const jcardsDiv = document.getElementById('jokers');
 
 function cardString(i, j) {
   if(modifiers.stone) {
-    return `style="background: ` +
+    return `${modifierClass}" style="background: ` +
     `${modifierPostString}${modifierString.slice(2)}"`;
   }
   else {
-    return `style="background: ` +
+    return `${modifierClass}" style="background: ` +
     `${modifierPostString}url(assets/8BitDeck.png) ` +
     `-${71*j}px -${95*i}px${modifierString}"`;
   }
@@ -453,7 +458,7 @@ function redrawCards() {
   for(let i = 0; i < 4; i++) {
     txt += '<div>';
     for(let j = 0; j < 13; j++) {
-      txt += `<div class="tooltip"><div class="playingCard" ${cardString(i, j)} onclick="addCard(${i}, ${j})" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div></div>`;
+      txt += `<div class="tooltip"><div class="playingCard${cardString(i, j)} onclick="addCard(${i}, ${j})" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div></div>`;
     }
     txt += '</div>';
   }
@@ -461,6 +466,8 @@ function redrawCards() {
 }
 
 function jokerString(i, j, modifiers) {
+  let jmodifierClass = '';
+
   let jmodifierString = 'url(assets/Jokers.png) 0px -855px, ';
   let jmodifierPostString = '';
 
@@ -471,6 +478,7 @@ function jokerString(i, j, modifiers) {
     jmodifierPostString = 'url(assets/Editions.png) -142px 0, ';
   }
   else if(modifiers.polychrome) {
+    jmodifierClass = ' polychrome';
     jmodifierPostString = 'url(assets/Editions.png) -213px 0, ';
   }
   else if(modifiers.disabled) {
@@ -488,7 +496,7 @@ function jokerString(i, j, modifiers) {
     case '8,7': jmodifierString = `url(assets/Jokers.png) -${71*7}px -${95*9}px, `; break;
     case '12,4': jmodifierString = `url(assets/Jokers.png) -${71*2}px -${95*9}px, `; break;
   }
-  return `style="background: ${jmodifierPostString}${jmodifierString}url(assets/Jokers.png) -${71*j}px -${95*i}px"`;
+  return `${jmodifierClass}" style="mask-position:  -${71*j}px -${95*i}px; background: ${jmodifierPostString}${jmodifierString}url(assets/Jokers.png) -${71*j}px -${95*i}px"`;
 }
 
 function jredrawCards() {
@@ -500,7 +508,7 @@ function jredrawCards() {
       const title = (jokerTexts.length > i && jokerTexts[i].length > j) ? jokerTexts[i][j][0] : 'WIP';
       const description = (jokerTexts.length > i && jokerTexts[i].length > j) ? eval('`' + jokerTexts[i][j][1] + '`') : 'WIP';
       if(title.toLowerCase().indexOf(searchVal.toLowerCase()) >= 0 || description.replace(/\<[^\>]+\>/g,'').toLowerCase().indexOf(searchVal.toLowerCase()) >= 0) {
-        txt += `<div class='tooltip'><div class="jokerCard" ${jokerString(i, j, jmodifiers)} onclick="addJoker(${i}, ${j})" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div><span class='tooltiptext'>` +
+        txt += `<div class='tooltip'><div class="jokerCard${jokerString(i, j, jmodifiers)} onclick="addJoker(${i}, ${j})" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div><span class='tooltiptext'>` +
         `<span class='title'>${title}</span>` +
         `<span class='desc'><span class='descContent'>${description}</span></span>` +
         `</span></div>`;
@@ -601,7 +609,7 @@ function redrawPlayfield() {
 
   let txt = '';
   for(let id of bestJokers) {
-    txt += `<div class='tooltip'><div id="${id}" class="jokerCard" ${playfieldJokers[id].string} onclick="modifyJoker('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
+    txt += `<div class='tooltip'><div id="${id}" class="jokerCard${playfieldJokers[id].string} onclick="modifyJoker('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
     `<div class="removeJoker" onclick="removeJoker('${id}')">X</div>` +
     `<span class='tooltiptext'>` +
     `<span class='title'>${playfieldJokers[id].tooltip[0]}</span>` +
@@ -619,7 +627,7 @@ function redrawPlayfield() {
 
   txt = '';
   for(let id of bestHand) {
-    txt += `<div class="tooltip"><div id="p${id}" class="playfieldCard" ${playfieldCards[id].string} onclick="removeCard('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
+    txt += `<div class="tooltip"><div id="p${id}" class="playfieldCard${playfieldCards[id].string} onclick="removeCard('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
     `<div style="position: absolute; top: 100%; width: 100%;">` +
     `<div class="positionButtons">` +
     `<div class="lvlBtn" onclick="moveHandCardLeft('${id}')">&lt;</div>` +
@@ -637,7 +645,7 @@ function redrawPlayfield() {
   for(let id of Object.keys(playfieldCards).sort().reverse()) {
     if(bestHand.indexOf(id) >= 0) continue;
     if(id.indexOf('99') !== 0) continue;
-    txt += `<div class="tooltip"><div id="${id}" class="playfieldCard" ${playfieldCards[id].string} onclick="removeCard('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
+    txt += `<div class="tooltip"><div id="${id}" class="playfieldCard${playfieldCards[id].string} onclick="removeCard('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
     `<div style="position: absolute; top: 100%; width: 100%;">` +
     `<div class="positionButtons">` +
     `<div class="lvlBtn" onclick="moveCardUp('${id}')">^</div>` +
@@ -686,7 +694,7 @@ function redrawPlayfield() {
       for(let id of Object.keys(playfieldCards).sort().reverse()) {
         if(lowestCards.indexOf(id) < 0) continue;
         if(id === ignoreCard) continue;
-        txt += `<div class="tooltip"><div id="${id}" class="playfieldCard" ${playfieldCards[id].string} onclick="removeCard('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
+        txt += `<div class="tooltip"><div id="${id}" class="playfieldCard${playfieldCards[id].string} onclick="removeCard('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
         `<div style="position: absolute; top: 100%; width: 100%;">` +
         `<div class="positionButtons">` +
         `<div class="lvlBtn" onclick="moveCardUp('${id}')">^</div>` +
@@ -694,7 +702,7 @@ function redrawPlayfield() {
         `</div>`;
       }
 
-      txt += `<div class="tooltip"><div id="${ignoreCard}" class="playfieldCard" ${playfieldCards[ignoreCard].string} onclick="removeCard('${ignoreCard}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
+      txt += `<div class="tooltip"><div id="${ignoreCard}" class="playfieldCard${playfieldCards[ignoreCard].string} onclick="removeCard('${ignoreCard}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
       `<div style="position: absolute; top: 100%; width: 100%;">` +
       `<div class="positionButtons">` +
       `<div class="lvlBtn" onclick="moveCardUp('${ignoreCard}')">^</div>` +
@@ -707,7 +715,7 @@ function redrawPlayfield() {
     if(bestHand.indexOf(id) >= 0) continue;
     if(lowestCards.indexOf(id) >= 0) continue;
     if(id.indexOf('99') === 0) continue;
-    txt += `<div class="tooltip"><div id="${id}" class="playfieldCard" ${playfieldCards[id].string} onclick="removeCard('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
+    txt += `<div class="tooltip"><div id="${id}" class="playfieldCard${playfieldCards[id].string} onclick="removeCard('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
     `<div style="position: absolute; top: 100%; width: 100%;">` +
     `<div class="positionButtons">` +
     `<div class="lvlBtn" onclick="moveCardUp('${id}')">^</div>` +
@@ -807,7 +815,7 @@ function modifyJoker(id) {
 function updateModifyingJoker() {
   if(!playfieldJokers.hasOwnProperty(modifyingJoker)) return;
 
-  modifyJokerDiv.innerHTML = `<div><div class='tooltip'><div data-scale='2' class="jokerCard" ${playfieldJokers[modifyingJoker].string} onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
+  modifyJokerDiv.innerHTML = `<div><div class='tooltip'><div data-scale='2' class="jokerCard${playfieldJokers[modifyingJoker].string} onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
   `<span class='tooltiptext'>` +
   `<span class='title'>${playfieldJokers[modifyingJoker].tooltip[0]}</span>` +
   `<span class='desc'><span class='descContent'>${playfieldJokers[modifyingJoker].tooltip[1]}</span></span>` +
