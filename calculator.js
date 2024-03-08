@@ -682,7 +682,7 @@ function triggerCard(triggering, card, cards, jokers, score, retrigger = false, 
       }
     }
     else if(playfieldCards[card].modifiers.chance && !vampire) {
-      score.maxMult += 20;
+      score.maxMult += 5;
 
       if(bd) {
         breakdown.push({
