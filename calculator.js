@@ -1352,7 +1352,7 @@ function triggerJoker(baseball, joker, cards, jokers, score, setFour = false, st
       }
       break;
     case '0,3':
-      if(hasPair(cards)) {
+      if(hasThreeOfAKind(cards)) {
         score.minMult += 12;
         score.maxMult += 12;
 
