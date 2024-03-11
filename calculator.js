@@ -882,7 +882,7 @@ function triggerCard(triggering, card, cards, jokers, score, retrigger = false, 
         }
         break;
       case '5,1':
-        if(!playfieldCards[card].modifiers.stone && [0, 1, 3, 6].indexOf(playfieldCards[card].type[1]) >= 0) {
+        if(!playfieldCards[card].modifiers.stone && [0, 1, 3, 6, 12].indexOf(playfieldCards[card].type[1]) >= 0) {
           score.minMult += 8;
           score.maxMult += 8;
 
