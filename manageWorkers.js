@@ -279,11 +279,11 @@ function updateBreakdown(breakdown) {
     let breakdownCards = '';
     for(let id of line.cards) {
       if(id[0] === 'j') {
-        breakdownCards += `<div class='tooltip'><div class="playfieldCard" ${playfieldJokers[id].string}></div>` +
+        breakdownCards += `<div class='tooltip'><div class="playfieldCard${playfieldJokers[id].string}></div>` +
         `</div>`;
       }
       else {
-        breakdownCards += `<div class="tooltip"><div class="playfieldCard" ${playfieldCards[id].string}></div>` +
+        breakdownCards += `<div class="tooltip"><div class="playfieldCard${playfieldCards[id].string}></div>` +
         `</div>`;
       }
     }
@@ -293,7 +293,7 @@ function updateBreakdown(breakdown) {
     if(line.chips !== previousChips || line.mult !== previousMult) {
       breakdownScore = `<div class="levelStat">` +
         `<span id="scoreChips" class="levelStatB">${numberWithCommas(line.chips)}</span>X` +
-        `<span id="scoreMult" class="levelStatR">${bigNumberWithCommas(line.mult)}</span>` +
+        `<span id="scoreMult" class="levelStatR">${bigNumberWithCommas(normalizeBig(line.mult))}</span>` +
         `</div>`;
         previousChips = line.chips;
         previousMult = line.mult;

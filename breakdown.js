@@ -1781,8 +1781,8 @@ class Hand {
           this.breakdown.push({
             cards: [card],
             description: card[ENHANCEMENT] === STONE ? 'Stone' : `${rankNames[card[RANK]]} of ${suitNames[card[SUIT]]}`,
-            chips: this.compiledChips,
-            mult: this.compiledMult,
+            chips: this.chips,
+            mult: this.mult,
             newCard: true
           });
         }
