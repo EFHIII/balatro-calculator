@@ -172,6 +172,7 @@ function compileHand() {
 
   for(let i = 0; i < bestHand.length; i++) {
     let card = playfieldCards[bestHand[i]];
+    if(!card) continue;
     // suit - 2 bits
     binary.push(...intToBinary(card.type[0], 2));
     // value - 4 bits

@@ -595,6 +595,10 @@ function addCard(i, j) {
 }
 
 function removeCard(id) {
+  if(bestHand.indexOf(id) >= 0) {
+    bestHand.splice(bestHand.indexOf(id), 1);
+  }
+
   delete playfieldCards[id];
 
   handLimitDiv.innerText = Object.keys(playfieldCards).length;
@@ -604,7 +608,9 @@ function removeCard(id) {
 
 function redrawPlayfield() {
   calculator();
+}
 
+function redrawPlayfieldHTML() {
   compileHand();
 
   let txt = '';
