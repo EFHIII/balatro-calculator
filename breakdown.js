@@ -1376,11 +1376,6 @@ class Hand {
       this.compiledChips = handChips[this.typeOfHand][0] + handChips[this.typeOfHand][2] * (this.hands[this.typeOfHand][LEVEL] - 1);
       this.compiledMult = [handChips[this.typeOfHand][1] + handChips[this.typeOfHand][3] * (this.hands[this.typeOfHand][LEVEL] - 1), 0];
 
-      if(this.TheFlint) {
-        this.compiledChips /= 2;
-        this.compiledMult[0] /= 2;
-      }
-
       if(this.bd) {
         this.breakdown.push({
           cards: this.involvedCards,
@@ -1389,6 +1384,20 @@ class Hand {
           mult: this.compiledMult,
           newCard: true
         });
+      }
+
+      if(this.TheFlint) {
+        this.compiledChips /= 2;
+        this.compiledMult[0] /= 2;
+
+        if(this.bd) {
+          this.breakdown.push({
+            cards: this.involvedCards,
+            description: 'The Fint',
+            chips: this.compiledChips,
+            mult: this.compiledMult
+          });
+        }
       }
     }
 
