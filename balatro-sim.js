@@ -785,7 +785,7 @@ class Hand {
             break;
           case 157:
             // Ancient Joker
-            if(SmearedJoker ? card[SUIT] % 2 === Math.abs(joker[VALUE]) % 2 : card[SUIT] === Math.abs(joker[VALUE]) % 4) {
+            if(this.SmearedJoker ? card[SUIT] % 2 === Math.abs(joker[VALUE]) % 2 : card[SUIT] === Math.abs(joker[VALUE]) % 4) {
               this.mult = bigTimes(1.5, this.mult);
             }
             break;
