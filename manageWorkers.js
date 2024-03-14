@@ -214,7 +214,7 @@ function terminateThreads() {
   for(let i = 0; i < THREADS; i++) {
     threads[i] = new Worker('worker.js');
     threads[i].onmessage = workerMessage;
-    threads[i].postMessage(['start', state]);
+    threads[i].postMessage(['start', {...state, workerID: i}]);
   }
 }
 
@@ -224,6 +224,7 @@ let tmpBestCardsInHand;
 let tmpBestHighHand;
 let tmpBestLowHand;
 let tmpTypeOfHand;
+let tmpBestID;
 
 let tmpMeanScore;
 let tmpMedianScore;
@@ -242,6 +243,7 @@ function workerMessage(msg) {
       tmpTypeOfHand = msg.data[7];
       tmpMeanScore = msg.data[8];
       tmpMedianScore = msg.data[9];
+      tmpBestID = msg.data[10];
     }
     if(minimize) {
       if(msg.data[1][1] < bestScore[1] || (msg.data[1][1] === bestScore[1] && msg.data[1][0] < bestScore[0])) {
@@ -254,6 +256,19 @@ function workerMessage(msg) {
         tmpTypeOfHand = msg.data[7];
         tmpMeanScore = msg.data[8];
         tmpMedianScore = msg.data[9];
+        tmpBestID = msg.data[10];
+      }
+      else if(msg.data[1][1] === bestScore[1] && msg.data[1][0] === bestScore[0] && msg.data[10] < tmpBestID) {
+        bestScore = msg.data[1];
+        tmpBestJokers = msg.data[2];
+        tmpBestCards = msg.data[3];
+        tmpBestCardsInHand = msg.data[4];
+        tmpBestHighHand = msg.data[5];
+        tmpBestLowHand = msg.data[6];
+        tmpTypeOfHand = msg.data[7];
+        tmpMeanScore = msg.data[8];
+        tmpMedianScore = msg.data[9];
+        tmpBestID = msg.data[10];
       }
       else if(tmpBestCards.length === 0 && msg.data[3].length > 0) {
         bestScore = msg.data[1];
@@ -265,6 +280,7 @@ function workerMessage(msg) {
         tmpTypeOfHand = msg.data[7];
         tmpMeanScore = msg.data[8];
         tmpMedianScore = msg.data[9];
+        tmpBestID = msg.data[10];
       }
     }
     else {
@@ -278,6 +294,19 @@ function workerMessage(msg) {
         tmpTypeOfHand = msg.data[7];
         tmpMeanScore = msg.data[8];
         tmpMedianScore = msg.data[9];
+        tmpBestID = msg.data[10];
+      }
+      else if(msg.data[1][1] === bestScore[1] && msg.data[1][0] === bestScore[0] && msg.data[10] < tmpBestID) {
+        bestScore = msg.data[1];
+        tmpBestJokers = msg.data[2];
+        tmpBestCards = msg.data[3];
+        tmpBestCardsInHand = msg.data[4];
+        tmpBestHighHand = msg.data[5];
+        tmpBestLowHand = msg.data[6];
+        tmpTypeOfHand = msg.data[7];
+        tmpMeanScore = msg.data[8];
+        tmpMedianScore = msg.data[9];
+        tmpBestID = msg.data[10];
       }
     }
     if(tasks === 0) {

@@ -46,6 +46,7 @@ function permutations(inputArr) {
 }
 
 let taskID;
+let workerID;
 let thisHand;
 
 let cards;
@@ -75,6 +76,7 @@ function initialize(state) {
   minimize = state.minimize;
   optimizeMode = state.optimizeMode;
   bestHand = state.bestHand;
+  workerID = state.workerID;
 }
 
 function run(jokers = [[]]) {
@@ -267,7 +269,7 @@ function run(jokers = [[]]) {
     medianScore = runScores[5000];
   }
 
-  postMessage([taskID, bestScore, bestJokers, bestCards, bestCardsInHand, highestScore, lowestScore, thisHand.typeOfHand, normalizeBig(meanScore), normalizeBig(medianScore)]);
+  postMessage([taskID, bestScore, bestJokers, bestCards, bestCardsInHand, highestScore, lowestScore, thisHand.typeOfHand, normalizeBig(meanScore), normalizeBig(medianScore), workerID]);
 }
 
 self.onmessage = async function(msg) {
