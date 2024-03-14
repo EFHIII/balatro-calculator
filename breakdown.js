@@ -556,6 +556,7 @@ class Hand {
         this.chips += 100 - 5 * joker[VALUE];
         if(this.bd) this.breakdownPlusChips([joker], 100 - 5 * joker[VALUE]);
         break;
+      // DNA is already done in Balatro-sim.js
       case 107:
         //Blue joker
         this.chips += 104 + 2 * joker[VALUE];

@@ -1387,6 +1387,12 @@ class Hand {
           // Ice Cream
           this.compiledChips += 100 - 5 * joker[VALUE];
           break;
+        case 105:
+          // DNA
+          if(this.cards.length === 1) {
+            this.cardsInHand.push(this.cards[0]);
+          }
+          break;
         case 107:
           //Blue joker
           this.compiledChips += 104 + 2 * joker[VALUE];
