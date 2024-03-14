@@ -252,6 +252,8 @@ class Hand {
   compiledInHandPlusMult = [0, 0];
   compiledInHandTimesMult = [1, 0];
 
+  actualCardsInHand = [];
+
   constructor({
     cards = [],
     cardsInHand = [],
@@ -280,6 +282,7 @@ class Hand {
     this.TheFlint = TheFlint;
     this.PlasmaDeck = PlasmaDeck;
     this.Observatory = Observatory;
+    this.actualCardsInHand = this.cardsInHand.slice();
   }
 
   triggerJoker(joker, j) {
@@ -1165,6 +1168,8 @@ class Hand {
 
     this.compiledInHandPlusMult = [0, 0];
     this.compiledInHandTimesMult = [1, 0];
+
+    this.cardsInHand = this.actualCardsInHand.slice();
 
     this.lowestCard = false;
 
