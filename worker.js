@@ -155,7 +155,7 @@ function run(jokers = [[]]) {
           switch (optimizeMode) {
             default:
               if(minimize) {
-                thisScore = thisHand.simulateWorstHand();
+                thisScore = thisHand.simulateBestHand();
                 if(!bestScore) {
                   bestScore = thisScore;
                   bestCards = thisHand.cards;
@@ -168,10 +168,16 @@ function run(jokers = [[]]) {
                   bestJokers = jokers[j];
                   bestCardsInHand = thisHand.cardsInHand;
                 }
+                else if(bestCards.length === 0 && thisHand.cards.length > 0) {
+                  bestScore = thisScore;
+                  bestCards = thisHand.cards;
+                  bestJokers = jokers[j];
+                  bestCardsInHand = thisHand.cardsInHand;
+                }
 
               }
               else {
-                thisScore = thisHand.simulateBestHand();
+                thisScore = thisHand.simulateWorstHand();
 
                 if(!bestScore) {
                   bestScore = thisScore;
@@ -198,7 +204,7 @@ function run(jokers = [[]]) {
       switch (optimizeMode) {
         default:
           if(minimize) {
-            thisScore = thisHand.simulateWorstHand();
+            thisScore = thisHand.simulateBestHand();
             if(!bestScore) {
               bestScore = thisScore;
               bestJokers = jokers[j];
@@ -209,7 +215,7 @@ function run(jokers = [[]]) {
             }
           }
           else {
-            thisScore = thisHand.simulateBestHand();
+            thisScore = thisHand.simulateWorstHand();
 
             if(!bestScore) {
               bestScore = thisScore;
