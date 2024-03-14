@@ -336,6 +336,7 @@ const modifiers = {
   chance: false,
   glass: false,
   steel: false,
+  gold: false,
   double: false,
   disabled: false
 };
@@ -388,6 +389,9 @@ function setModifierString() {
   else if(modifiers.steel) {
     modifierString = ', url(assets/Enhancers.png) -426px -95px';
   }
+  else if(modifiers.gold) {
+    modifierString = ', url(assets/Enhancers.png) 71px 0px';
+  }
   else {
     modifierString = ', url(assets/Enhancers.png) -71px 0px';
   }
@@ -415,7 +419,7 @@ function setModifierString() {
 }
 
 function toggleCardModifier(name) {
-  if(('stone increment mult wild chance glass steel'.indexOf(name) >= 0) && !modifiers[name]) {
+  if(('gold stone increment mult wild chance glass steel'.indexOf(name) >= 0) && !modifiers[name]) {
     modifiers.stone = false;
     modifiers.increment = false;
     modifiers.mult = false;
@@ -423,6 +427,7 @@ function toggleCardModifier(name) {
     modifiers.chance = false;
     modifiers.glass = false;
     modifiers.steel = false;
+    modifiers.gold = false;
   }
 
   if(('foil holographic polychrome disabled'.indexOf(name) >= 0) && !modifiers[name]) {

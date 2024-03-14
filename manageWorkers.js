@@ -151,7 +151,7 @@ function getEnhancement(modifiers) {
   if(modifiers.glass) return 4;
   if(modifiers.steel) return 5;
   if(modifiers.stone) return 6;
-  //if(modifiers.gold) return 7;
+  if(modifiers.gold) return 7;
   if(modifiers.chance) return 8;
   return 0;
 }
