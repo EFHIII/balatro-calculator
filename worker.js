@@ -238,6 +238,12 @@ function run(jokers = [[]]) {
 
   const highestScore = thisHand.simulateBestHand();
   const lowestScore = thisHand.simulateWorstHand();
+  const highestScoreScore = normalizeBig(highestScore);
+  highestScore[0] = highestScoreScore[0];
+  highestScore[1] = highestScoreScore[1];
+  const lowestScoreScore = normalizeBig(lowestScore);
+  lowestScore[0] = lowestScoreScore[0];
+  lowestScore[1] = lowestScoreScore[1];
 
   let medianScore = highestScore;
   let meanScore = highestScore;
@@ -261,7 +267,7 @@ function run(jokers = [[]]) {
     medianScore = runScores[5000];
   }
 
-  postMessage([taskID, bestScore, bestJokers, bestCards, bestCardsInHand, highestScore, lowestScore, thisHand.typeOfHand, meanScore, medianScore]);
+  postMessage([taskID, bestScore, bestJokers, bestCards, bestCardsInHand, highestScore, lowestScore, thisHand.typeOfHand, normalizeBig(meanScore), normalizeBig(medianScore)]);
 }
 
 self.onmessage = async function(msg) {
