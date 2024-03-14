@@ -703,3 +703,8 @@ input {
 .jokerCard.polychrome:after {
   background-blend-mode: color;
 }
+
+.EV {
+  font-size: 0.5em;
+  color: #8d8;
+}

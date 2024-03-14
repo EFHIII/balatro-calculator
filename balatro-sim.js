@@ -596,11 +596,11 @@ class Hand {
               luckyMoney++;
               break;
             case 2:
-              if(Math.random() * this.chanceMultiplier > 0.2) {
+              if(Math.random() * this.chanceMultiplier < 0.2) {
                 this.mult = bigAdd(5, this.mult);
                 luckyMult++;
               }
-              if(Math.random() * this.chanceMultiplier > 0.05) {
+              if(Math.random() * this.chanceMultiplier < 0.05) {
                 luckyMoney++;
               }
               break;
@@ -719,7 +719,7 @@ class Hand {
                   this.mult = bigTimes(2, this.mult);
                   break;
                 case 2:
-                  if(Math.random() * this.chanceMultiplier > 1/3) {
+                  if(Math.random() * this.chanceMultiplier < 1/3) {
                     this.mult = bigTimes(2, this.mult);
                   }
                   break;
@@ -732,7 +732,7 @@ class Hand {
                   this.mult = bigTimes(2, this.mult);
                   break;
                 case 2:
-                  if(Math.random() * this.chanceMultiplier > 1/3) {
+                  if(Math.random() * this.chanceMultiplier < 1/3) {
                     this.mult = bigTimes(2, this.mult);
                   }
                   break;
@@ -1264,7 +1264,7 @@ class Hand {
                     amount++;
                     break;
                   case 2:
-                    if(Math.random() * this.chanceMultiplier > 0.25) {
+                    if(Math.random() * this.chanceMultiplier < 0.25) {
                       amount++;
                     }
                     break;

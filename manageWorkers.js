@@ -225,6 +225,9 @@ let tmpBestHighHand;
 let tmpBestLowHand;
 let tmpTypeOfHand;
 
+let tmpMeanScore;
+let tmpMedianScore;
+
 function workerMessage(msg) {
   if(msg.data[0] === taskID) {
     tasks--;
@@ -237,6 +240,8 @@ function workerMessage(msg) {
       tmpBestHighHand = msg.data[5];
       tmpBestLowHand = msg.data[6];
       tmpTypeOfHand = msg.data[7];
+      tmpMeanScore = msg.data[8];
+      tmpMedianScore = msg.data[9];
     }
     if(minimize) {
       if(msg.data[1][1] < bestScore[1] || (msg.data[1][1] === bestScore[1] && msg.data[1][0] < bestScore[0])) {
@@ -247,6 +252,8 @@ function workerMessage(msg) {
         tmpBestHighHand = msg.data[5];
         tmpBestLowHand = msg.data[6];
         tmpTypeOfHand = msg.data[7];
+        tmpMeanScore = msg.data[8];
+        tmpMedianScore = msg.data[9];
       }
       else if(tmpBestCards.length === 0 && msg.data[3].length > 0) {
         bestScore = msg.data[1];
@@ -256,6 +263,8 @@ function workerMessage(msg) {
         tmpBestHighHand = msg.data[5];
         tmpBestLowHand = msg.data[6];
         tmpTypeOfHand = msg.data[7];
+        tmpMeanScore = msg.data[8];
+        tmpMedianScore = msg.data[9];
       }
     }
     else {
@@ -267,6 +276,8 @@ function workerMessage(msg) {
         tmpBestHighHand = msg.data[5];
         tmpBestLowHand = msg.data[6];
         tmpTypeOfHand = msg.data[7];
+        tmpMeanScore = msg.data[8];
+        tmpMedianScore = msg.data[9];
       }
     }
     if(tasks === 0) {
@@ -285,6 +296,7 @@ function workerMessage(msg) {
       }
       else {
         bestPlayScoreDiv.innerHTML = bigNumberWithCommas(tmpBestLowHand, true) + ' &lt;' + chipIcon + '&lt; ' + bigNumberWithCommas(tmpBestHighHand, true);
+        bestPlayScoreDiv.innerHTML += `<br><span class="EV">Long-term EV</span> ${bigNumberWithCommas(tmpMeanScore, true)}<br><span class="EV">Short-term EV</span> ${bigNumberWithCommas(tmpMedianScore, true)}<br>`;
         bestPlayNameDiv.innerHTML = hands[tmpTypeOfHand].name + `<span class="nameLvl" style="color: ${hands[tmpTypeOfHand].level === 1 ? handColors[0] : handColors[((Math.ceil(Math.abs(hands[tmpTypeOfHand].level)/6)*6+hands[tmpTypeOfHand].level+4)%6)+1]}"> lvl.${hands[tmpTypeOfHand].level}</span>`;
         scoreChipsDiv.innerText = '>' + numberWithCommas(tmpBestLowHand[2]);
         scoreMultDiv.innerText = '>' + bigNumberWithCommas(tmpBestLowHand[3]);

@@ -236,7 +236,32 @@ function run(jokers = [[]]) {
 
   thisHand.compileAll();
 
-  postMessage([taskID, bestScore, bestJokers, bestCards, bestCardsInHand, thisHand.simulateBestHand(), thisHand.simulateWorstHand(), thisHand.typeOfHand]);
+  const highestScore = thisHand.simulateBestHand();
+  const lowestScore = thisHand.simulateWorstHand();
+
+  let medianScore = highestScore;
+  let meanScore = highestScore;
+
+  if(highestScore[0] !== lowestScore[0] || highestScore[1] !== lowestScore[1]) {
+    let runScores = [];
+    meanScore = [1, 0];
+    for(let i = 0; i < 10001; i++) {
+      const thisScore = thisHand.simulateRandomHand();
+      runScores.push(thisScore);
+      meanScore = bigBigAdd(thisScore, meanScore);
+    }
+    meanScore = bigTimes(1 / 10001, meanScore);
+    runScores = runScores.sort((a, b) => {
+      if(a[1] > b[1] || (a[1] === b[1] && a[0] > b[0])) {
+        return 1;
+      }
+      return -1;
+    });
+
+    medianScore = runScores[5000];
+  }
+
+  postMessage([taskID, bestScore, bestJokers, bestCards, bestCardsInHand, highestScore, lowestScore, thisHand.typeOfHand, meanScore, medianScore]);
 }
 
 self.onmessage = async function(msg) {
