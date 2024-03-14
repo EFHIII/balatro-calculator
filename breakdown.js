@@ -1870,7 +1870,7 @@ class Hand {
           this.SmearedJoker = true;
           break;
         case 65:
-          this.chanceMultiplier *= 2;
+          this.chanceMultiplier /= 2;
           break;
         case 66:
           this.FourFingers = true;
