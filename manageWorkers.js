@@ -368,7 +368,7 @@ function numberWithCommas(x) {
     }
     return Math.floor(x).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
-  return `${Math.floor(x/(10**Math.floor(Math.log10(x)))*10000)/10000} X 10^${Math.floor(Math.log10(x))}`;
+  return `${Math.floor(x/(10**Math.floor(Math.log10(x)))*10000)/10000}e${Math.floor(Math.log10(x))}`;
 }
 
 function bigNumberWithCommas(num, whole = false) {
