@@ -319,7 +319,7 @@ class Hand {
     if(joker[JOKER_DISABLED]) return;
 
     if(joker[EDITION] === FOIL) {
-      this.chips += 30;
+      this.chips += 50;
       if(this.bd) this.breakdownPlusChips([joker], 30, true);
     }
     else if(joker[EDITION] === HOLOGRAPHIC) {

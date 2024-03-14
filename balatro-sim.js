@@ -289,7 +289,7 @@ class Hand {
     if(joker[JOKER_DISABLED]) return;
 
     if(joker[EDITION] === FOIL) {
-      this.chips += 30;
+      this.chips += 50;
     }
     else if(joker[EDITION] === HOLOGRAPHIC) {
       this.mult = bigAdd(10, this.mult);
