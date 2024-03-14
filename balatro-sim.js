@@ -1175,7 +1175,6 @@ class Hand {
       this.cardsInHand = this.actualCardsInHand.slice();
     }
 
-
     this.lowestCard = false;
 
     for(let c = 0; c < this.cards.length; c++) {
@@ -1242,7 +1241,7 @@ class Hand {
           let lowest = 100;
           let lowestCards = [];
           for(let c = 0; c < this.cardsInHand.length; c++) {
-            const card = this.cards[c];
+            const card = this.cardsInHand[c];
             if(card[ENHANCEMENT] !== STONE) {
               if(lowest > card[RANK]) {
                 lowest = card[RANK];
