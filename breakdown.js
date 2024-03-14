@@ -1536,6 +1536,13 @@ class Hand {
     this.compiledInHandPlusMult = [0, 0];
     this.compiledInHandTimesMult = [1, 0];
 
+    if(this.actualCardsInHand.length === 0) {
+      this.actualCardsInHand = this.cardsInHand.slice();
+    }
+    else {
+      this.cardsInHand = this.actualCardsInHand.slice();
+    }
+
     this.lowestCard = false;
 
     this.breakdown = [];
@@ -1811,6 +1818,7 @@ class Hand {
   // knowledge of joker order, not cards-played
   compileJokerOrder() {
     this.jokerRarities = [];
+    this.compiledValues = [];
 
     // resolve jokers that are card but not joker order agnostic
     for(let j = 0; j < this.jokers.length; j++) {
@@ -1892,6 +1900,8 @@ class Hand {
     // set standard values; probability modifier (Oops! All 6s), vampire, etc.
 
     // set global variables' default values
+    this.actualCardsInHand = [];
+
     this.chanceMultiplier = 1;
 
     this.FourFingers = false;
@@ -1906,12 +1916,9 @@ class Hand {
 
     this.hasVampire = false;
 
-    this.compiledValues = [];
-
     // resolve joker global effects that are card and joker order agnostic
     for(let j = 0; j < this.jokers.length; j++) {
       const joker = this.jokers[j];
-      this.compiledValues.push(0);
       if(joker[JOKER_DISABLED]) continue;
       switch(joker[JOKER]) {
         case 28:
