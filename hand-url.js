@@ -231,10 +231,16 @@ function compileHand() {
   }
 
   // hand counts (for supernova/obelisk/card sharp) - 1 bit
-  if(false) {
+  let nonZeroedHand = false;
+  for(let i = 0; i < hands.length; i++) {
+    if(hands[i].playedThisRound || hands[i].played) {
+      nonZeroedHand = true;
+    }
+  }
+  if(nonZeroedHand) {
     binary.push(1);
     for(let i = 0; i < hands.length; i++) {
-      binary.push(hands[i].playedThisRound ? 0 : 1);
+      binary.push(hands[i].playedThisRound ? 1 : 0);
 
       binary.push(hands[i].played ? 1 : 0);
       if(hands[i].played) {
