@@ -239,7 +239,7 @@ function workerMessage(msg) {
       tmpTypeOfHand = msg.data[7];
     }
     if(minimize) {
-      if(msg.data[1][1] > bestScore[1] || (msg.data[1][1] === bestScore[1] && msg.data[1][0] > bestScore[0])) {
+      if(msg.data[1][1] < bestScore[1] || (msg.data[1][1] === bestScore[1] && msg.data[1][0] < bestScore[0])) {
         bestScore = msg.data[1];
         tmpBestJokers = msg.data[2];
         tmpBestCards = msg.data[3];
