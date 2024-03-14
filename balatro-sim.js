@@ -1436,7 +1436,7 @@ class Hand {
         case 129:
           // Obelisk
           let mostPlayed = 0;
-          for(let h = 0; h < this.hands; h++) {
+          for(let h = 0; h < this.hands.length; h++) {
             if(this.hands[h][PLAYED] > mostPlayed) {
               mostPlayed = this.hands[h][PLAYED];
             }
