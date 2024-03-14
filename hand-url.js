@@ -617,6 +617,16 @@ function parseHand(bits) {
     }
   }
 
+  // hand counts (for supernova/obelisk/card sharp) - 1 bit
+  if(intFromBits(1, bits)) {
+    for(let i = 0; i < hands.length; i++) {
+      hands[i].playedThisRound = intFromBits(1, bits);
+      if(intFromBits(1, bits)) {
+        hands[i].played = intFromBits(16, bits);
+      }
+    }
+  }
+
   redrawPlayfield();
 }
 
