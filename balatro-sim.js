@@ -1534,7 +1534,7 @@ class Hand {
         case 59:
           // resolve Swashbuckler
           for(let k = 0; k < j; k++) {
-            this.compiledValues[j] += this.jokers[j][SELL_VALUE];
+            this.compiledValues[j] += this.jokers[k][SELL_VALUE];
           }
           break;
         case 77:
