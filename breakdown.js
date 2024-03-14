@@ -1711,16 +1711,16 @@ class Hand {
               if(this.involvedCards[c][ENHANCEMENT] === WILD) {
                 wild++;
               }
-              else if(this.involvedCards[c][RANK] === HEARTS) {
+              else if(this.involvedCards[c][SUIT] === HEARTS) {
                 hearts = 1;
               }
-              else if(this.involvedCards[c][RANK] === DIAMONDS) {
+              else if(this.involvedCards[c][SUIT] === DIAMONDS) {
                 diamonds = 1;
               }
-              else if(this.involvedCards[c][RANK] === CLUBS) {
+              else if(this.involvedCards[c][SUIT] === CLUBS) {
                 clubs = 1;
               }
-              else if(this.involvedCards[c][RANK] === SPADES) {
+              else if(this.involvedCards[c][SUIT] === SPADES) {
                 spades = 1;
               }
             }
