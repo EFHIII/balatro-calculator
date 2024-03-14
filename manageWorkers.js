@@ -312,7 +312,7 @@ function workerMessage(msg) {
 function updateBreakdown(breakdown) {
   breakdownHTML = '';
   let previousChips = 0;
-  let previousMult = 0;
+  let previousMult = [0, 0];
   for(let line of breakdown) {
     let breakdownScore = '<div class="levelStat" style="visibility: hidden;"><span id="scoreChips" class="levelStatB"></span>X<span id="scoreMult" class="levelStatR"></span></div>';
     let breakdownCards = '';
@@ -329,7 +329,7 @@ function updateBreakdown(breakdown) {
     if(breakdownCards === '') {
       breakdownCards = '<div class="tooltip"></div>';
     }
-    if(line.chips !== previousChips || line.mult !== previousMult) {
+    if(line.chips !== previousChips || line.mult[0] !== previousMult[0] || line.mult[1] !== previousMult[1]) {
       breakdownScore = `<div class="levelStat">` +
         `<span id="scoreChips" class="levelStatB">${numberWithCommas(line.chips)}</span>X` +
         `<span id="scoreMult" class="levelStatR">${bigNumberWithCommas(normalizeBig(line.mult))}</span>` +
