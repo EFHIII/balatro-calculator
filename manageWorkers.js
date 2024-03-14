@@ -207,6 +207,7 @@ function terminateThreads() {
 
 let tmpBestJokers;
 let tmpBestCards;
+let tmpBestCardsInHand;
 let tmpBestHighHand;
 let tmpBestLowHand;
 let tmpTypeOfHand;
@@ -219,17 +220,19 @@ function workerMessage(msg) {
       bestScore = msg.data[1];
       tmpBestJokers = msg.data[2];
       tmpBestCards = msg.data[3];
-      tmpBestHighHand = msg.data[4];
-      tmpBestLowHand = msg.data[5];
-      tmpTypeOfHand = msg.data[6];
+      tmpBestCardsInHand = msg.data[4];
+      tmpBestHighHand = msg.data[5];
+      tmpBestLowHand = msg.data[6];
+      tmpTypeOfHand = msg.data[7];
     }
     if(msg.data[1][1] > bestScore[1] || (msg.data[1][1] === bestScore[1] && msg.data[1][0] > bestScore[0])) {
       bestScore = msg.data[1];
       tmpBestJokers = msg.data[2];
       tmpBestCards = msg.data[3];
-      tmpBestHighHand = msg.data[4];
-      tmpBestLowHand = msg.data[5];
-      tmpTypeOfHand = msg.data[6];
+      tmpBestCardsInHand = msg.data[4];
+      tmpBestHighHand = msg.data[5];
+      tmpBestLowHand = msg.data[6];
+      tmpTypeOfHand = msg.data[7];
     }
     if(tasks === 0) {
       bestJokers = tmpBestJokers.map(a => {
@@ -258,6 +261,7 @@ function workerMessage(msg) {
 
       breakdownHand.jokers = tmpBestJokers;
       breakdownHand.cards = tmpBestCards;
+      breakdownHand.cardsInHand = tmpBestCardsInHand;
       breakdownHand.compileAll();
       breakdownHand.simulateWorstHand();
       updateBreakdown(breakdownHand.breakdown.map(a => {

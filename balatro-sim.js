@@ -901,8 +901,20 @@ class Hand {
     }
 
     // retriggers
-    if(!retrigger && card[SEAL] === RED_SEAL) {
-      this.triggerCardInHand(card, true);
+    if(!retrigger) {
+      if(card[SEAL] === RED_SEAL) {
+        this.triggerCardInHand(card, true);
+      }
+
+      for(let j = 0; j < this.jokers.length; j++) {
+        const joker = this.jokers[j];
+        if(joker[JOKER_DISABLED]) continue;
+        switch(joker[JOKER]) {
+          case 14:
+            this.triggerCardInHand(card, true);
+            break;
+        }
+      }
     }
   }
 

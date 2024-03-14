@@ -1032,6 +1032,16 @@ class Hand {
     if(!retrigger) {
       if(card[SEAL] === RED_SEAL) {
         this.triggerCard(card, true);
+
+        if(this.bd) {
+          this.breakdown.push({
+            cards: [card],
+            description: 'Retrigger',
+            chips: this.compiledChips,
+            mult: this.compiledMult,
+            retrigger: true
+          });
+        }
       }
 
       for(let j = 0; j < this.jokers.length; j++) {
@@ -1041,18 +1051,48 @@ class Hand {
           case 13:
             // Sock and Buskin
             if(isFace) {
+              if(this.bd) {
+                this.breakdown.push({
+                  cards: [card, joker],
+                  description: 'Retrigger',
+                  chips: this.compiledChips,
+                  mult: this.compiledMult,
+                  retrigger: true
+                });
+              }
+
               this.triggerCard(card, true);
             }
             break;
           case 25:
             // Hack
             if(card[RANK] <= _5) {
+              if(this.bd) {
+                this.breakdown.push({
+                  cards: [card, joker],
+                  description: 'Retrigger',
+                  chips: this.compiledChips,
+                  mult: this.compiledMult,
+                  retrigger: true
+                });
+              }
+
               this.triggerCard(card, true);
             }
             break;
           case 69:
             // Hanging Chad
             if(this.jokersExtraValue[j] === 0) {
+              if(this.bd) {
+                this.breakdown.push({
+                  cards: [card, joker],
+                  description: 'Retrigger',
+                  chips: this.compiledChips,
+                  mult: this.compiledMult,
+                  retrigger: true
+                });
+              }
+
               this.jokersExtraValue[j]++;
               this.triggerCard(card, true);
             }
@@ -1060,11 +1100,31 @@ class Hand {
           case 74:
             // Dusk
             if(joker[VALUE] !== 0) {
+              if(this.bd) {
+                this.breakdown.push({
+                  cards: [card, joker],
+                  description: 'Retrigger',
+                  chips: this.compiledChips,
+                  mult: this.compiledMult,
+                  retrigger: true
+                });
+              }
+
               this.triggerCard(card, true);
             }
             break;
           case 153:
             // Seltzer
+            if(this.bd) {
+              this.breakdown.push({
+                cards: [card, joker],
+                description: 'Retrigger',
+                chips: this.compiledChips,
+                mult: this.compiledMult,
+                retrigger: true
+              });
+            }
+
             this.triggerCard(card, true);
             break;
         }
@@ -1077,6 +1137,15 @@ class Hand {
     if(card[ENHANCEMENT] === STEEL && !card[CARD_DISABLED]) {
       this.compiledInHandPlusMult = bigTimes(1.5, this.compiledInHandPlusMult);
       this.compiledInHandTimesMult = bigTimes(1.5, this.compiledInHandTimesMult);
+
+      if(this.bd) {
+        this.inHandBreakdown.push({
+          cards: [card],
+          description: `${prodc}1.5${endc} Mult`,
+          chips: this.compiledInHandTimesMult,
+          mult: this.compiledInHandPlusMult
+        });
+      }
     }
 
     for(let j = 0; j < this.jokers.length; j++) {
@@ -1087,12 +1156,30 @@ class Hand {
           // Raised Fist
           if(card === this.compiledValues[j] && card[ENHANCEMENT] !== STONE) {
             this.compiledInHandPlusMult = bigAdd(2 * (card[RANK] === ACE ? 11 : Math.max(10, card[RANK] + 2)), this.compiledInHandPlusMult);
+
+            if(this.bd) {
+              this.inHandBreakdown.push({
+                cards: [card, joker],
+                description: `${multc}+${2 * (card[RANK] === ACE ? 11 : Math.max(10, card[RANK] + 2))}${endc} Mult`,
+                chips: this.compiledInHandTimesMult,
+                mult: this.compiledInHandPlusMult
+              });
+            }
           }
           break;
         case 62:
           // Shoot the Moon
           if(card[RANK] === QUEEN && card[ENHANCEMENT] !== STONE) {
             this.compiledInHandPlusMult = bigAdd(13, this.compiledInHandPlusMult);
+
+            if(this.bd) {
+              this.inHandBreakdown.push({
+                cards: [card, joker],
+                description: `${multc}+13${endc} Mult`,
+                chips: this.compiledInHandTimesMult,
+                mult: this.compiledInHandPlusMult
+              });
+            }
           }
           break;
         case 126:
@@ -1100,14 +1187,55 @@ class Hand {
           if(card[RANK] === KING && card[ENHANCEMENT] !== STONE) {
             this.compiledInHandPlusMult = bigTimes(1.5, this.compiledInHandPlusMult);
             this.compiledInHandTimesMult = bigTimes(1.5, this.compiledInHandTimesMult);
+
+            if(this.bd) {
+              this.inHandBreakdown.push({
+                cards: [card, joker],
+                description: `${prodc}1.5${endc} Mult`,
+                chips: this.compiledInHandTimesMult,
+                mult: this.compiledInHandPlusMult
+              });
+            }
           }
           break;
       }
     }
 
     // retriggers
-    if(!retrigger && card[SEAL] === RED_SEAL) {
-      this.triggerCardInHand(card, true);
+    if(!retrigger) {
+      if(card[SEAL] === RED_SEAL) {
+        if(this.bd) {
+          this.inHandBreakdown.push({
+            cards: [card],
+            description: 'Retrigger',
+            chips: this.compiledInHandTimesMult,
+            mult: this.compiledInHandPlusMult,
+            retrigger: true
+          });
+        }
+
+        this.triggerCardInHand(card, true);
+      }
+
+      for(let j = 0; j < this.jokers.length; j++) {
+        const joker = this.jokers[j];
+        if(joker[JOKER_DISABLED]) continue;
+        switch(joker[JOKER]) {
+          case 14:
+            if(this.bd) {
+              this.inHandBreakdown.push({
+                cards: [card, joker],
+                description: 'Retrigger',
+                chips: this.compiledInHandTimesMult,
+                mult: this.compiledInHandPlusMult,
+                retrigger: true
+              });
+            }
+
+            this.triggerCardInHand(card, true);
+            break;
+        }
+      }
     }
   }
 
@@ -1362,6 +1490,7 @@ class Hand {
     this.lowestCard = false;
 
     this.breakdown = [];
+    this.inHandBreakdown = [];
 
     for(let c = 0; c < this.cards.length; c++) {
       if(this.cards[c][ENHANCEMENT] === WILD) {
@@ -1801,6 +1930,14 @@ class Hand {
     }
 
     // score cards-in-hand
+    if(this.bd) {
+      for(let l = 0; l < this.inHandBreakdown.length; l++) {
+        this.inHandBreakdown[l].mult = bigBigAdd(bigBigTimes(this.inHandBreakdown[l].chips, this.mult), this.inHandBreakdown[l].mult);
+        this.inHandBreakdown[l].chips = this.chips;
+      }
+      this.breakdown.push(...this.inHandBreakdown);
+    }
+
     this.mult = bigBigTimes(this.compiledInHandTimesMult, this.mult);
     this.mult = bigBigAdd(this.compiledInHandPlusMult, this.mult);
 

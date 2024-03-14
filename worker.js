@@ -230,7 +230,7 @@ function run(jokers = [[]]) {
 
   thisHand.compileAll();
 
-  postMessage([taskID, bestScore, bestJokers, bestCards, thisHand.simulateBestHand(), thisHand.simulateWorstHand(), thisHand.typeOfHand]);
+  postMessage([taskID, bestScore, bestJokers, bestCards, bestCardsInHand, thisHand.simulateBestHand(), thisHand.simulateWorstHand(), thisHand.typeOfHand]);
 }
 
 self.onmessage = async function(msg) {
