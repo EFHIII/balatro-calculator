@@ -1811,7 +1811,7 @@ class Hand {
       this.mult = bigTimes(1.5 ** ObservatoryScore, this.mult);
       if(this.bd) {
         this.breakdown.push({
-          cards: cards,
+          cards: [],
           description: `Observatory: ${prodc}${1.5 ** ObservatoryScore}${endc} Mult`,
           chips: this.chips,
           mult: this.mult
