@@ -389,6 +389,16 @@ class Hand {
             this.mult = bigAdd(23, this.mult);
             if(this.bd) this.breakdownPlusMult([joker], 23);
             break;
+          case 1:
+            if(this.bd) {
+              this.breakdown.push({
+                cards: [joker],
+                description: `${multc}+0${endc} - ${multc}+23${endc}`,
+                chips: this.chips,
+                mult: this.mult
+              });
+            }
+            break;
           case 2:
             this.mult = bigAdd(Math.floor(Math.random() * 24), this.mult);
             if(this.bd) this.breakdownPlusMult([joker], Math.floor(Math.random() * 24));
@@ -904,6 +914,16 @@ class Hand {
                   this.mult = bigTimes(2, this.mult);
                   if(this.bd) this.breakdownTimesMult([card, joker], 2);
                   break;
+                case 1:
+                  if(this.bd) {
+                    this.breakdown.push({
+                      cards: [card, joker],
+                      description: `${probc}${1 / this.chanceMultiplier} in 3${endc} ${prodc}2${endc}`,
+                      chips: this.chips,
+                      mult: this.mult
+                    });
+                  }
+                  break;
                 case 2:
                   if(Math.random() * this.chanceMultiplier < 1/3) {
                     this.mult = bigTimes(2, this.mult);
@@ -918,6 +938,16 @@ class Hand {
                 case 0:
                   this.mult = bigTimes(2, this.mult);
                   if(this.bd) this.breakdownTimesMult([card, joker], 2);
+                  break;
+                case 1:
+                  if(this.bd) {
+                    this.breakdown.push({
+                      cards: [card, joker],
+                      description: `${probc}${1 / this.chanceMultiplier} in 3${endc} ${prodc}2${endc}`,
+                      chips: this.chips,
+                      mult: this.mult
+                    });
+                  }
                   break;
                 case 2:
                   if(Math.random() * this.chanceMultiplier < 1/3) {
