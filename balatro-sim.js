@@ -1662,7 +1662,7 @@ class Hand {
     for(let j = 0; j < this.jokers.length; j++) {
       this.triggerJoker(this.jokers[j], j);
 
-      if(this.BaseballCard && this.jokerRarities[j] === 1 && !this.jokers[j][JOKER_DISABLED]) {
+      if(this.BaseballCard && this.jokerRarities[j] === 2 && !this.jokers[j][JOKER_DISABLED]) {
         this.mult = bigTimes(1.5, this.mult);
       }
     }

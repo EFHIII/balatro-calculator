@@ -33,6 +33,25 @@ const jokerCosts = [
    3, 4, 4, 4, 4, 6, 8, 6, 6, 5
 ];
 
+
+const _jokerRarity = [
+  1, 1, 1, 1, 1, 1, 1, 1, 2, 2,
+  1, 1, 2, 2, 2, 1, 1, 1, 1, 1,
+  2, 1, 1, 2, 2, 2, 1, 2, 1, 1,
+  3, 2, 1, 1, 1, 1, 2, 2, 1, 1,
+  3, 1, 1, 2, 2, 3, 3, 3, 3, 3,
+  1, 2, 2, 2, 2, 2, 2, 1, 3, 1,
+  2, 1, 1, 1, 2, 2, 2, 1, 2, 1,
+  3, 3, 2, 2, 2, 2, 2, 3, 2, 2,
+  2, 2, 2, 4, 4, 4, 4, 4, 2, 2,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  1, 2, 2, 1, 1, 3, 1, 1, 3, 2,
+  2, 1, 1, 1, 1, 1, 2, 1, 2, 1,
+  3, 1, 2, 2, 2, 2, 3, 2, 2, 3,
+  2, 2, 1, 2, 2, 2, 2, 1, 2, 1,
+  1, 1, 1, 1, 1, 2, 3, 2, 2, 2
+];
+
 const powersOfTen = [];
 for(let i = 0; i < 632; i++) {
   powersOfTen.push(10 ** (i - 323));
@@ -1798,7 +1817,7 @@ class Hand {
       const joker = this.jokers[j];
 
       this.compiledValues.push(0);
-      this.jokerRarities.push(jokerRarity[joker[JOKER]]);
+      this.jokerRarities.push(_jokerRarity[joker[JOKER]]);
 
       if(joker[JOKER_DISABLED]) continue;
 
@@ -1923,7 +1942,7 @@ class Hand {
           this.MidasMaskas = true;
           break;
         case 146:
-          this.BaseballCard = true;
+          this.BaseballCard = joker;
           break;
       }
     }
@@ -1981,9 +2000,9 @@ class Hand {
     for(let j = 0; j < this.jokers.length; j++) {
       this.triggerJoker(this.jokers[j], j);
 
-      if(this.BaseballCard && this.jokerRarities[j] === 1 && !this.jokers[j][JOKER_DISABLED]) {
+      if(this.BaseballCard && this.jokerRarities[j] === 2 && !this.jokers[j][JOKER_DISABLED]) {
         this.mult = bigTimes(1.5, this.mult);
-        if(this.bd) this.breakdownTimesMult([this.jokers[j]], 1.5);
+        if(this.bd) this.breakdownTimesMult([this.jokers[j], this.BaseballCard], 1.5);
       }
     }
 
