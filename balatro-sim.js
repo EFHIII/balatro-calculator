@@ -1533,6 +1533,7 @@ class Hand {
             }
             if(resolved) {
               this.jokers[j][JOKER] = this.jokers[at][JOKER];
+              this.jokers[j][VALUE] = this.jokers[at][VALUE];
               j--;
             }
           }
@@ -1566,6 +1567,7 @@ class Hand {
             }
             if(resolved) {
               this.jokers[j][JOKER] = this.jokers[at][JOKER];
+              this.jokers[j][VALUE] = this.jokers[at][VALUE];
               j--;
             }
           }
