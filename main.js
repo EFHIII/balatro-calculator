@@ -514,9 +514,9 @@ function jredrawCards() {
       const description = (jokerTexts.length > i && jokerTexts[i].length > j) ? eval('`' + jokerTexts[i][j][1] + '`') : 'WIP';
       if(title.toLowerCase().indexOf(searchVal.toLowerCase()) >= 0 || description.replace(/\<[^\>]+\>/g,'').toLowerCase().indexOf(searchVal.toLowerCase()) >= 0) {
         txt += `<div class='tooltip'><div class="jokerCard${jokerString(i, j, jmodifiers)} onclick="addJoker(${i}, ${j})" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div><span class='tooltiptext'>` +
-        `<span class='title'>${title}</span>` +
-        `<span class='desc'><span class='descContent'>${description}</span></span>` +
-        `</span></div>`;
+        `<div class='title'>${title}</div>` +
+        `<div class='desc'><span class='descContent'>${description}</span></span>` +
+        `</div></div>`;
         count++;
         if(count >= 10) {
           count = 0;
