@@ -1206,12 +1206,12 @@ class Hand {
         case 28:
           // Raised Fist
           if(card === this.compiledValues[j] && card[ENHANCEMENT] !== STONE) {
-            this.compiledInHandPlusMult = bigAdd(2 * (card[RANK] === ACE ? 11 : Math.max(10, card[RANK] + 2)), this.compiledInHandPlusMult);
+            this.compiledInHandPlusMult = bigAdd(2 * (card[RANK] === ACE ? 11 : Math.min(10, card[RANK] + 2)), this.compiledInHandPlusMult);
 
             if(this.bd) {
               this.inHandBreakdown.push({
                 cards: [card, joker],
-                description: `${multc}+${2 * (card[RANK] === ACE ? 11 : Math.max(10, card[RANK] + 2))}${endc} Mult`,
+                description: `${multc}+${2 * (card[RANK] === ACE ? 11 : Math.min(10, card[RANK] + 2))}${endc} Mult`,
                 chips: this.compiledInHandTimesMult,
                 mult: this.compiledInHandPlusMult
               });
