@@ -80,7 +80,7 @@ function initialize(state) {
 }
 
 function run(jokers = [[]]) {
-  thisHand.jokers = jokers[0];
+  thisHand.jokers = jokers[0].map(a => a.slice());
 
   thisHand.compileJokers();
 
@@ -232,7 +232,7 @@ function run(jokers = [[]]) {
     }
   }
 
-  thisHand.jokers = bestJokers.slice();
+  thisHand.jokers = bestJokers.map(a => a.slice());
   thisHand.cards = bestCards.slice();
   thisHand.cardsInHand = bestCardsInHand.slice();
 

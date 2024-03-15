@@ -251,6 +251,7 @@ class Hand {
 
   compiledInHandPlusMult = [0, 0];
   compiledInHandTimesMult = [1, 0];
+  cardCast = [];
 
   actualCardsInHand = [];
 
@@ -1488,6 +1489,20 @@ class Hand {
       }
     }
 
+    // Blueprint or Brainstorm compiled value
+    for(let j = 0; j < this.actualJokers.length; j++) {
+      const joker = this.actualJokers[j];
+      if(joker[JOKER_DISABLED]) continue;
+
+      switch(joker[JOKER]) {
+        case 30:
+        case 77:
+          // Blueprint
+          this.compiledValues[j] = this.compiledValues[this.cardCast[j]];
+          break;
+      }
+    }
+
     // trigger cards-in-hand
     for(let c = 0; c < this.cardsInHand.length; c++) {
       this.triggerCardInHand(this.cardsInHand[c]);
@@ -1498,6 +1513,9 @@ class Hand {
   compileJokerOrder() {
     this.jokerRarities = [];
     this.compiledValues = [];
+    this.cardCast = [];
+
+    this.actualJokers = this.jokers.map(a => a.slice());
 
     // resolve jokers that are card but not joker order agnostic
     for(let j = 0; j < this.jokers.length; j++) {
@@ -1534,6 +1552,7 @@ class Hand {
             if(resolved) {
               this.jokers[j][JOKER] = this.jokers[at][JOKER];
               this.jokers[j][VALUE] = this.jokers[at][VALUE];
+              this.cardCast[j] = at;
               j--;
             }
           }
@@ -1568,6 +1587,7 @@ class Hand {
             if(resolved) {
               this.jokers[j][JOKER] = this.jokers[at][JOKER];
               this.jokers[j][VALUE] = this.jokers[at][VALUE];
+              this.cardCast[j] = at;
               j--;
             }
           }
