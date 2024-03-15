@@ -1358,11 +1358,11 @@ class Hand {
     if(flush.length < (this.FourFingers ? 4 : 5)) flush = false;
 
     if(flush) {
-      this.flush = true;
+      this.hasFlush = true;
     }
 
     if(straight) {
-      this.straight = true;
+      this.hasStraight = true;
     }
 
     if(sortedCards.length >= 4 && (
