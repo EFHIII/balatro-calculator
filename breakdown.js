@@ -1773,6 +1773,7 @@ class Hand {
           break;
         case 122:
           // Vampire
+          this.compiledValues[j] = joker[VALUE];
           if(this.Vampire) {
             break;
           }
