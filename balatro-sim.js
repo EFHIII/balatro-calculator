@@ -682,7 +682,7 @@ class Hand {
             break;
           case 39:
             // Odd Todd
-            if(card[RANK] % 2 === 1 && (card[RANK] <= _9 || card[RANK] === ACE)) {
+            if((card[RANK] % 2 === 1 && card[RANK] <= _9) || card[RANK] === ACE) {
               this.chips += 30;
             }
             break;
