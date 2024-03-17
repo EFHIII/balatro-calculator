@@ -143,6 +143,7 @@ function run(jokers = [[]]) {
         const thisCards = thisHand.cards.slice();
         const thisPerms = thisPermutations[thisHand.cards.length];
 
+        thisHand.actualCardsInHand = thisCardsInHand.slice();
         thisHand.compileCards();
 
         for(let l = 0; l < thisPerms.length; l++) {
