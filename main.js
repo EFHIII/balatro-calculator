@@ -664,6 +664,7 @@ function redrawPlayfieldHTML() {
     `</div>`;
   }
 
+  // if Raise Fist, move the lowest cards to the left
   if(Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0] === 2 && playfieldJokers[b].type[1] === 8 && !playfieldJokers[b].modifiers.disabled), false)) {
     let lowest = 100;
     for(let card in playfieldCards) {
@@ -699,7 +700,8 @@ function redrawPlayfieldHTML() {
 
     ignoreCard = -1;
 
-    if(lowest > 0 && lowest < 100) {
+    // only add cards if there is a valid lowest card and it's not a queen
+    if(lowest > 0 && lowest < 100 && lowest !== QUEEN) {
       ignoreCard = lowestCards[index];
 
       for(let id of Object.keys(playfieldCards).sort().reverse()) {
