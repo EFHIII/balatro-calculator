@@ -359,7 +359,7 @@ function updateBreakdown(breakdown) {
     let breakdownCards = '';
     for(let id of line.cards) {
       if(id[0] === 'j') {
-        breakdownCards += `<div class='tooltip'><div class="playfieldCard${playfieldJokers[id].string}></div>` +
+        breakdownCards += `<div class='tooltip'><div class="playfieldCard jokerCard${playfieldJokers[id].string}></div>` +
         `</div>`;
       }
       else {

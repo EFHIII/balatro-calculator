@@ -1845,7 +1845,7 @@ class Hand {
       const joker = this.jokers[j];
 
       this.compiledValues.push(0);
-      this.jokerRarities.push(_jokerRarity[joker[JOKER]]);
+      this.jokerRarities.push(_jokerRarity[this.actualJokers[j][JOKER]]);
 
       if(joker[JOKER_DISABLED]) continue;
 
@@ -1877,6 +1877,8 @@ class Hand {
               this.jokers[j][VALUE] = this.jokers[at][VALUE];
               this.cardCast[j] = at;
               j--;
+              this.compiledValues.pop();
+              this.jokerRarities.pop();
             }
           }
           break;
@@ -1912,6 +1914,8 @@ class Hand {
               this.jokers[j][VALUE] = this.jokers[at][VALUE];
               this.cardCast[j] = at;
               j--;
+              this.compiledValues.pop();
+              this.jokerRarities.pop();
             }
           }
           break;
