@@ -98,6 +98,21 @@ html {
   overflow-x: hidden;
 }
 
+.handLevel {
+  margin: auto;
+  font-size: 22px;
+  background-color: #a3acb9;
+  padding: 0.2em;
+  margin-top: 0.5em;
+  box-shadow: 0em 0.2em 0em #686e78;
+  border-radius: 0.6em;
+  text-align: center;
+  height: 1.4em;
+  min-width: 22em;
+  max-width: calc(100% - 3em);
+  white-space: nowrap;
+}
+
 @media (min-width: 801px)  {
   @media (min-height: 350px) {
     html {
@@ -133,6 +148,12 @@ html {
     #jokerAera {
       width: calc(100% - 1.5em - 8px);
     }
+  }
+}
+
+@media (max-width: 600px) {
+  .handLevel {
+    font-size: 18px;
   }
 }
 
@@ -200,21 +221,6 @@ html {
 
 .active {
   background-color: #222;
-}
-
-.handLevel {
-  margin: auto;
-  font-size: 20px;
-  background-color: #a3acb9;
-  padding: 0.2em;
-  margin-top: 0.5em;
-  box-shadow: 0em 0.2em 0em #686e78;
-  border-radius: 0.6em;
-  text-align: center;
-  height: 1.4em;
-  min-width: 22em;
-  max-width: calc(100% - 3em);
-  white-space: nowrap;
 }
 
 .lvlBtn {
