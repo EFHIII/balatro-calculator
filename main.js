@@ -973,8 +973,8 @@ function updateJokerValue(joker) {
 }
 
 function playHand() {
-  for(let j in playfieldJokers) {
-    const joker = playfieldJokers[j];
+  for(let j = 0; j < bestJokers.length; j++) {
+    const joker = playfieldJokers[bestJokers[j]];
     switch(''+joker.type[0]+joker.type[1]) {
       case '40':
         // Wee Joker
