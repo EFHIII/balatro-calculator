@@ -115,6 +115,8 @@ const ENHANCEMENT = 3;
 const SEAL = 4;
 const EXTRA_CHIPS = 5;
 const CARD_DISABLED = 6;
+// const CARD_ID = 7;
+const EXTRA_EXTRA_CHIPS = 8;
 
 const JOKER = 0;
 const VALUE = 1;
@@ -252,6 +254,7 @@ class Hand {
   compiledInHandPlusMult = [0, 0];
   compiledInHandTimesMult = [1, 0];
   cardCast = [];
+  cardExtraExtraChips = [];
 
   actualCardsInHand = [];
 
@@ -568,7 +571,7 @@ class Hand {
     const notStone = card[ENHANCEMENT] !== STONE;
 
     if(notStone || this.hasVampire) {
-      this.chips += cardValues[card[RANK]];
+      this.chips += cardValues[card[RANK]] + card[EXTRA_CHIPS] + card[EXTRA_EXTRA_CHIPS];
     }
 
     let luckyMult = 0;
@@ -765,6 +768,10 @@ class Hand {
               this.mult = bigTimes(2, this.mult);
             }
             break;
+          case 110:
+            // Hiker
+            card[EXTRA_EXTRA_CHIPS] += 4;
+            break;
           case 132:
             // Photograph
             if(isFace && (this.jokersExtraValue[j] === card || this.jokersExtraValue[j] === 0)) {
@@ -811,6 +818,10 @@ class Hand {
             // Scary Face
             this.chips += 30;
             break;
+          case 110:
+            // Hiker
+            card[EXTRA_EXTRA_CHIPS] += 4;
+            break;
           case 132:
             // Photograph
             if(this.jokersExtraValue[j] === card || this.jokersExtraValue[j] === 0) {
@@ -821,6 +832,18 @@ class Hand {
           case 156:
             // Smiley Face
             this.mult = bigAdd(4, this.mult);
+            break;
+        }
+      }
+    }
+    else {
+      for(let j = 0; j < this.jokers.length; j++) {
+        const joker = this.jokers[j];
+        if(joker[JOKER_DISABLED]) continue;
+        switch(joker[JOKER]) {
+          case 110:
+            // Hiker
+            card[EXTRA_EXTRA_CHIPS] += 4;
             break;
         }
       }
@@ -1679,6 +1702,7 @@ class Hand {
     // score cards
     for(let c = 0; c < this.cards.length; c++) {
       const card = this.cards[c];
+      card[EXTRA_EXTRA_CHIPS] = 0;
 
       if(this.Splash || card[ENHANCEMENT] === STONE || this.involvedCards.indexOf(card) >= 0) {
         this.triggerCard(card);

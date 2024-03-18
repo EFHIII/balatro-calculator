@@ -116,6 +116,8 @@ const ENHANCEMENT = 3;
 const SEAL = 4;
 const EXTRA_CHIPS = 5;
 const CARD_DISABLED = 6;
+// const CARD_ID = 7;
+const EXTRA_EXTRA_CHIPS = 8;
 
 const JOKER = 0;
 const VALUE = 1;
@@ -748,8 +750,8 @@ class Hand {
     const notStone = card[ENHANCEMENT] !== STONE;
 
     if(notStone || this.hasVampire) {
-      this.chips += cardValues[card[RANK]];
-      if(this.bd) this.breakdownPlusChips([card], cardValues[card[RANK]]);
+      this.chips += cardValues[card[RANK]] + card[EXTRA_CHIPS] + card[EXTRA_EXTRA_CHIPS];
+      if(this.bd) this.breakdownPlusChips([card], cardValues[card[RANK]] + card[EXTRA_CHIPS] + card[EXTRA_EXTRA_CHIPS]);
     }
 
     let luckyMult = 0;
@@ -1010,6 +1012,18 @@ class Hand {
               if(this.bd) this.breakdownTimesMult([card, joker], 2);
             }
             break;
+          case 110:
+            // Hiker
+            card[EXTRA_EXTRA_CHIPS] += 4;
+            if(this.bd) {
+              this.breakdown.push({
+                cards: [card, joker],
+                description: `gain ${chipc}+4${endc} Chips`,
+                chips: this.chips,
+                mult: this.mult
+              });
+            }
+            break;
           case 132:
             // Photograph
             if(isFace && (this.jokersExtraValue[j] === card || this.jokersExtraValue[j] === 0)) {
@@ -1062,6 +1076,18 @@ class Hand {
             this.chips += 30;
             if(this.bd) this.breakdownPlusChips([card, joker], 30);
             break;
+          case 110:
+            // Hiker
+            card[EXTRA_EXTRA_CHIPS] += 4;
+            if(this.bd) {
+              this.breakdown.push({
+                cards: [card, joker],
+                description: 'gain ${chipc}+4${endc} Chips',
+                chips: this.chips,
+                mult: this.mult
+              });
+            }
+            break;
           case 132:
             // Photograph
             if(this.jokersExtraValue[j] === card || this.jokersExtraValue[j] === 0) {
@@ -1078,21 +1104,41 @@ class Hand {
         }
       }
     }
+    else {
+      for(let j = 0; j < this.jokers.length; j++) {
+        const joker = this.jokers[j];
+        if(joker[JOKER_DISABLED]) continue;
+        switch(joker[JOKER]) {
+          case 110:
+            // Hiker
+            card[EXTRA_EXTRA_CHIPS] += 4;
+            if(this.bd) {
+              this.breakdown.push({
+                cards: [card, joker],
+                description: 'gain ${chipc}+4${endc} Chips',
+                chips: this.chips,
+                mult: this.mult
+              });
+            }
+            break;
+        }
+      }
+    }
 
     // retriggers
     if(!retrigger) {
       if(card[SEAL] === RED_SEAL) {
-        this.triggerCard(card, true);
-
         if(this.bd) {
           this.breakdown.push({
             cards: [card],
             description: 'Retrigger',
-            chips: this.compiledChips,
-            mult: this.compiledMult,
+            chips: this.chips,
+            mult: this.mult,
             retrigger: true
           });
         }
+
+        this.triggerCard(card, true);
       }
 
       for(let j = 0; j < this.jokers.length; j++) {
@@ -1106,8 +1152,8 @@ class Hand {
                 this.breakdown.push({
                   cards: [card, joker],
                   description: 'Retrigger',
-                  chips: this.compiledChips,
-                  mult: this.compiledMult,
+                  chips: this.chips,
+                  mult: this.mult,
                   retrigger: true
                 });
               }
@@ -1122,8 +1168,8 @@ class Hand {
                 this.breakdown.push({
                   cards: [card, joker],
                   description: 'Retrigger',
-                  chips: this.compiledChips,
-                  mult: this.compiledMult,
+                  chips: this.chips,
+                  mult: this.mult,
                   retrigger: true
                 });
               }
@@ -1138,8 +1184,8 @@ class Hand {
                 this.breakdown.push({
                   cards: [card, joker],
                   description: 'Retrigger',
-                  chips: this.compiledChips,
-                  mult: this.compiledMult,
+                  chips: this.chips,
+                  mult: this.mult,
                   retrigger: true
                 });
               }
@@ -1155,8 +1201,8 @@ class Hand {
                 this.breakdown.push({
                   cards: [card, joker],
                   description: 'Retrigger',
-                  chips: this.compiledChips,
-                  mult: this.compiledMult,
+                  chips: this.chips,
+                  mult: this.mult,
                   retrigger: true
                 });
               }
@@ -1170,8 +1216,8 @@ class Hand {
               this.breakdown.push({
                 cards: [card, joker],
                 description: 'Retrigger',
-                chips: this.compiledChips,
-                mult: this.compiledMult,
+                chips: this.chips,
+                mult: this.mult,
                 retrigger: true
               });
             }
@@ -2003,6 +2049,7 @@ class Hand {
     // score cards
     for(let c = 0; c < this.cards.length; c++) {
       const card = this.cards[c];
+      card[EXTRA_EXTRA_CHIPS] = 0;
 
       if(this.Splash || card[ENHANCEMENT] === STONE || this.involvedCards.indexOf(card) >= 0) {
 
