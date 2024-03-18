@@ -1708,7 +1708,7 @@ class Hand {
       const card = this.cards[c];
       card[EXTRA_EXTRA_CHIPS] = 0;
 
-      if(this.Splash || card[ENHANCEMENT] === STONE || this.involvedCards.indexOf(card) >= 0) {
+      if(card[ENHANCEMENT] === STONE || this.involvedCards.indexOf(card) >= 0) {
         this.triggerCard(card);
       }
     }
