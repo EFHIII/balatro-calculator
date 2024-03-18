@@ -963,3 +963,92 @@ function setModifyJokerSellValue() {
   redrawPlayfield();
   updateModifyingJoker();
 }
+
+
+function updateJokerValue(joker) {
+  let tmp = jokerValue;
+  jokerValue = joker.value;
+  joker.tooltip[1] = (jokerTexts.length > joker.type[0] && jokerTexts[joker.type[0]].length > joker.type[1]) ? eval('`' + jokerTexts[joker.type[0]][joker.type[1]][1] + '`') : 'WIP'
+  jokerValue = tmp;
+}
+
+function playHand() {
+  for(let j in playfieldJokers) {
+    const joker = playfieldJokers[j];
+    switch(''+joker.type[0]+joker.type[1]) {
+      case '40':
+        // Wee Joker
+        if(bestHand.length === 4) {
+          joker.value++;
+        }
+        break;
+      case '61':
+        // Ride the Bus
+        joker.value = tmpCompiledValues[j];
+        break;
+      case '103':
+        // Runner
+        if(tmpTypeOfHand === 3 || tmpTypeOfHand === 7) {
+          joker.value++;
+        }
+        break;
+      case '107':
+        // Blue Joker
+        joker.value -= bestHand.length;
+        break;
+      case '112':
+        // Green Joker
+        joker.value++;
+        break;
+      case '119':
+        // Square Joker
+        if(bestHand.length === 4) {
+          joker.value++;
+        }
+        break;
+      case '122':
+        // Vampire
+        joker.value = tmpCompiledValues[j];
+        break;
+      case '129':
+        // Obelisk
+        joker.value = tmpCompiledValues[j] * 5 - 5;
+        break;
+      case '154':
+        // Spare Trousers
+        if(tmpTypeOfHand === 1 || tmpTypeOfHand === 5 || tmpTypeOfHand === 9) {
+          joker.value++;
+        }
+        break;
+    }
+    updateJokerValue(joker);
+  }
+
+  for(let c in playfieldCards) {
+    if(bestHand.indexOf(c) >= 0) {
+      delete playfieldCards[c];
+    }
+  }
+  hands[tmpTypeOfHand].playedThisRound = 1;
+  handLevels.children[tmpTypeOfHand].children[0].innerText = 'X';
+  hands[tmpTypeOfHand].played++;
+  handLevels.children[tmpTypeOfHand].children[1].children[0].innerText = hands[tmpTypeOfHand].played;
+
+  bestHand = [];
+
+  redrawPlayfield();
+
+  if(modifyingJoker) {
+    modifyJoker(modifyingJoker);
+  }
+}
+
+function clearHand() {
+  playfieldCards = {};
+
+  redrawPlayfield();
+}
+
+function resetHand() {
+  window.location.replace('/');
+}

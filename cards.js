@@ -296,7 +296,7 @@ const jokerTexts = [
     ['Blueprint', 'Copies ability of<br>${numc}Joker${endc} to the right'],
     ['Glass Joker', 'Gains ${prodc}0.5${endc} Mult<br>for every ${numc}Glass Card${endc}<br>that is destroyed<br>${shadowc}(Currently ${prodc}${1 + jokerValue * 0.5}${endc} Mult)${endc}'],
     ['Scary Face', 'Played ${numc}face${endc} cards<br>give ${chipc}+30${endc} Chips<br>when scored'],
-    ['Abstract Joker', '${multc}+3${endc} Mult for<br>each ${numc}Joker${endc} card<br>${shadowc}(Currently ${multc}+${jokerValue * 3}${endc} Mult)${endc}'],
+    ['Abstract Joker', '${multc}+3${endc} Mult for<br>each ${numc}Joker${endc} card'],
     ['Delayed Gratification', 'Earn ${moneyc}$2${endc} per ${numc}discard${endc} if<br>no discards are used<br>by end of the round'],
     ['Golden Ticket', 'Played ${moneyc}Gold${endc} cards<br>earn ${moneyc}$3${endc} when scored'],
     ['Pareidolia', 'All cards are<br>considered<br>${numc}Face${endc} cards'],

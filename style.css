@@ -738,3 +738,18 @@ input {
   font-size: 0.5em;
   color: #8d8;
 }
+
+.resetBtn {
+  background-color: #ff4d40;
+  color: white;
+  font-family: inherit;
+  font-size: 32px;
+  padding: 0.2em;
+  cursor: pointer;
+  border-radius: 8px;
+  margin-bottom: 1em;
+}
+
+.resetBtn:hover {
+  background-color: #df2d20;
+}

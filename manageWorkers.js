@@ -238,6 +238,7 @@ let tmpBestHighHand;
 let tmpBestLowHand;
 let tmpTypeOfHand;
 let tmpBestID;
+let tmpCompiledValues;
 
 let tmpMeanScore;
 let tmpMedianScore;
@@ -257,6 +258,7 @@ function workerMessage(msg) {
       tmpMeanScore = msg.data[8];
       tmpMedianScore = msg.data[9];
       tmpBestID = msg.data[10];
+      tmpCompiledValues = msg.data[11];
     }
     if(minimize) {
       if(msg.data[1][1] < bestScore[1] || (msg.data[1][1] === bestScore[1] && msg.data[1][0] < bestScore[0])) {
@@ -270,6 +272,7 @@ function workerMessage(msg) {
         tmpMeanScore = msg.data[8];
         tmpMedianScore = msg.data[9];
         tmpBestID = msg.data[10];
+        tmpCompiledValues = msg.data[11];
       }
       else if(msg.data[1][1] === bestScore[1] && msg.data[1][0] === bestScore[0] && msg.data[10] < tmpBestID) {
         bestScore = msg.data[1];
@@ -282,6 +285,7 @@ function workerMessage(msg) {
         tmpMeanScore = msg.data[8];
         tmpMedianScore = msg.data[9];
         tmpBestID = msg.data[10];
+        tmpCompiledValues = msg.data[11];
       }
       else if(tmpBestCards.length === 0 && msg.data[3].length > 0) {
         bestScore = msg.data[1];
@@ -294,6 +298,7 @@ function workerMessage(msg) {
         tmpMeanScore = msg.data[8];
         tmpMedianScore = msg.data[9];
         tmpBestID = msg.data[10];
+        tmpCompiledValues = msg.data[11];
       }
     }
     else {
@@ -308,6 +313,7 @@ function workerMessage(msg) {
         tmpMeanScore = msg.data[8];
         tmpMedianScore = msg.data[9];
         tmpBestID = msg.data[10];
+        tmpCompiledValues = msg.data[11];
       }
       else if(msg.data[1][1] === bestScore[1] && msg.data[1][0] === bestScore[0] && msg.data[10] < tmpBestID) {
         bestScore = msg.data[1];
@@ -320,6 +326,7 @@ function workerMessage(msg) {
         tmpMeanScore = msg.data[8];
         tmpMedianScore = msg.data[9];
         tmpBestID = msg.data[10];
+        tmpCompiledValues = msg.data[11];
       }
     }
     if(tasks === 0) {
