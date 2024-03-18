@@ -115,6 +115,19 @@ function toggleObservatory() {
   }
 }
 
+function togglePlayed(index) {
+  hands[index].playedThisRound = hands[index].playedThisRound ? 0 : 1;
+
+  redrawPlayfield();
+
+  if(hands[index].playedThisRound) {
+    handLevels.children[index].children[0].innerText = 'X';
+  }
+  else {
+    handLevels.children[index].children[0].innerHTML = '&nbsp;';
+  }
+}
+
 function permutations(inputArr) {
   var results = [];
 

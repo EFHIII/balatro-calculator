@@ -498,7 +498,7 @@ class Hand {
         break;
       case 116:
         // Card Sharp
-        if(joker[VALUE]) {
+        if(this.hands[this.typeOfHand][PLAYED_THIS_ROUND]) {
           this.mult = bigTimes(3, this.mult);
         }
         break;

@@ -204,7 +204,7 @@ html {
 
 .handLevel {
   margin: auto;
-  font-size: 22px;
+  font-size: 20px;
   background-color: #a3acb9;
   padding: 0.2em;
   margin-top: 0.5em;
@@ -212,7 +212,7 @@ html {
   border-radius: 0.6em;
   text-align: center;
   height: 1.4em;
-  min-width: 20em;
+  min-width: 22em;
   max-width: calc(100% - 3em);
   white-space: nowrap;
 }
@@ -250,6 +250,22 @@ html {
   color: #3a5055;
   border-style: solid;
   border-color: #fff;
+  margin: 0.125em;
+  border-width: 0.125em;
+  padding-left: 0.3em;
+  padding-right: 0.3em;
+}
+
+.handCount {
+  display: inline-block;
+  white-space: nowrap;
+  text-align: center;
+  min-width: 1.4em;
+  background-color: #3a5055;
+  border-radius: 1em;
+  color: #ff8f00;
+  border-style: solid;
+  border-color: #3a5055;
   margin: 0.125em;
   border-width: 0.125em;
   padding-left: 0.3em;

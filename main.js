@@ -254,11 +254,42 @@ function setLevel(handIndex) {
   redrawPlayfield();
 }
 
+function setPlayed(handIndex) {
+  const hand = hands[handIndex];
+  const div = document.getElementById(hand.id);
+  let willBlur = false;
+
+  if(div.children[1].children[0].innerText.indexOf('\n') >= 0) {
+    div.children[1].children[0].innerText = div.children[1].children[0].innerText.replace(/[\r\n]/g, '');
+    willBlur = true;
+  }
+
+  if(1 * div.children[1].children[0].innerText > 0) {
+    hand.played = Math.round(1 * div.children[1].children[0].innerText);
+  }
+  else {
+    hand.played = 0;
+  }
+
+  if(willBlur) div.children[1].children[0].blur();
+
+  redrawPlayfield();
+}
+
 function removeLvlText (handIndex) {
   const hand = hands[handIndex];
   const div = document.getElementById(hand.id);
   div.children[2].innerText = hand.level;
 
+  selectAll(div.children[2])
+}
+
+function selectAll(div) {
+  const selection = window.getSelection();
+  const range = document.createRange();
+  range.selectNodeContents(div);
+  selection.removeAllRanges();
+  selection.addRange(range);
 }
 
 function addLvlText(handIndex) {
@@ -307,8 +338,8 @@ for(let i = 0; i < hands.length; i++) {
   hands[i].played = 0;
   hands[i].playedThisRound = 0;
   handLevels.innerHTML += `<div class="handLevel" id="${hands[i].id}">
-    <span class="lvlBtn" onclick="incrementLevel(-1, ${i})">-</span>
-    <span class="lvlBtn" onclick="incrementLevel( 1, ${i})">+</span>
+    <span class="lvlBtn" title="played this round" onclick="togglePlayed(${i})">&nbsp;</span>
+    <div style="float: left;">&nbsp;#<span contenteditable="true" class="handCount" onfocus="selectAll(this)" oninput="setPlayed(${i})">0</span></div>
     <span contenteditable="true" class="handLvl" onfocus="removeLvlText(${i})" onblur="addLvlText(${i})" oninput="setLevel(${i})">lvl.1</span>
     <span class="handName">${hands[i].name}</span>
     <span class="levelStat">
@@ -320,7 +351,7 @@ for(let i = 0; i < hands.length; i++) {
     <span class="lvlBtn" onclick="incrementPlanet(-1, ${i})">-</span>
     <span class="lvlBtn" onclick="incrementPlanet( 0, ${i})">0</span>
     <span class="lvlBtn" onclick="incrementPlanet( 1, ${i})">+</span>
-    <span contenteditable="true" class="handLvl" oninput="setPlanet(${i})">0</span>
+    <span contenteditable="true" class="handLvl" oninput="setPlanet(${i})" onfocus="selectAll(this)">0</span>
     <div style="display: flex;"><div style="color: #cef; width: 100%;">${hands[i].planet}</div><div style="width: 100%;">${hands[i].name}</div></dpv>
   </div>`;
 }

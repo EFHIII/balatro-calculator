@@ -307,7 +307,7 @@ const jokerTexts = [
   [
     ['Wee Joker', 'This Joker gains<br>${chipc}+8${endc} Chips when each<br>played ${numc}2${endc} is scored<br>${shadowc}(Currently ${chipc}+${10 + jokerValue * 8}${endc} Chips)${endc}'],
     ['Business Card', 'Played ${numc}Face${endc} cards have<br>a ${probc}1 in 2${endc} chance to<br>give ${moneyc}$2${endc} when scored'],
-    ['Supernova', 'Adds the number of<br>times ${numc}poker hand${endc} has<br>been played to Mult<br>${shadowc}(Currently ${multc}+${jokerValue}${endc} Mult)${endc}'],
+    ['Supernova', 'Adds the number of<br>times ${numc}poker hand${endc} has<br>been played to Mult'],
     ['Mr. Bones', 'Prevents Death<br>if chips scored<br>are at least ${numc}25%${endc}<br>of required chips<br>${multc}self destructs${endc}'],
     ['Seeing Double', '${prodc}2${endc} Mult if played<br>hand has a scoring<br>Club card and a scoring<br>card of any other ${numc}suit${endc}'],
     ['The Duo', '${prodc}2${endc} Mult if played<br>hand contains<br>a ${numc}Pair${endc}'],
@@ -384,7 +384,7 @@ const jokerTexts = [
     ['Superposition', 'Create a ${tarotc} card if<br>poker hand contains an<br>${numc}Ace${endc} and a ${numc}Straight${endc}${roomc}'],
     ['To Do List', 'Earn ${moneyc}$5${endc} if ${numc}poker hand${endc}<br>is a ${numc}Pair${endc},<br>poker hand changes<br>on every payout'],
     ['Cavendish', '${prodc}3${endc} Mult<br>${probc}1 in 1000${endc} chance this<br>card is destroy<br>at end of round'],
-    ['Card Sharp', '${prodc}3${endc} Mult if played<br>${numc}poker hand${endc} has already<br>been played this round' + toggleJokerc],
+    ['Card Sharp', '${prodc}3${endc} Mult if played<br>${numc}poker hand${endc} has already<br>been played this round'],
     ['Red Card', 'Gains ${multc}+3${endc} Mult when any<br>${numc}Booster Pack${endc} is skipped<br>${shadowc}(Currently ${multc}+${jokerValue * 3}${endc} Mult)${endc}'],
     ['Madness', 'When ${numc}Blind${endc} is selected,<br>gain ${prodc}0.5${endc} Mult and<br>${numc}destroy${endc} a random Joker<br>${shadowc}(Currently ${prodc}${1 + jokerValue * 0.5}${endc})${endc}'],
     ['Square Joker', 'Gain ${chipc}+4${endc} Chips if<br>played hand has<br>exactly ${numc}4${endc} card<br>${shadowc}(Currently ${chipc}+${16 + jokerValue * 4}${endc} Chips)${endc}']

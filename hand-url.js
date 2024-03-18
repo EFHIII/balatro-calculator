@@ -627,8 +627,15 @@ function parseHand(bits) {
   if(intFromBits(1, bits)) {
     for(let i = 0; i < hands.length; i++) {
       hands[i].playedThisRound = intFromBits(1, bits);
+      if(hands[i].playedThisRound) {
+        handLevels.children[i].children[0].innerText = 'X';
+      }
+      else {
+        handLevels.children[i].children[0].innerHTML = '&nbsp;';
+      }
       if(intFromBits(1, bits)) {
         hands[i].played = intFromBits(16, bits);
+        handLevels.children[i].children[1].children[0].innerText = hands[i].played;
       }
     }
   }
