@@ -1045,6 +1045,7 @@ function playHand() {
 
 function clearHand() {
   playfieldCards = {};
+  bestHand = [];
 
   redrawPlayfield();
 }
