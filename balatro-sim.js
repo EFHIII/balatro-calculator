@@ -1210,6 +1210,10 @@ class Hand {
     // get hand type
     [this.typeOfHand, this.involvedCards] = this.getTypeOfHand();
 
+    if(this.Splash) {
+      this.involvedCards = this.cards;
+    }
+
     if(this.typeOfHand >= 0) {
       this.compiledChips = handChips[this.typeOfHand][0] + handChips[this.typeOfHand][2] * (this.hands[this.typeOfHand][LEVEL] - 1);
       this.compiledMult = [handChips[this.typeOfHand][1] + handChips[this.typeOfHand][3] * (this.hands[this.typeOfHand][LEVEL] - 1), 0];
