@@ -1050,5 +1050,5 @@ function clearHand() {
 }
 
 function resetHand() {
-  window.location.replace('/');
+  window.location.replace('/balatro-calculator');
 }
