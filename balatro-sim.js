@@ -555,7 +555,7 @@ class Hand {
           this.mult = bigAdd(joker[VALUE] * 2, this.mult);
         }
         break;
-      case 154:
+      case 155:
         // Campfire
         this.mult = bigTimes(1 + joker[VALUE] * 0.5, this.mult);
         break;

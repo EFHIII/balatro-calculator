@@ -732,7 +732,7 @@ class Hand {
           if(this.bd) this.breakdownPlusMult([joker], joker[VALUE] * 2);
         }
         break;
-      case 154:
+      case 155:
         // Campfire
         this.mult = bigTimes(1 + joker[VALUE] * 0.5, this.mult);
         if(this.bd) this.breakdownTimesMult([joker], 1 + joker[VALUE] * 0.5);
