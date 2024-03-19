@@ -7,3 +7,5 @@ This tool lets you input a [Balatro](https://www.playbalatro.com/) hand with a s
 You can also use this tool to try and conceive of your "perfect hand" to see what it would score.
 
 Currently, a couple of the jokers may not work correctly, but most of them do.
+
+font used: https://managore.itch.io/m6x11
