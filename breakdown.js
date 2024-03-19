@@ -324,7 +324,7 @@ class Hand {
 
     if(joker[EDITION] === FOIL) {
       this.chips += 50;
-      if(this.bd) this.breakdownPlusChips([joker], 30, true);
+      if(this.bd) this.breakdownPlusChips([joker], 50, true);
     }
     else if(joker[EDITION] === HOLOGRAPHIC) {
       this.mult = bigAdd(10, this.mult);
