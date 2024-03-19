@@ -549,6 +549,7 @@ class Hand {
       case 154:
         // Spare Trousers
         if(this.hasTwoPair) {
+          this.compiledValues[j] = 1;
           this.mult = bigAdd(2 + joker[VALUE] * 2, this.mult);
         }
         else {

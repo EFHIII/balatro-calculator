@@ -1016,9 +1016,7 @@ function playHand() {
         break;
       case '154':
         // Spare Trousers
-        if(tmpTypeOfHand === 1 || tmpTypeOfHand === 5 || tmpTypeOfHand === 9) {
-          joker.value++;
-        }
+        joker.value += tmpCompiledValues[j];
         break;
     }
     updateJokerValue(joker);
