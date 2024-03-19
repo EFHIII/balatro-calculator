@@ -968,14 +968,25 @@ function setModifyJokerSellValue() {
 function updateJokerValue(joker) {
   let tmp = jokerValue;
   jokerValue = joker.value;
-  joker.tooltip[1] = (jokerTexts.length > joker.type[0] && jokerTexts[joker.type[0]].length > joker.type[1]) ? eval('`' + jokerTexts[joker.type[0]][joker.type[1]][1] + '`') : 'WIP'
+  joker.string = jokerString(joker.type[0], joker.type[1], joker.modifiers);
+  joker.tooltip[1] = (jokerTexts.length > joker.type[0] && jokerTexts[joker.type[0]].length > joker.type[1]) ? eval('`' + jokerTexts[joker.type[0]][joker.type[1]][1] + '`') : 'WIP';
   jokerValue = tmp;
 }
 
 function playHand() {
   for(let j = 0; j < bestJokers.length; j++) {
     const joker = playfieldJokers[bestJokers[j]];
+    if(joker.modifiers.disabled) continue;
     switch(''+joker.type[0]+joker.type[1]) {
+      case '24':
+        // Loyalty Card
+        if(joker.value === 0) {
+          joker.value = 6;
+        }
+        else {
+          joker.value--;
+        }
+        break;
       case '40':
         // Wee Joker
         if(bestHand.length === 4) {
@@ -990,6 +1001,16 @@ function playHand() {
         // Runner
         if(tmpTypeOfHand === 3 || tmpTypeOfHand === 7) {
           joker.value++;
+        }
+        break;
+      case '104':
+        // Ice cream
+        joker.value++;
+        if(joker.value >= 20) {
+          joker.modifiers.foil = false;
+          joker.modifiers.holographic = false;
+          joker.modifiers.polychrome = false;
+          joker.modifiers.disabled = true;
         }
         break;
       case '107':
@@ -1013,6 +1034,26 @@ function playHand() {
       case '129':
         // Obelisk
         joker.value = tmpCompiledValues[j] * 5 - 5;
+        break;
+      case '134':
+        // Turtle Bean
+        joker.value++;
+        if(joker.value >= 5) {
+          joker.modifiers.foil = false;
+          joker.modifiers.holographic = false;
+          joker.modifiers.polychrome = false;
+          joker.modifiers.disabled = true;
+        }
+        break;
+      case '151':
+        // Popcorn
+        joker.value++;
+        if(joker.value >= 5) {
+          joker.modifiers.foil = false;
+          joker.modifiers.holographic = false;
+          joker.modifiers.polychrome = false;
+          joker.modifiers.disabled = true;
+        }
         break;
       case '154':
         // Spare Trousers

@@ -406,7 +406,7 @@ const jokerTexts = [
     ['Luchador', 'Sell this card to<br>disable the current<br>${numc}Boss Blind${endc}'],
     ['Photograph', 'First played ${numc}face${endc}<br>card gives ${prodc}2${endc} Mult<br>when scored'],
     ['Gift Card', 'Add ${moneyc}$1${endc} of ${numc}sell value${endc}<br>to every ${numc}Joker${endc} and<br>${numc}Consumable${endc} card at<br>end of round'],
-    ['Turtle Bean', '${numc}+5${endc} hand size,<br>reduces by<br>${multc}1${endc} every round'],
+    ['Turtle Bean', '${numc}${5 - jokerValue >= 0 ? "+" : ""}${5 - jokerValue}${endc} hand size,<br>reduces by<br>${multc}1${endc} every round'],
     ['Erosion', '${multc}+4${endc} Mult for each<br>card below ${numc}52${endc}<br>in your full deck<br>${shadowc}(Currently ${multc}${jokerValue >= 0 ? "+" : ""}${jokerValue * 4}${endc})${endc}'],
     ['Reserved Parking', 'Each ${numc}face${endc} card<br>held in hand has<br>a ${probc}1 in 2${endc} chance<br>to give ${moneyc}$1${endc}'],
     ['Mail-In Rebate', 'Earn ${moneyc}$3${endc} for each<br>discarded ${numc}${rankNames[Math.abs(jokerValue % 13)]}${endc}, rank<br>changes every round'],
