@@ -2112,6 +2112,10 @@ class Hand {
       this.mult = bigAdd(this.chips, this.mult);
       this.mult[0] /= 2;
 
+      if(this.mult[1] === 0) {
+        this.mult[0] = Math.floor(this.mult[0]);
+      }
+
       if(this.bd) {
         this.breakdown.push({
           cards: [],
