@@ -30,7 +30,8 @@ const jokerCosts = [
    5, 4, 4, 4, 4, 4, 6, 5, 7, 5,
    7, 4, 7, 7, 7, 6, 8, 6, 6, 8,
    6, 5, 5, 6, 6, 6, 6, 4, 5, 4,
-   3, 4, 4, 4, 4, 6, 8, 6, 6, 5
+   3, 4, 4, 4, 4, 6, 8, 6, 6, 5,
+   5, 5, 6, 6, 6, 9, 4, 8, 4, 6
 ];
 
 
@@ -49,7 +50,8 @@ const _jokerRarity = [
   2, 1, 1, 1, 1, 1, 2, 1, 2, 1,
   3, 1, 2, 2, 2, 2, 3, 2, 2, 3,
   2, 2, 1, 2, 2, 2, 2, 1, 2, 1,
-  1, 1, 1, 1, 2, 2, 3, 2, 2, 2
+  1, 1, 1, 1, 1, 2, 3, 2, 2, 2,
+  2, 1, 2, 2, 2, 3, 1, 3, 1, 2
 ];
 
 const powersOfTen = [];
@@ -692,10 +694,6 @@ class Hand {
           if(this.bd) this.breakdownPlusChips([joker], 80);
         }
         break;
-      case 159:
-        // Castle
-        this.compiledChips += joker[VALUE] * 3;
-        break;
       case 145:
         // Lucky Cat
         this.mult = bigTimes(1 + (joker[VALUE] + this.jokersExtraValue[j]) / 5, this.mult);
@@ -737,6 +735,10 @@ class Hand {
         // Campfire
         this.mult = bigTimes(1 + joker[VALUE] * 0.5, this.mult);
         if(this.bd) this.breakdownTimesMult([joker], 1 + joker[VALUE] * 0.5);
+        break;
+      case 159:
+        // Castle
+        this.compiledChips += joker[VALUE] * 3;
         break;
     }
 
@@ -1896,6 +1898,7 @@ class Hand {
       const joker = this.jokers[j];
 
       this.compiledValues.push(0);
+      console.log(_jokerRarity[this.actualJokers[j][JOKER]], this.actualJokers[j][JOKER]);
       this.jokerRarities.push(_jokerRarity[this.actualJokers[j][JOKER]]);
 
       if(joker[JOKER_DISABLED]) continue;
