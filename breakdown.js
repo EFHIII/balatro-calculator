@@ -1037,7 +1037,7 @@ class Hand {
             break;
           case 145:
             // Lucky Cat
-            this.jokersExtraValue[j] += luckyTriggers;
+            this.jokersExtraValue[j] += luckyMult + luckyMoney;
             break;
           case 147:
             // Bull
