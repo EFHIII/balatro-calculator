@@ -579,6 +579,7 @@ class Hand {
 
     let luckyMult = 0;
     let luckyMoney = 0;
+    let luckyTriggers = 0;
 
     if(!this.hasVampire) {
       switch(card[ENHANCEMENT]) {
@@ -600,14 +601,21 @@ class Hand {
               this.mult = bigAdd(5, this.mult);
               luckyMult++;
               luckyMoney++;
+              luckyTriggers++;
               break;
             case 2:
+              let triggered = false;
               if(Math.random() * this.chanceMultiplier < 0.2) {
                 this.mult = bigAdd(5, this.mult);
                 luckyMult++;
+                triggered = true;
               }
               if(Math.random() * this.chanceMultiplier < 0.05) {
                 luckyMoney++;
+                triggered = true;
+              }
+              if(triggered) {
+                luckyTriggers++;
               }
               break;
           }
@@ -784,7 +792,7 @@ class Hand {
             break;
           case 145:
             // Lucky Cat
-            this.jokersExtraValue[j] += luckyMoney + luckyMult;
+            this.jokersExtraValue[j] += luckyTriggers;
             break;
           case 147:
             // Bull
