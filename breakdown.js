@@ -1898,7 +1898,6 @@ class Hand {
       const joker = this.jokers[j];
 
       this.compiledValues.push(0);
-      console.log(_jokerRarity[this.actualJokers[j][JOKER]], this.actualJokers[j][JOKER]);
       this.jokerRarities.push(_jokerRarity[this.actualJokers[j][JOKER]]);
 
       if(joker[JOKER_DISABLED]) continue;
