@@ -1323,9 +1323,9 @@ class Hand {
         case 40:
           // Wee Joker
           this.compiledChips += joker[VALUE] * 8 + 10;
-          for(let c = 0; c < this.cardsInHand.length; c++) {
+          for(let c = 0; c < this.involvedCards.length; c++) {
             if(this.involvedCards[c][CARD_DISABLED]) continue;
-            const card = this.cards[c];
+            const card = this.involvedCards[c];
             if(card[ENHANCEMENT] !== STONE && card[RANK] === _2) {
               this.compiledChips += 8;
             }
