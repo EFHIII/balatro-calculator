@@ -1086,6 +1086,13 @@ function clearHand() {
   playfieldCards = {};
   bestHand = [];
 
+  handLimitDiv.innerText = Object.keys(playfieldCards).length;
+
+  for(let i = 0; i < hands.length; i++) {
+    hands[i].playedThisRound = 0;
+    handLevels.children[i].children[0].innerHTML = '&nbsp;';
+  }
+
   redrawPlayfield();
 }
 
