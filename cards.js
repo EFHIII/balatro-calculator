@@ -317,7 +317,7 @@ const jokerTexts = [
     ['The Tribe', '${prodc}2${endc} Mult if played<br>hand contains<br>a ${numc}Flush${endc}']
   ],
   [
-    ['8 Ball', 'Create a ${planetc} card<br>if played hand contains<br>2 or more ${numc}8s${roomc}'],
+    ['8 Ball', 'Create a ${planetc} card<br>if played hand contains<br>2 or more ${numc}8s${endc}${roomc}'],
     ['Fibonacci', 'Each plaed ${numc}Ace${endc},<br>${numc}2${endc}, ${numc}3${endc}, ${numc}5${endc}, or ${numc}8${endc} gives<br>${multc}+8${endc} Mult when scored'],
     ['Joker Stencil', '${prodc}1${endc} Mult for each<br>empty ${numc}Joker${endc} slot<br>Joker stencil included<br>${shadowc}(Currently ${prodc}${1 + jokerValue}${endc})${endc}'],
     ['Space Joker', '${probc}1 in 4${endc} chane to<br>upgrade level of<br>played ${numc}poker hand${endc}'],
