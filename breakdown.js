@@ -233,7 +233,7 @@ class Hand {
 
   hasVampire = false;
   Vampire = false;
-  BaseballCard = false;
+  BaseballCard = [];
 
   RaisedFist = false;
 
@@ -1898,6 +1898,7 @@ class Hand {
     this.jokerRarities = [];
     this.compiledValues = [];
     this.cardCast = [];
+    this.BaseballCard = [];
 
     this.actualJokers = this.jokers.map(a => a.slice());
 
@@ -1980,6 +1981,10 @@ class Hand {
             }
           }
           break;
+        case 146:
+          // Baseball Card
+          this.BaseballCard.push(joker);
+          break;
       }
     }
   }
@@ -2001,7 +2006,6 @@ class Hand {
 
     this.RaisedFist = false;
     this.Splash = false;
-    this.BaseballCard = false;
     this.MidasMaskas = false;
 
     this.hasVampire = false;
@@ -2037,9 +2041,6 @@ class Hand {
           break;
         case 130:
           this.MidasMaskas = true;
-          break;
-        case 146:
-          this.BaseballCard = joker;
           break;
       }
     }
@@ -2098,9 +2099,11 @@ class Hand {
     for(let j = 0; j < this.jokers.length; j++) {
       this.triggerJoker(this.jokers[j], j);
 
-      if(this.BaseballCard && this.jokerRarities[j] === 2 && !this.jokers[j][JOKER_DISABLED]) {
-        this.mult = bigTimes(1.5, this.mult);
-        if(this.bd) this.breakdownTimesMult([this.jokers[j], this.BaseballCard], 1.5);
+      if(this.BaseballCard.length && this.jokerRarities[j] === 2 && !this.jokers[j][JOKER_DISABLED]) {
+        for(let i = 0; i < this.BaseballCard.length; i++) {
+          this.mult = bigTimes(1.5, this.mult);
+          if(this.bd) this.breakdownTimesMult([this.jokers[j], this.BaseballCard[i]], 1.5);
+        }
       }
     }
 

@@ -232,7 +232,7 @@ class Hand {
 
   hasVampire = false;
   Vampire = false;
-  BaseballCard = false;
+  BaseballCard = 0;
 
   RaisedFist = false;
 
@@ -1553,6 +1553,8 @@ class Hand {
     this.compiledValues = [];
     this.cardCast = [];
 
+    this.BaseballCard = 0;
+
     this.actualJokers = this.jokers.map(a => a.slice());
 
     // resolve jokers that are card but not joker order agnostic
@@ -1634,6 +1636,10 @@ class Hand {
             }
           }
           break;
+        case 146:
+          // Baseball Card
+          this.BaseballCard++;
+          break;
       }
     }
   }
@@ -1654,7 +1660,6 @@ class Hand {
 
     this.RaisedFist = false;
     this.Splash = false;
-    this.BaseballCard = false;
     this.MidasMaskas = false;
 
     this.hasVampire = false;
@@ -1690,9 +1695,6 @@ class Hand {
           break;
         case 130:
           this.MidasMaskas = true;
-          break;
-        case 146:
-          this.BaseballCard = true;
           break;
       }
     }
@@ -1733,7 +1735,9 @@ class Hand {
       this.triggerJoker(this.jokers[j], j);
 
       if(this.BaseballCard && this.jokerRarities[j] === 2 && !this.jokers[j][JOKER_DISABLED]) {
-        this.mult = bigTimes(1.5, this.mult);
+        for(let i = 0; i < this.BaseballCard; i++) {
+          this.mult = bigTimes(1.5, this.mult);
+        }
       }
     }
 
