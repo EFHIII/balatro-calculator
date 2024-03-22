@@ -165,7 +165,7 @@ function run(jokers = [[]]) {
                   bestJokers = jokers[j];
                   bestCardsInHand = thisHand.cardsInHand;
                 }
-                if(thisScore[1] < bestScore[1] || (thisScore[1] === bestScore[1] && thisScore[0] < bestScore[0])) {
+                if(thisScore[1] < bestScore[1] || (thisScore[1] === bestScore[1] && thisScore[0] < bestScore[0]) || (bestCards.length === 0 && thisHand.cards.length > 0)) {
                   bestScore = thisScore;
                   bestCards = thisHand.cards;
                   bestJokers = jokers[j];
@@ -188,7 +188,7 @@ function run(jokers = [[]]) {
                   bestJokers = jokers[j];
                   bestCardsInHand = thisHand.cardsInHand;
                 }
-                if(thisScore[1] > bestScore[1] || (thisScore[1] === bestScore[1] && thisScore[0] > bestScore[0])) {
+                if(thisScore[1] > bestScore[1] || (thisScore[1] === bestScore[1] && thisScore[0] > bestScore[0]) || (bestCards.length === 0 && thisHand.cards.length > 0)) {
                   bestScore = thisScore;
                   bestCards = thisHand.cards;
                   bestJokers = jokers[j];
