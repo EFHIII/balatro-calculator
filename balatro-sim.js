@@ -1334,7 +1334,7 @@ class Hand {
         case 44:
           // Seeing Double
           let club = false;
-          let nonCLub = false;
+          let nonClub = false;
           for(let c = 0; c < this.involvedCards.length; c++) {
             if(this.involvedCards[c][CARD_DISABLED]) continue;
             if(this.involvedCards[c][ENHANCEMENT] !== STONE) {
