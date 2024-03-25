@@ -614,8 +614,8 @@ class Hand {
         break;
       case 112:
         // Green Joker
-        this.mult = bigAdd(joker[VALUE], this.mult);
-        if(this.bd) this.breakdownPlusMult([joker], joker[VALUE]);
+        this.mult = bigAdd(1 + joker[VALUE], this.mult);
+        if(this.bd) this.breakdownPlusMult([joker], 1 + joker[VALUE]);
         break;
       case 115:
         // Cavendish
