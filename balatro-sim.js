@@ -467,7 +467,7 @@ class Hand {
         this.mult = bigTimes(1 + joker[VALUE] * 0.25, this.mult);
         break;
       case 83:
-        // Caino
+        // Canio
         this.mult = bigTimes(1 + joker[VALUE], this.mult);
         break;
       case 85:

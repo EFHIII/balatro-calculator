@@ -552,7 +552,7 @@ class Hand {
         if(this.bd) this.breakdownTimesMult([joker], 1 + joker[VALUE] * 0.25);
         break;
       case 83:
-        // Caino
+        // Canio
         this.mult = bigTimes(1 + joker[VALUE], this.mult);
         if(this.bd) this.breakdownTimesMult([joker], 1 + joker[VALUE]);
         break;
