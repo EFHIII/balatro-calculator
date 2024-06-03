@@ -34,7 +34,7 @@ const jokerCosts = [
    5, 5, 6, 6, 6, 9, 4, 8, 4, 6
 ];
 
-const jokerRarity = [
+const _jokerRarity = [
   1, 1, 1, 1, 1, 1, 1, 1, 2, 2,
   1, 1, 2, 2, 2, 1, 1, 1, 1, 1,
   2, 1, 1, 2, 2, 2, 1, 2, 1, 1,
