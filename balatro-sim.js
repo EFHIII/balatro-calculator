@@ -596,7 +596,7 @@ class Hand {
         case LUCKY:
           switch(this.randomMode) {
             case 0:
-              this.mult = bigAdd(5, this.mult);
+              this.mult = bigAdd(20, this.mult);
               luckyMult++;
               luckyMoney++;
               luckyTriggers++;
