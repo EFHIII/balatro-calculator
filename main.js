@@ -54,7 +54,7 @@ const hands = [
     s_mult: 16,
     s_chips: 160,
     l_mult: 3,
-    l_chips: 40
+    l_chips: 50
   },
   {
     name: "Flush House",
@@ -63,7 +63,7 @@ const hands = [
     chips: 140,
     s_mult: 14,
     s_chips: 140,
-    l_mult: 3,
+    l_mult: 4,
     l_chips: 40
   },
   {
@@ -83,7 +83,7 @@ const hands = [
     chips: 100,
     s_mult: 8,
     s_chips: 100,
-    l_mult: 3,
+    l_mult: 4,
     l_chips: 40
   },
   {
@@ -123,7 +123,7 @@ const hands = [
     chips: 30,
     s_mult: 4,
     s_chips: 30,
-    l_mult: 2,
+    l_mult: 3,
     l_chips: 30
   },
   {

@@ -27,7 +27,7 @@
     {
       "@type": "Thing",
       "name": "Mad Joker",
-      "description": "+20 Mult if played hand contains a Four of a Kind"
+      "description": "+10 Mult if played hand contains a Two Pair"
     },
     {
       "@type": "Thing",
@@ -87,22 +87,22 @@
     {
       "@type": "Thing",
       "name": "Greedy Joker",
-      "description": "Played cards with Diamond suit give +4 Mult when scored"
+      "description": "Played cards with Diamond suit give +3 Mult when scored"
     },
     {
       "@type": "Thing",
       "name": "Lusty Joker",
-      "description": "Played cards with Heart suit give +4 Mult when scored"
+      "description": "Played cards with Heart suit give +3 Mult when scored"
     },
     {
       "@type": "Thing",
       "name": "Wrathful Joker",
-      "description": "Played cards with Spade suit give +4 Mult when scored"
+      "description": "Played cards with Spade suit give +3 Mult when scored"
     },
     {
       "@type": "Thing",
       "name": "Gluttonous Joker",
-      "description": "Played cards with Club suit give +4 Mult when scored"
+      "description": "Played cards with Club suit give +3 Mult when scored"
     },
     {
       "@type": "Thing",
@@ -112,7 +112,7 @@
     {
       "@type": "Thing",
       "name": "Banner",
-      "description": "+40 Chips for each remaining discard (Currently +0 Chips)"
+      "description": "+30 Chips for each remaining discard (Currently +0 Chips)"
     },
     {
       "@type": "Thing",
@@ -142,7 +142,7 @@
     {
       "@type": "Thing",
       "name": "Steel Joker",
-      "description": "This Joker gains X0.25 Mult for each Steel Card in your full deck (Currently X1 Mult)"
+      "description": "This Joker gains X0.2 Mult for each Steel Card in your full deck (Currently X1 Mult)"
     },
     {
       "@type": "Thing",
@@ -162,7 +162,7 @@
     {
       "@type": "Thing",
       "name": "Glass Joker",
-      "description": "Gains X0.5 Mult for every Glass Card that is destroyed (Currently X1 Mult)"
+      "description": "This Joker gains X0.75 Mult for every Glass Card that is destroyed (Currently X1 Mult)"
     },
     {
       "@type": "Thing",
@@ -182,7 +182,7 @@
     {
       "@type": "Thing",
       "name": "Golden Ticket",
-      "description": "Played Gold cards earn $3 when scored"
+      "description": "Played Gold cards earn $4 when scored"
     },
     {
       "@type": "Thing",
@@ -202,12 +202,12 @@
     {
       "@type": "Thing",
       "name": "Odd Todd",
-      "description": "Played cards with odd rank give +30 Chips when scored (A, 9, 7, 5, 3)"
+      "description": "Played cards with odd rank give +31 Chips when scored (A, 9, 7, 5, 3)"
     },
     {
       "@type": "Thing",
       "name": "Wee Joker",
-      "description": "This Joker gains +8 Chips when each played 2 is scored (Currently +10 Chips)"
+      "description": "This Joker gains +8 Chips when each played 2 is scored (Currently +0 Chips)"
     },
     {
       "@type": "Thing",
@@ -257,7 +257,7 @@
     {
       "@type": "Thing",
       "name": "8 Ball",
-      "description": "Create a Planet card if played hand contains 2 or more 8s (Must have room)"
+      "description": "1 in 4 chance for each played 8 to create a Tarot card when scored (Must have room)"
     },
     {
       "@type": "Thing",
@@ -297,22 +297,22 @@
     {
       "@type": "Thing",
       "name": "Hit the Road",
-      "description": "Gains X0.5 Mult per discarded Jack this round (Currently X1)"
+      "description": "This Joker gains X0.5 Mult per discarded Jack this round (Currently X1)"
     },
     {
       "@type": "Thing",
       "name": "Swashbuckler",
-      "description": "Adds the sell value of all owned Jokers left of this card to Mult"
+      "description": "Adds the sell value of all other owned Jokers to Mult"
     },
     {
       "@type": "Thing",
       "name": "Flower Pot",
-      "description": "X3 Mult if played hand has a scoring Diamond card, Club card, Heart card, and Spade card"
+      "description": "X3 Mult if poker hand contains a Diamond card, Club card, Heart card, and Spade card"
     },
     {
       "@type": "Thing",
       "name": "Ride the Bus",
-      "description": "+1 Mult per consecutive hand played without a scoring face card (Currently +0)"
+      "description": "This Joker gains +1 Mult per consecutive hand played without a scoring face card (Currently +0)"
     },
     {
       "@type": "Thing",
@@ -342,17 +342,17 @@
     {
       "@type": "Thing",
       "name": "Gros Michel",
-      "description": "+15 Mult 1 in 4 chance this card is destroyed at the end of the round"
+      "description": "+15 Mult 1 in 6 chance this card is destroyed at the end of the round"
     },
     {
       "@type": "Thing",
       "name": "Stuntman",
-      "description": "+300 Chips, -2 hand size"
+      "description": "+250 Chips, -2 hand size"
     },
     {
       "@type": "Thing",
       "name": "Hanging Chad",
-      "description": "Retrigger first played card used in scoring"
+      "description": "Retrigger first played card used in scoring 2 additional times"
     },
     {
       "@type": "Thing",
@@ -362,7 +362,7 @@
     {
       "@type": "Thing",
       "name": "Invisible Joker",
-      "description": "After 3 rounds, sell this card to duplicate a random Joker (Currently 0/3)"
+      "description": "After 2 rounds, sell this card to duplicate a random Joker (Currently 0/2)"
     },
     {
       "@type": "Thing",
@@ -407,7 +407,7 @@
     {
       "@type": "Thing",
       "name": "Bloodstone",
-      "description": "1 in 3 chance for played cards with Heart suit to give X2 Mult when scored"
+      "description": "1 in 2 chance for played cards with Heart suit to give X1.5 Mult when scored"
     },
     {
       "@type": "Thing",
@@ -417,7 +417,7 @@
     {
       "@type": "Thing",
       "name": "Onyx Agate",
-      "description": "Played cards with Club suit give +8 Mult when scored"
+      "description": "Played cards with Club suit give +7 Mult when scored"
     },
     {
       "@type": "Thing",
@@ -432,7 +432,7 @@
     {
       "@type": "Thing",
       "name": "Yorick",
-      "description": "X5 Mult only after using 23 discards (Discards left 0)"
+      "description": "This Joker gains X1 Mult every 23 [23] cards discarded (Currently X1 Mult)"
     },
     {
       "@type": "Thing",
@@ -472,7 +472,7 @@
     {
       "@type": "Thing",
       "name": "Runner",
-      "description": "Gains +10 Chips if played hand contains a Straight (Currently +20 Chips)"
+      "description": "Gains +15 Chips if played hand contains a Straight (Currently +0 Chips)"
     },
     {
       "@type": "Thing",
@@ -502,12 +502,12 @@
     {
       "@type": "Thing",
       "name": "Constellation",
-      "description": "Gains X0.1 Mult per Planet card used (Currently X1 Mult)"
+      "description": "This Joker gains X0.1 Mult per Planet card used (Currently X1 Mult)"
     },
     {
       "@type": "Thing",
       "name": "Hiker",
-      "description": "Every played card permanently gains +4 Chips when scored"
+      "description": "Every played card permanently gains +5 Chips when scored"
     },
     {
       "@type": "Thing",
@@ -527,7 +527,7 @@
     {
       "@type": "Thing",
       "name": "To Do List",
-      "description": "Earn $5 if poker hand is a Pair, poker hand changes on every payout"
+      "description": "Earn $4 if poker hand is a Pair, poker hand changes at end of round"
     },
     {
       "@type": "Thing",
@@ -542,17 +542,17 @@
     {
       "@type": "Thing",
       "name": "Red Card",
-      "description": "Gains +3 Mult when any Booster Pack is skipped (Currently +0 Mult)"
+      "description": "This Joker gains +3 Mult when any Booster Pack is skipped (Currently +0 Mult)"
     },
     {
       "@type": "Thing",
       "name": "Madness",
-      "description": "When Blind is selected, gain X0.5 Mult and destroy a random Joker (Currently X1)"
+      "description": "When Small Blind or Big Blind is selected, gain X0.5 Mult and destroy a random Joker (Currently X1 Mult)"
     },
     {
       "@type": "Thing",
       "name": "Square Joker",
-      "description": "Gain +4 Chips if played hand has exactly 4 card (Currently +16 Chips)"
+      "description": "This Joker gains +4 Chips if played hand has exactly 4 card (Currently +0 Chips)"
     },
     {
       "@type": "Thing",
@@ -567,22 +567,22 @@
     {
       "@type": "Thing",
       "name": "Vampire",
-      "description": "Gains X0.2 Mult per Enhanced card played, removes card Enhancement (Currently X1 Mult)"
+      "description": "This Joker gains X0.1 Mult per scoring Enhanced card played, removes card Enhancement (Currently X1 Mult)"
     },
     {
       "@type": "Thing",
       "name": "Shortcut",
-      "description": "Allows Straights to be made with gaps of 1 rank (ex: 2 3 5 7 8)"
+      "description": "Allows Straights to be made with gaps of 1 rank (ex: 10 8 6 5 3)"
     },
     {
       "@type": "Thing",
       "name": "Hologram",
-      "description": "Gains X0.25 Mult  per playing card added to your deck (Currently X1 Mult)"
+      "description": "This Joker gains X0.25 Mult  per playing card added to your deck (Currently X1 Mult)"
     },
     {
       "@type": "Thing",
       "name": "Vagabond",
-      "description": "Create a Tarot card if hand is played with $3 or less"
+      "description": "Create a Tarot card if hand is played with $4 or less"
     },
     {
       "@type": "Thing",
@@ -602,12 +602,12 @@
     {
       "@type": "Thing",
       "name": "Obelisk",
-      "description": "X0.2 Mult per consecutive hand played without playing your must played poker hand (Currently X1 Mult)"
+      "description": "This Joker gains X0.2 Mult per consecutive hand played without playing your must played poker hand (Currently X1 Mult)"
     },
     {
       "@type": "Thing",
       "name": "Midas Mask",
-      "description": "All face cards become Gold cards when played"
+      "description": "All played face cards become Gold cards when scored"
     },
     {
       "@type": "Thing",
@@ -642,7 +642,7 @@
     {
       "@type": "Thing",
       "name": "Mail-In Rebate",
-      "description": "Earn $3 for each discarded 2, rank changes every round"
+      "description": "Earn $5 for each discarded 2, rank changes every round"
     },
     {
       "@type": "Thing",
@@ -667,7 +667,7 @@
     {
       "@type": "Thing",
       "name": "Clever Joker",
-      "description": "+150 Chips if played hand contains a Four of a Kind"
+      "description": "+80 Chips if played hand contains a Two Pair"
     },
     {
       "@type": "Thing",
@@ -682,7 +682,7 @@
     {
       "@type": "Thing",
       "name": "Lucky Cat",
-      "description": "Gains X0.2 Mult each time a Lucky card successfully triggers (currently X1 Mult)"
+      "description": "This Joker gains X0.25 Mult each time a Lucky card successfully triggers (currently X1 Mult)"
     },
     {
       "@type": "Thing",
@@ -707,7 +707,7 @@
     {
       "@type": "Thing",
       "name": "Flash Card",
-      "description": "+2 Mult per reroll in the shop (Currently +0 Mult)"
+      "description": "This Joker gains +2 Mult per reroll in the shop (Currently +0 Mult)"
     },
     {
       "@type": "Thing",
@@ -732,12 +732,12 @@
     {
       "@type": "Thing",
       "name": "Campfire",
-      "description": "This Joker gains X0.5 Mult for each card sold, resets when Boss Blind is defeated (Currently X1 Mult)"
+      "description": "This Joker gains X0.25 Mult for each card sold, resets when Boss Blind is defeated (Currently X1 Mult)"
     },
     {
       "@type": "Thing",
       "name": "Smiley Face",
-      "description": "Played face cards give +4 Mult when scored"
+      "description": "Played face cards give +5 Mult when scored"
     },
     {
       "@type": "Thing",
