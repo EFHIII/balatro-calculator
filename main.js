@@ -695,14 +695,18 @@ function redrawPlayfieldHTML() {
     `</div>`;
   }
 
-  // if Raise Fist, move the lowest cards to the left
+  // if Raised Fist, move the lowest cards to the left
   if(Object.keys(playfieldJokers).reduce((a,b) => a || (playfieldJokers[b].type[0] === 2 && playfieldJokers[b].type[1] === 8 && !playfieldJokers[b].modifiers.disabled), false)) {
     let lowest = 100;
+    let isQueen = true;
+    let type = 0;
     for(let card in playfieldCards) {
       if(!playfieldCards[card].modifiers.stone && bestHand.indexOf(card) < 0) {
-        if(lowest > cardValues[playfieldCards[card].type[1]]) {
-          lowest = cardValues[playfieldCards[card].type[1]];
+        if(lowest > cardValues[playfieldCards[card].type[1]] + (playfieldCards[card].type[1] === QUEEN ? 10 : 0)) {
+          isQueen = playfieldCards[card].type[1] === QUEEN;
+          lowest = cardValues[playfieldCards[card].type[1]] + (isQueen ? 10 : 0);
           lowestCards = [card];
+          type = playfieldCards[card].type[1];
         }
         else if(lowest === cardValues[playfieldCards[card].type[1]]) {
           lowestCards.push(card);
@@ -731,13 +735,14 @@ function redrawPlayfieldHTML() {
 
     ignoreCard = -1;
 
-    // only add cards if there is a valid lowest card and it's not a queen
-    if(lowest > 0 && lowest < 100 && lowest !== QUEEN) {
+    // only add cards if there is a valid lowest card
+    if(lowest > 0 && lowest < 100 && !isQueen) {
       ignoreCard = lowestCards[index];
 
       for(let id of Object.keys(playfieldCards).sort().reverse()) {
         if(lowestCards.indexOf(id) < 0) continue;
         if(id === ignoreCard) continue;
+        if(id.indexOf('99') === 0) continue;
         txt += `<div class="tooltip"><div id="${id}" class="playfieldCard${playfieldCards[id].string} onclick="removeCard('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
         `<div style="position: absolute; top: 100%; width: 100%;">` +
         `<div class="positionButtons">` +
@@ -753,6 +758,7 @@ function redrawPlayfieldHTML() {
       `</div></div>` +
       `</div>`;
     }
+    //console.log(txt);
   }
 
   for(let id of Object.keys(playfieldCards).sort().reverse()) {
