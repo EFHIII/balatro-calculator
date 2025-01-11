@@ -920,12 +920,17 @@ class Hand {
             this.compiledInHandPlusMult = bigAdd(2 * (card[RANK] === ACE ? 11 : Math.min(10, card[RANK] + 2)), this.compiledInHandPlusMult);
           }
           break;
-        case 62:
-          // Shoot the Moon
-          if(card[RANK] === QUEEN && card[ENHANCEMENT] !== STONE) {
-            this.compiledInHandPlusMult = bigAdd(13, this.compiledInHandPlusMult);
-          }
-          break;
+          case 62:
+            // Shoot the Moon
+            if (
+              card[RANK] === QUEEN &&
+              !card[CARD_DISABLED] &&
+              card[ENHANCEMENT] !== STONE
+            ) {
+              this.compiledInHandPlusMult = bigAdd(13, this.compiledInHandPlusMult);
+            }
+            break;
+          
         case 126:
           // Baron
           if(card[RANK] === KING && card[ENHANCEMENT] !== STONE) {
