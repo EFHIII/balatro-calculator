@@ -1943,6 +1943,7 @@ class Hand {
             if(resolved) {
               this.jokers[j][JOKER] = this.jokers[at][JOKER];
               this.jokers[j][VALUE] = this.jokers[at][VALUE];
+              this.jokers[j][JOKER_DISABLED] = this.jokers[at][JOKER_DISABLED];
               this.cardCast[j] = at;
               j--;
               this.compiledValues.pop();
@@ -1983,6 +1984,7 @@ class Hand {
             if(resolved) {
               this.jokers[j][JOKER] = this.jokers[at][JOKER];
               this.jokers[j][VALUE] = this.jokers[at][VALUE];
+              this.jokers[j][JOKER_DISABLED] = this.jokers[at][JOKER_DISABLED];
               this.cardCast[j] = at;
               j--;
               this.compiledValues.pop();
