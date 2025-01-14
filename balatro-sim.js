@@ -604,11 +604,11 @@ class Hand {
             case 2:
               let triggered = false;
               if(Math.random() * this.chanceMultiplier < 0.2) {
-                this.mult = bigAdd(5, this.mult);
+                this.mult = bigAdd(20, this.mult);
                 luckyMult++;
                 triggered = true;
               }
-              if(Math.random() * this.chanceMultiplier < 0.05) {
+              if(Math.random() * this.chanceMultiplier < 1/15) {
                 luckyMoney++;
                 triggered = true;
               }
@@ -905,7 +905,7 @@ class Hand {
 
   triggerCardInHand(card, retrigger = false) {
     if(card[CARD_DISABLED]) return;
-    
+
     // apply steel cards
     if(card[ENHANCEMENT] === STEEL && !card[CARD_DISABLED]) {
       this.compiledInHandPlusMult = bigTimes(1.5, this.compiledInHandPlusMult);
