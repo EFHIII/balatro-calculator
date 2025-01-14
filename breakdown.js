@@ -1247,6 +1247,8 @@ class Hand {
   }
 
   triggerCardInHand(card, retrigger = false) {
+    if(card[CARD_DISABLED]) return;
+    
     // apply steel cards
     if(card[ENHANCEMENT] === STEEL && !card[CARD_DISABLED]) {
       this.compiledInHandPlusMult = bigTimes(1.5, this.compiledInHandPlusMult);
