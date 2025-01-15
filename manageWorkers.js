@@ -488,6 +488,7 @@ function calculator() {
 }
 
 function numberWithCommas(x) {
+  if(typeof x === 'object') return bigNumberWithCommas(x);
   if(x < 1e11) {
     if((Math.floor(x * 10000) / 10000) % 1 !== 0) {
       return Math.floor(x).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '.' + (Math.floor(Math.round((x % 1) * 10000) / 10)+'').padStart(3, 0).replace(/0+$/, '');
@@ -498,7 +499,7 @@ function numberWithCommas(x) {
 }
 
 function bigNumberWithCommas(num, whole = false) {
-  if(num[1] > 11) {
+  if(num && num[1] > 11) {
     return `${Math.floor(num[0] * 10000) / 10000}e${num[1]}`;
   }
 

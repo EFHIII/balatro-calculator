@@ -2093,7 +2093,7 @@ class Hand {
         if(this.bd) {
           this.breakdown.push({
             cards: [card],
-            description: card[ENHANCEMENT] === STONE ? 'Stone' : `${rankNames[card[RANK]]} of ${suitNames[card[SUIT]]}`,
+            description: card[ENHANCEMENT] === STONE ? 'Stone' : `${rankNames[card[RANK]]} of ${card[ENHANCEMENT] === WILD ? 'Wild' : suitNames[card[SUIT]]}`,
             chips: this.chips,
             mult: this.mult,
             newCard: true
@@ -2144,7 +2144,7 @@ class Hand {
 
     if(this.PlasmaDeck) {
       this.mult = bigAdd(this.chips, this.mult);
-      this.mult[0] /= 2;
+      this.mult = bigTimes(0.5, this.mult);
 
       if(this.mult[1] === 0) {
         this.mult[0] = Math.floor(this.mult[0]);
@@ -2154,7 +2154,7 @@ class Hand {
         this.breakdown.push({
           cards: [],
           description: `Plasma Deck`,
-          chips: this.mult[0] * (10 ** this.mult[1]),
+          chips: normalizeBig(this.mult),//this.mult[0] * (10 ** this.mult[1]),
           mult: this.mult
         });
       }

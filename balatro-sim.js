@@ -1785,11 +1785,12 @@ class Hand {
 
     if(this.PlasmaDeck) {
       this.mult = bigAdd(this.chips, this.mult);
-      this.mult[0] /= 2;
+      this.mult = bigTimes(0.5, this.mult);
+
       if(this.mult[1] === 0) {
         this.mult[0] = Math.floor(this.mult[0]);
       }
-      return [...normalizeBig(bigBigTimes(this.mult, this.mult)), this.mult[0] * (10 ** this.mult[1]), normalizeBig(this.mult)];
+      return [...normalizeBig(bigBigTimes(this.mult, this.mult)), normalizeBig(this.mult), normalizeBig(this.mult)];
     }
 
     return [...normalizeBig(bigTimes(this.chips, this.mult)), this.chips, normalizeBig(this.mult)];
