@@ -1066,7 +1066,7 @@ class Hand {
             break;
           case 157:
             // Ancient Joker
-            if(this.SmearedJoker ? card[SUIT] % 2 === Math.abs(joker[VALUE]) % 2 : card[SUIT] === Math.abs(joker[VALUE]) % 4) {
+            if(card[ENHANCEMENT] === WILD || (this.SmearedJoker ? card[SUIT] % 2 === Math.abs(joker[VALUE]) % 2 : card[SUIT] === Math.abs(joker[VALUE]) % 4)) {
               this.mult = bigTimes(1.5, this.mult);
               if(this.bd) this.breakdownTimesMult([card, joker], 1.5);
             }
