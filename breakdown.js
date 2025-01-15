@@ -799,13 +799,13 @@ class Hand {
               break;
             case 2:
               let triggered = false;
-              if(Math.random() * this.chanceMultiplier < 0.2) {
+              if(Math.random() < 0.2 * this.chanceMultiplier) {
                 this.mult = bigAdd(5, this.mult);
                 if(this.bd) this.breakdownPlusMult([card], 20, true);
                 luckyMult++;
                 triggered = true;
               }
-              if(Math.random() * this.chanceMultiplier < 1/15) {
+              if(Math.random() < 1/15 * this.chanceMultiplier) {
                 luckyMoney++;
                 triggered = true;
               }
@@ -947,17 +947,21 @@ class Hand {
                   if(this.bd) this.breakdownTimesMult([card, joker], 1.5);
                   break;
                 case 1:
-                  if(this.bd) {
+                  if(this.chanceMultiplier >= 2) {
+                    this.mult = bigTimes(1.5, this.mult);
+                    if(this.bd) this.breakdownTimesMult([card, joker], 1.5);
+                  }
+                  else if(this.bd) {
                     this.breakdown.push({
                       cards: [card, joker],
-                      description: `${probc}${1 / this.chanceMultiplier} in 2${endc} ${prodc}1.5${endc}`,
+                      description: `${probc}${1 * this.chanceMultiplier} in 2${endc} ${prodc}1.5${endc}`,
                       chips: this.chips,
                       mult: this.mult
                     });
                   }
                   break;
                 case 2:
-                  if(Math.random() * this.chanceMultiplier < 1/2) {
+                  if(Math.random() < 1/2 * this.chanceMultiplier) {
                     this.mult = bigTimes(1.5, this.mult);
                     if(this.bd) this.breakdownTimesMult([card, joker], 1.5);
                   }
@@ -972,17 +976,21 @@ class Hand {
                   if(this.bd) this.breakdownTimesMult([card, joker], 1.5);
                   break;
                 case 1:
-                  if(this.bd) {
+                  if(this.chanceMultiplier >= 2) {
+                    this.mult = bigTimes(1.5, this.mult);
+                    if(this.bd) this.breakdownTimesMult([card, joker], 1.5);
+                  }
+                  else if(this.bd) {
                     this.breakdown.push({
                       cards: [card, joker],
-                      description: `${probc}${1 / this.chanceMultiplier} in 2${endc} ${prodc}1.5${endc}`,
+                      description: `${probc}${1 * this.chanceMultiplier} in 2${endc} ${prodc}1.5${endc}`,
                       chips: this.chips,
                       mult: this.mult
                     });
                   }
                   break;
                 case 2:
-                  if(Math.random() * this.chanceMultiplier < 1/2) {
+                  if(Math.random() < 1/2 * this.chanceMultiplier) {
                     this.mult = bigTimes(1.5, this.mult);
                     if(this.bd) this.breakdownTimesMult([card, joker], 1.5);
                   }
@@ -1725,7 +1733,7 @@ class Hand {
                     amount++;
                     break;
                   case 2:
-                    if(Math.random() * this.chanceMultiplier < 0.25) {
+                    if(Math.random() < 0.25 * this.chanceMultiplier) {
                       amount++;
                     }
                     break;
@@ -2038,7 +2046,7 @@ class Hand {
           this.SmearedJoker = true;
           break;
         case 65:
-          this.chanceMultiplier /= 2;
+          this.chanceMultiplier *= 2;
           break;
         case 66:
           this.FourFingers = true;
