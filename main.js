@@ -494,7 +494,7 @@ function redrawCards() {
   for(let i = 0; i < 4; i++) {
     txt += '<div>';
     for(let j = 0; j < 13; j++) {
-      txt += `<div class="tooltip"><div class="playingCard${cardString(i, j)} onclick="addCard(${i}, ${j})" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div></div>`;
+      txt += `<div class="tooltip"><div class="playingCard${cardString((i+3) % 4, j)} onclick="addCard(${i}, ${j})" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div></div>`;
     }
     txt += '</div>';
   }
