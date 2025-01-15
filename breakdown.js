@@ -1761,24 +1761,24 @@ class Hand {
           // Seeing Double
           let club = false;
           let nonClub = false;
+          let wildC = 0;
           for(let c = 0; c < this.involvedCards.length; c++) {
             if(this.involvedCards[c][CARD_DISABLED]) continue;
             if(this.involvedCards[c][ENHANCEMENT] !== STONE) {
               if(this.involvedCards[c][ENHANCEMENT] === WILD) {
-                if(club) {
-                  nonClub = true;
-                }
-                else {
-                  club = true;
-                }
+                wildC++;
               }
-              else if(this.involvedCards[c][RANK] === CLUBS) {
+              else if(this.involvedCards[c][SUIT] === CLUBS) {
                 club = true;
               }
               else {
                 nonClub = true;
               }
             }
+          }
+          for(let i = 0; i < wildC; i++) {
+            if(!club) club = true;
+            else nonClub = true;
           }
           if(club && nonClub) {
             this.compiledValues[j] = true;
