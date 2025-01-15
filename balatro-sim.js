@@ -594,6 +594,7 @@ class Hand {
           this.chips += 50;
           break;
         case LUCKY:
+          let triggered = false;
           switch(this.randomMode) {
             case 0:
               this.mult = bigAdd(20, this.mult);
@@ -616,7 +617,6 @@ class Hand {
               }
               break;
             case 2:
-              let triggered = false;
               if(Math.random() < 0.2 * this.chanceMultiplier) {
                 this.mult = bigAdd(20, this.mult);
                 luckyMult++;
