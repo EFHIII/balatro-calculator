@@ -254,6 +254,8 @@ const jokerRarity = [
   [1, 0, 1, 1, 1, 2, 0, 2, 0, 1],
 ];
 
+let playfieldJokers = {};
+
 const jokerTexts = [
   [
     ['Joker', '${multc}+4${endc} Mult'],
@@ -353,7 +355,7 @@ const jokerTexts = [
     ['Rough Gem', 'Played cards with<br>${diamondc} suit earn<br>${moneyc}$1${endc} when scored']
   ],
   [
-    ['Bloodstone', '${probc}1 in 2${endc} chance for<br>played cards with<br>${heartc} suit to give<br>${prodc}1.5${endc} Mult when scored'],
+    ['Bloodstone', '${probc}${!playfieldJokers?1:Object.keys(playfieldJokers).reduceRight((b,a)=>b||(playfieldJokers[a].modifiers.disabled?false:playfieldJokers[a].type+"" === "6,5"), false) ? 2 : 1} in 2${endc} chance for<br>played cards with<br>${heartc} suit to give<br>${prodc}1.5${endc} Mult when scored'],
     ['Arrowhead', 'Played cards with<br>${spadec} suit give<br>${chipc}+50${endc} Chips when scored'],
     ['Onyx Agate', 'Played cards with<br>${clubc} suit give<br>${multc}+7${endc} Mult when scored'],
     ['Canio', 'This Joker gains ${prodc}1${endc} Mult<br>when a ${numc}face${endc} card<br>is destroyed<br>${shadowc}(Currently ${prodc}${1 + jokerValue}${endc} Mult)${endc}'],
