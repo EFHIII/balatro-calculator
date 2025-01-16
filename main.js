@@ -625,9 +625,9 @@ function addCard(i, j) {
 
   playfieldCards[id] = {
     id,
-    type: [i, j],
+    type: [(i + 3) % 4, j],
     modifiers: {...modifiers},
-    string: cardString(i, j)
+    string: cardString((i + 3) % 4, j)
   };
 
   handLimitDiv.innerText = Object.keys(playfieldCards).length;
