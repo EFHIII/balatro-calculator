@@ -576,6 +576,7 @@ function updateTooltips() {
   for(let joker in playfieldJokers) {
     let i = playfieldJokers[joker].type[0];
     let j = playfieldJokers[joker].type[1];
+    let jokerValue = playfieldJokers[joker].value;
     playfieldJokers[joker].tooltip = (jokerTexts.length > i && jokerTexts[i].length > j) ? [jokerTexts[i][j][0], eval('`' + jokerTexts[i][j][1] + '`')] : ['WIP', 'WIP'];
   }
 }

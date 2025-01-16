@@ -736,7 +736,8 @@ class Hand {
         break;
       case 159:
         // Castle
-        this.compiledChips += joker[VALUE] * 3;
+        this.chips += joker[VALUE] * 3;
+        if(this.bd) this.breakdownPlusChips([joker], 3 * joker[VALUE] + this.jokersExtraValue[j]);
         break;
     }
 
@@ -1672,6 +1673,7 @@ class Hand {
 
       const oldCompiledValue = this.compiledValues[j];
       this.compiledValues[j] = 0;
+      let extra = 0;
 
       switch(joker[JOKER]) {
         case 9:
@@ -1681,8 +1683,17 @@ class Hand {
             for(let c = 0; c < this.involvedCards.length; c++) {
               if(this.involvedCards[c][ENHANCEMENT] === STONE) {
                 this.compiledChips -= 25;
+                extra++;
               }
             }
+          }
+          if(this.bd) {
+            this.breakdown.push({
+              cards: [joker],
+              description: `${chipc}+${(joker[VALUE] - extra) * 25}${endc} Chips`,
+              chips: this.compiledChips,
+              mult: this.compiledMult
+            });
           }
           break;
         case 27:
@@ -1754,7 +1765,16 @@ class Hand {
             const card = this.involvedCards[c];
             if(card[ENHANCEMENT] !== STONE && card[RANK] === _2) {
               this.compiledChips += 8;
+              extra++;
             }
+          }
+          if(this.bd) {
+            this.breakdown.push({
+              cards: [joker],
+              description: `${chipc}+${(joker[VALUE] + extra) * 8}${endc} Chips`,
+              chips: this.compiledChips,
+              mult: this.compiledMult
+            });
           }
           break;
         case 44:
