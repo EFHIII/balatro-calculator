@@ -524,7 +524,7 @@ function parseHand(bits) {
   let numberOfCardsInHand = intFromBits(3, bits);
 
   for(let i = 0; i < numberOfCards; i++) {
-    const type = [intFromBits(2, bits), intFromBits(4, bits)];
+    const type = [(intFromBits(2, bits) + 1) % 4, intFromBits(4, bits)];
 
     modifiers.foil = false;
     modifiers.holographic = false;
