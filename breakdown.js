@@ -673,7 +673,7 @@ class Hand {
         break;
       case 142:
         // Clever Joker
-        if(this.hasTwoPair) {
+        if(this.hasTwoPair && !this.hasFourOfAKind) {
           this.chips += 80;
           if(this.bd) this.breakdownPlusChips([joker], 80);
         }

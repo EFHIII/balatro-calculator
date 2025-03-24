@@ -1526,7 +1526,7 @@ class Hand {
           break;
         case 142:
           // Clever Joker
-          if(this.hasTwoPair) {
+          if(this.hasTwoPair && !this.hasFourOfAKind) {
             this.compiledChips += 80;
           }
           break;
