@@ -913,7 +913,8 @@ class Hand {
           case 40:
             // Wee Joker
             if(card[RANK] === _2) {
-              this.jokersExtraValue[j]++;
+              this.chips += 8;
+              if(this.bd) this.breakdownPlusChips([card, joker], 8);
             }
             break;
           case 51:
@@ -1760,18 +1761,10 @@ class Hand {
         case 40:
           // Wee Joker
           this.compiledChips += joker[VALUE] * 8;
-          for(let c = 0; c < this.involvedCards.length; c++) {
-            if(this.involvedCards[c][CARD_DISABLED]) continue;
-            const card = this.involvedCards[c];
-            if(card[ENHANCEMENT] !== STONE && card[RANK] === _2) {
-              this.compiledChips += 8;
-              extra++;
-            }
-          }
           if(this.bd) {
             this.breakdown.push({
               cards: [joker],
-              description: `${chipc}+${(joker[VALUE] + extra) * 8}${endc} Chips`,
+              description: `${chipc}+${joker[VALUE] * 8}${endc} Chips`,
               chips: this.compiledChips,
               mult: this.compiledMult
             });

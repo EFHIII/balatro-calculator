@@ -715,7 +715,7 @@ class Hand {
           case 40:
             // Wee Joker
             if(card[RANK] === _2) {
-              this.jokersExtraValue[j]++;
+              this.chips += 8;
             }
             break;
           case 51:
@@ -1353,13 +1353,6 @@ class Hand {
         case 40:
           // Wee Joker
           this.compiledChips += joker[VALUE] * 8;
-          for(let c = 0; c < this.involvedCards.length; c++) {
-            if(this.involvedCards[c][CARD_DISABLED]) continue;
-            const card = this.involvedCards[c];
-            if(card[ENHANCEMENT] !== STONE && card[RANK] === _2) {
-              this.compiledChips += 8;
-            }
-          }
           break;
         case 44:
           // Seeing Double
