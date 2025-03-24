@@ -1760,6 +1760,18 @@ class Hand {
       if(card[ENHANCEMENT] === STONE || this.involvedCards.indexOf(card) >= 0) {
         this.triggerCard(card);
       }
+      else {
+        for(let j = 0; j < this.jokers.length; j++) {
+          const joker = this.jokers[j];
+          if(joker[JOKER_DISABLED]) continue;
+          switch(joker[JOKER]) {
+            // Hanging Chad
+            case 69:
+              this.jokersExtraValue[j]++;
+            break;
+          }
+        }
+      }
     }
 
     // score cards-in-hand
