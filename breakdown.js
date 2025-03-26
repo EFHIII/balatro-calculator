@@ -2094,7 +2094,7 @@ class Hand {
     this.mult = [this.compiledMult[0], this.compiledMult[1]];
     this.jokersExtraValue = [];
 
-    if(this.hands[this.typeOfHand][PLAYED_THIS_ROUND]) {
+    if(this.TheEye && this.hands[this.typeOfHand][PLAYED_THIS_ROUND]) {
       return [...normalizeBig(bigTimes(0, 1)), 0, normalizeBig(1)];
     }
 
