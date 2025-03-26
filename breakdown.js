@@ -265,6 +265,7 @@ class Hand {
     jokers = [],
     hands = false,
     TheFlint = false,
+    TheEye = false,
     PlasmaDeck = false,
     Observatory = false,
     breakdown = true
@@ -286,6 +287,7 @@ class Hand {
       }
     }
     this.TheFlint = TheFlint;
+    this.TheEye = TheEye;
     this.PlasmaDeck = PlasmaDeck;
     this.Observatory = Observatory;
     this.bd = breakdown;
@@ -2091,6 +2093,10 @@ class Hand {
     this.chips = this.compiledChips;
     this.mult = [this.compiledMult[0], this.compiledMult[1]];
     this.jokersExtraValue = [];
+
+    if(this.hands[this.typeOfHand][PLAYED_THIS_ROUND]) {
+      return [...normalizeBig(bigTimes(0, 1)), 0, normalizeBig(1)];
+    }
 
     for(let j = 0; j < this.jokers.length; j++) {
       this.jokersExtraValue.push(0);

@@ -65,6 +65,7 @@ function initialize(state) {
   thisHand = new Hand({
     hands: state.hands,
     TheFlint: state.TheFlint,
+    TheEye: state.TheEye,
     PlasmaDeck: state.PlasmaDeck,
     Observatory: state.Observatory
   });

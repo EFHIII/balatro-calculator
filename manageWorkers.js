@@ -21,10 +21,12 @@ const toggleJokerDiv = document.getElementById('toggleJokerBtn');
 const toggleCardDiv = document.getElementById('toggleCardBtn');
 const minimizeDiv = document.getElementById('toggleMinimizeBtn');
 const toggleTheFlintDiv = document.getElementById('toggleTheFintBtn');
+const toggleTheEyeDiv = document.getElementById('toggleTheEyeBtn');
 const togglePlasmaDiv = document.getElementById('togglePlasmaBtn');
 const toggleObservatoryDiv = document.getElementById('toggleObservatoryBtn');
 
 let theFlint = false;
+let theEye = false;
 let plasmaDeck = false;
 let observatory = false;
 
@@ -98,6 +100,18 @@ function toggleTheFlint() {
   }
   else {
     toggleTheFlintDiv.innerHTML = '&nbsp;';
+  }
+}
+
+function toggleTheEye() {
+  theEye = !theEye;
+  redrawPlayfield();
+
+  if(theEye) {
+    toggleTheEyeDiv.innerText = 'X';
+  }
+  else {
+    toggleTheEyeDiv.innerHTML = '&nbsp;';
   }
 }
 
@@ -198,6 +212,7 @@ function terminateThreads() {
       ];
     }),
     TheFlint: theFlint,
+    TheEye: theEye,
     PlasmaDeck: plasmaDeck,
     Observatory: observatory,
     taskID,
@@ -220,6 +235,7 @@ function terminateThreads() {
   };
 
   breakdownHand.TheFlint = theFlint;
+  breakdownHand.TheEye = theEye;
   breakdownHand.PlasmaDeck = plasmaDeck;
   breakdownHand.Observatory = observatory;
   breakdownHand.hands = state.hands;
