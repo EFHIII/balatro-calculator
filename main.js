@@ -28,6 +28,7 @@ let modifyingJokerValue = 0;
 let modifyingJokerValDiv = document.getElementById('modifyJokerVal');
 let modifyingJokerSellValDiv = document.getElementById('modifyJokerSellVal');
 let modifyJokerDiv = document.getElementById('modifyJoker');
+let highContrastDiv = document.getElementById('highContrastBtn');
 
 function changeTab(tab) {
   return () => {
@@ -477,14 +478,16 @@ function toggleCardModifier(name) {
 const cardsDiv = document.getElementById('cards');
 const jcardsDiv = document.getElementById('jokers');
 
-function cardString(i, j) {
+let highContrast = false;
+
+function cardString(i, j, hc = 0) {
   if(modifiers.stone) {
     return `${modifierClass}" style="background: ` +
     `${modifierPostString}${modifierString.slice(2)}"`;
   }
   else {
     return `${modifierClass}" style="background: ` +
-    `${modifierPostString}url(assets/8BitDeck.png) ` +
+    `${modifierPostString}url(assets/8BitDeck${(hc === 2 || (hc === 0 && highContrast))?'_opt2':''}.png) ` +
     `-${71*j}px -${95*i}px${modifierString}"`;
   }
 }
@@ -500,6 +503,21 @@ function redrawCards() {
   }
   cardsDiv.innerHTML = txt;
 }
+
+function toggleContrast() {
+    highContrast = !highContrast;
+    if(highContrast) {
+      highContrastDiv.innerText = 'X';
+    }
+    else {
+      highContrastDiv.innerHTML = '&nbsp;';
+    }
+
+    redrawCards();
+    redrawPlayfieldHTML();
+}
+
+document.getElementById('highContrastBtn').addEventListener('click', toggleContrast);
 
 function jokerString(i, j, modifiers) {
   let jmodifierClass = '';
@@ -628,7 +646,8 @@ function addCard(i, j) {
     id,
     type: [(i + 3) % 4, j],
     modifiers: {...modifiers},
-    string: cardString((i + 3) % 4, j)
+    string: cardString((i + 3) % 4, j, 1),
+    HCString: cardString((i + 3) % 4, j, 2),
   };
 
   handLimitDiv.innerText = Object.keys(playfieldCards).length;
@@ -661,7 +680,8 @@ function redrawPlayfieldHTML() {
 
   let txt = '';
   for(let id of bestJokers) {
-    txt += `<div class='tooltip'><div id="${id}" class="jokerCard${playfieldJokers[id].string} onclick="modifyJoker('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
+    txt += `<div class='tooltip'><div id="${id}" class="jokerCard${playfieldJokers[id].string} ` +
+    `onclick="modifyJoker('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
     `<div class="removeJoker" onclick="removeJoker('${id}')">X</div>` +
     `<span class='tooltiptext'>` +
     `<span class='title'>${playfieldJokers[id].tooltip[0]}</span>` +
@@ -679,7 +699,9 @@ function redrawPlayfieldHTML() {
 
   txt = '';
   for(let id of bestHand) {
-    txt += `<div class="tooltip"><div id="p${id}" class="playfieldCard${playfieldCards[id].string} onclick="removeCard('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
+    txt += `<div class="tooltip"><div id="p${id}" ` +
+    `class="playfieldCard${highContrast ? playfieldCards[id].HCString : playfieldCards[id].string} ` +
+    `onclick="removeCard('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
     `<div style="position: absolute; top: 100%; width: 100%;">` +
     `<div class="positionButtons">` +
     `<div class="lvlBtn" onclick="moveHandCardLeft('${id}')">&lt;</div>` +
@@ -697,7 +719,7 @@ function redrawPlayfieldHTML() {
   for(let id of Object.keys(playfieldCards).sort().reverse()) {
     if(bestHand.indexOf(id) >= 0) continue;
     if(id.indexOf('99') !== 0) continue;
-    txt += `<div class="tooltip"><div id="${id}" class="playfieldCard${playfieldCards[id].string} onclick="removeCard('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
+    txt += `<div class="tooltip"><div id="${id}" class="playfieldCard${highContrast ? playfieldCards[id].HCString : playfieldCards[id].string} onclick="removeCard('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
     `<div style="position: absolute; top: 100%; width: 100%;">` +
     `<div class="positionButtons">` +
     `<div class="lvlBtn" onclick="moveCardUp('${id}')">^</div>` +
@@ -753,7 +775,7 @@ function redrawPlayfieldHTML() {
         if(lowestCards.indexOf(id) < 0) continue;
         if(id === ignoreCard) continue;
         if(id.indexOf('99') === 0) continue;
-        txt += `<div class="tooltip"><div id="${id}" class="playfieldCard${playfieldCards[id].string} onclick="removeCard('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
+        txt += `<div class="tooltip"><div id="${id}" class="playfieldCard${highContrast ? playfieldCards[id].HCString : playfieldCards[id].string} onclick="removeCard('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
         `<div style="position: absolute; top: 100%; width: 100%;">` +
         `<div class="positionButtons">` +
         `<div class="lvlBtn" onclick="moveCardUp('${id}')">^</div>` +
@@ -761,7 +783,7 @@ function redrawPlayfieldHTML() {
         `</div>`;
       }
 
-      txt += `<div class="tooltip"><div id="${ignoreCard}" class="playfieldCard${playfieldCards[ignoreCard].string} onclick="removeCard('${ignoreCard}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
+      txt += `<div class="tooltip"><div id="${ignoreCard}" class="playfieldCard${highContrast ? playfieldCards[ignoreCard].HCString : playfieldCards[ignoreCard].string} onclick="removeCard('${ignoreCard}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
       `<div style="position: absolute; top: 100%; width: 100%;">` +
       `<div class="positionButtons">` +
       `<div class="lvlBtn" onclick="moveCardUp('${ignoreCard}')">^</div>` +
@@ -775,7 +797,7 @@ function redrawPlayfieldHTML() {
     if(bestHand.indexOf(id) >= 0) continue;
     if(lowestCards.indexOf(id) >= 0) continue;
     if(id.indexOf('99') === 0) continue;
-    txt += `<div class="tooltip"><div id="${id}" class="playfieldCard${playfieldCards[id].string} onclick="removeCard('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
+    txt += `<div class="tooltip"><div id="${id}" class="playfieldCard${highContrast ? playfieldCards[id].HCString : playfieldCards[id].string} onclick="removeCard('${id}')" onmousemove = 'hoverCard(event)' onmouseout = 'noHoverCard(event)'></div>` +
     `<div style="position: absolute; top: 100%; width: 100%;">` +
     `<div class="positionButtons">` +
     `<div class="lvlBtn" onclick="moveCardUp('${id}')">^</div>` +
