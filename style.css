@@ -748,6 +748,7 @@ input {
   cursor: pointer;
   border-radius: 8px;
   margin-bottom: 1em;
+  vertical-align: middle;
 }
 
 .resetBtn:hover {
