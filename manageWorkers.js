@@ -142,6 +142,21 @@ function togglePlayed(index) {
   }
 }
 
+function invertPlayedHands(index) {
+  for(let index = 0; index < hands.length; index++) {
+    hands[index].playedThisRound = hands[index].playedThisRound ? 0 : 1;
+
+    if(hands[index].playedThisRound) {
+      handLevels.children[index].children[0].innerText = 'X';
+    }
+    else {
+      handLevels.children[index].children[0].innerHTML = '&nbsp;';
+    }
+  }
+
+  redrawPlayfield();
+}
+
 function permutations(inputArr) {
   var results = [];
 

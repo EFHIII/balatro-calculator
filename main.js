@@ -179,7 +179,7 @@ const handColors = [
   '#caa0ef'
 ];
 
-const handLevels = document.getElementById('Hands');
+const handLevels = document.getElementById('hands');
 const consumables = document.getElementById('consumables');
 
 function incrementLevel(inc, handIndex) {
