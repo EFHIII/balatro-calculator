@@ -302,6 +302,12 @@ function addLvlText(handIndex) {
 const jokerValueHTML = document.getElementById('jokerVal');
 let jokerValue = 0;
 
+const jokerCountHTML = document.getElementById('jokerCnt');
+let jokerCount = 1;
+
+const cardCountHTML = document.getElementById('cardCnt');
+let cardCount = 1;
+
 function incrementJokerValue(inc) {
   jokerValue += inc;
   if(inc === 0) {
@@ -325,9 +331,70 @@ function setJokerValue() {
     jokerValue = 0;
   }
 
-  if(willBlur) jokerValueHTML.blur();
+  if(willBlur) {
+    jokerValueHTML.blur();
+    jokerValueHTML.innerText = jokerValue;
+  }
 
   jredrawCards();
+}
+
+function incrementJokerCount(inc) {
+  jokerCount += inc;
+  if(inc === 0) {
+    jokerCount = 1;
+  }
+  jokerCountHTML.innerText = Math.max(1, jokerCount);
+}
+
+function setJokerCount() {
+  console.log(jokerCountHTML.innerText);
+  let willBlur = false;
+
+  if(jokerCountHTML.innerText.indexOf('\n') >= 0) {
+    jokerCountHTML.innerText = jokerCountHTML.innerText.replace(/[\r\n]/g, '');
+    willBlur = true;
+  }
+  if(!isNaN(jokerCountHTML.innerText)) {
+    jokerCount = Math.max(1, Math.round(jokerCountHTML.innerText * 1));
+  }
+  else {
+    jokerCount = 1;
+  }
+
+  if(willBlur) {
+    jokerCountHTML.blur();
+    jokerCountHTML.innerText = jokerCount;
+  }
+}
+
+function incrementCardCount(inc) {
+  cardCount += inc;
+  if(inc === 0) {
+    cardCount = 1;
+  }
+  cardCountHTML.innerText = Math.max(1, cardCount);
+}
+
+function setCardCount() {
+  console.log(cardCountHTML.innerText);
+  let willBlur = false;
+
+  if(cardCountHTML.innerText.indexOf('\n') >= 0) {
+    cardCountHTML.innerText = cardCountHTML.innerText.replace(/[\r\n]/g, '');
+    willBlur = true;
+  }
+  if(!isNaN(cardCountHTML.innerText)) {
+    cardCount = Math.max(1, Math.round(cardCountHTML.innerText * 1));
+  }
+  else {
+    cardCount = 1;
+  }
+
+  if(willBlur) {
+    cardCountHTML.blur();
+    cardCountHTML.innerText = cardCount;
+  }
 }
 
 handLevels.innerHTML = '';
@@ -600,20 +667,22 @@ function updateTooltips() {
 }
 
 function addJoker(i, j, sell = false) {
-  let id = 'j'+(Math.random()+'').slice(2);
-  while(playfieldJokers.hasOwnProperty(id)) {
-    id = 'j'+(Math.random()+'').slice(2);
-  }
+  for(let k = 0; k < jokerCount; k++) {
+    let id = 'j'+(Math.random()+'').slice(2);
+    while(playfieldJokers.hasOwnProperty(id)) {
+      id = 'j'+(Math.random()+'').slice(2);
+    }
 
-  playfieldJokers[id] = {
-    id,
-    type: [i, j],
-    modifiers: {...jmodifiers},
-    value: jokerValue,
-    sell: sell !== false ? sell : Math.floor((jokerPrice[i][j] + ((jmodifiers.foil || jmodifiers.holographic || jmodifiers.polychrome) ? 1 : 0)) / 2),
-    string: jokerString(i, j, jmodifiers),
-    tooltip: (jokerTexts.length > i && jokerTexts[i].length > j) ? [jokerTexts[i][j][0], eval('`' + jokerTexts[i][j][1] + '`')] : ['WIP', 'WIP']
-  };
+    playfieldJokers[id] = {
+      id,
+      type: [i, j],
+      modifiers: {...jmodifiers},
+      value: jokerValue,
+      sell: sell !== false ? sell : Math.floor((jokerPrice[i][j] + ((jmodifiers.foil || jmodifiers.holographic || jmodifiers.polychrome) ? 1 : 0)) / 2),
+      string: jokerString(i, j, jmodifiers),
+      tooltip: (jokerTexts.length > i && jokerTexts[i].length > j) ? [jokerTexts[i][j][0], eval('`' + jokerTexts[i][j][1] + '`')] : ['WIP', 'WIP']
+    };
+  }
 
   jokerLimitDiv.innerText = Object.keys(playfieldJokers).length;
 
@@ -637,18 +706,20 @@ function removeJoker(id) {
 }
 
 function addCard(i, j) {
-  let id = ((j === 10 && !modifiers.stone) ? (!modifiers.steel ? '993' : '992') : '') + (''+j).padStart(2, 0)+(4-i)+Object.keys(modifiers).map(a=>modifiers[a]?'1':'0').join('');
-  while(playfieldCards.hasOwnProperty(id)) {
-    id += '#';
-  }
+  for(let k = 0; k < cardCount; k++) {
+    let id = ((j === 10 && !modifiers.stone) ? (!modifiers.steel ? '993' : '992') : '') + (''+j).padStart(2, 0)+(4-i)+Object.keys(modifiers).map(a=>modifiers[a]?'1':'0').join('');
+    while(playfieldCards.hasOwnProperty(id)) {
+      id += '#';
+    }
 
-  playfieldCards[id] = {
-    id,
-    type: [(i + 3) % 4, j],
-    modifiers: {...modifiers},
-    string: cardString((i + 3) % 4, j, 1),
-    HCString: cardString((i + 3) % 4, j, 2),
-  };
+    playfieldCards[id] = {
+      id,
+      type: [(i + 3) % 4, j],
+      modifiers: {...modifiers},
+      string: cardString((i + 3) % 4, j, 1),
+      HCString: cardString((i + 3) % 4, j, 2),
+    };
+  }
 
   handLimitDiv.innerText = Object.keys(playfieldCards).length;
 
