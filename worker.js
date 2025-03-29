@@ -89,6 +89,7 @@ function run(jokers = [[]]) {
   let bestCards = [];
   let bestCardsInHand = [];
   let bestScore = false;
+  let bestSameScore = false;
 
   let possibleHands = [[]];
 
@@ -156,24 +157,25 @@ function run(jokers = [[]]) {
 
           let thisScore;
 
+          let sameScore = 0;
+          for(let i = 0; i < thisHand.cardsInHand.length; i++) {
+            sameScore += thisHand.cardsInHand[i][EDITION] * 200 + thisHand.cardsInHand[i][ENHANCEMENT] * 20 + thisHand.cardsInHand[i][RANK] * (thisHand.cardsInHand[i][CARD_DISABLED] ? 0 : 1);
+          }
+
           switch (optimizeMode) {
             default:
               if(minimize) {
                 thisScore = thisHand.simulateBestHand();
                 if(!bestScore) {
                   bestScore = thisScore;
+                  bestSameScore = sameScore;
                   bestCards = thisHand.cards;
                   bestJokers = jokers[j];
                   bestCardsInHand = thisHand.cardsInHand;
                 }
-                if(thisScore[1] < bestScore[1] || (thisScore[1] === bestScore[1] && thisScore[0] < bestScore[0]) || (bestCards.length === 0 && thisHand.cards.length > 0)) {
+                if(thisScore[1] < bestScore[1] || (thisScore[1] === bestScore[1] && thisScore[0] < bestScore[0]) || (bestCards.length === 0 && thisHand.cards.length > 0) || (thisScore[1] === bestScore[1] && thisScore[0] === bestScore[0] && sameScore > bestSameScore)) {
                   bestScore = thisScore;
-                  bestCards = thisHand.cards;
-                  bestJokers = jokers[j];
-                  bestCardsInHand = thisHand.cardsInHand;
-                }
-                else if(bestCards.length === 0 && thisHand.cards.length > 0) {
-                  bestScore = thisScore;
+                  bestSameScore = sameScore;
                   bestCards = thisHand.cards;
                   bestJokers = jokers[j];
                   bestCardsInHand = thisHand.cardsInHand;
@@ -185,12 +187,14 @@ function run(jokers = [[]]) {
 
                 if(!bestScore) {
                   bestScore = thisScore;
+                  bestSameScore = sameScore;
                   bestCards = thisHand.cards;
                   bestJokers = jokers[j];
                   bestCardsInHand = thisHand.cardsInHand;
                 }
-                if(thisScore[1] > bestScore[1] || (thisScore[1] === bestScore[1] && thisScore[0] > bestScore[0]) || (bestCards.length === 0 && thisHand.cards.length > 0)) {
+                if(thisScore[1] > bestScore[1] || (thisScore[1] === bestScore[1] && thisScore[0] > bestScore[0]) || (bestCards.length === 0 && thisHand.cards.length > 0) || (thisScore[1] === bestScore[1] && thisScore[0] === bestScore[0] && sameScore > bestSameScore)) {
                   bestScore = thisScore;
+                  bestSameScore = sameScore;
                   bestCards = thisHand.cards;
                   bestJokers = jokers[j];
                   bestCardsInHand = thisHand.cardsInHand;
@@ -199,6 +203,7 @@ function run(jokers = [[]]) {
           }
         }
       }
+      //console.log(bestScore);
     }
     else {
       thisHand.compileCards();
