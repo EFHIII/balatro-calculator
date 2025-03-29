@@ -159,7 +159,7 @@ function run(jokers = [[]]) {
 
           let sameScore = 0;
           for(let i = 0; i < thisHand.cardsInHand.length; i++) {
-            sameScore += thisHand.cardsInHand[i][EDITION] * 200 + thisHand.cardsInHand[i][ENHANCEMENT] * 20 + thisHand.cardsInHand[i][RANK] * (thisHand.cardsInHand[i][CARD_DISABLED] ? 0 : 1);
+            sameScore += (thisHand.cardsInHand[i][EDITION] * 200 + thisHand.cardsInHand[i][ENHANCEMENT] * 20 + thisHand.cardsInHand[i][RANK]) * (thisHand.cardsInHand[i][CARD_DISABLED] ? 0 : 1);
           }
 
           switch (optimizeMode) {
