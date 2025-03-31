@@ -545,7 +545,10 @@ function toggleCardModifier(name) {
 const cardsDiv = document.getElementById('cards');
 const jcardsDiv = document.getElementById('jokers');
 
-let highContrast = false;
+let highContrast = window.localStorage.hc === '1';
+if(highContrast) {
+  highContrastDiv.innerText = 'X';
+}
 
 function cardString(i, j, hc = 0) {
   if(modifiers.stone) {
@@ -573,6 +576,7 @@ function redrawCards() {
 
 function toggleContrast() {
     highContrast = !highContrast;
+    window.localStorage.setItem('hc', highContrast?1:0);
     if(highContrast) {
       highContrastDiv.innerText = 'X';
     }
