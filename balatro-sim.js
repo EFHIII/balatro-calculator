@@ -474,7 +474,7 @@ class Hand {
         break;
       case 85:
         // Yorick
-        this.mult = bigTimes(1 + joker[VALUE], this.mult);
+        this.mult = bigTimes(joker[VALUE], this.mult);
         break;
       case 89:
         // Bootstraps

@@ -25,6 +25,8 @@ let revertToTab = 0;
 let modifyingJoker = false;
 let modifyingJokerValue = 0;
 
+let modifyingJokerValTxt = document.getElementById('modValue');
+let modifyingJokerValueDiv = document.getElementById('modifyJokerValue');
 let modifyingJokerValDiv = document.getElementById('modifyJokerVal');
 let modifyingJokerSellValDiv = document.getElementById('modifyJokerSellVal');
 let modifyJokerDiv = document.getElementById('modifyJoker');
@@ -966,6 +968,16 @@ function modifyJoker(id) {
   modifyingJokerValDiv.innerText = playfieldJokers[modifyingJoker].value;
   modifyingJokerSellValDiv.innerText = playfieldJokers[modifyingJoker].sell;
 
+  console.log(playfieldJokers[modifyingJoker].type);
+  const type = playfieldJokers[modifyingJoker].type;
+  if(jokerTexts[type[0]][type[1]][2]) {
+    modifyingJokerValueDiv.style.display = 'show';
+    modifyingJokerValTxt.innerText = jokerTexts[type[0]][type[1]][2];
+  }
+  else {
+    modifyingJokerValueDiv.style.display = 'none';
+  }
+
   updateModifyingJoker();
 }
 
@@ -1096,7 +1108,7 @@ function playHand() {
       case '24':
         // Loyalty Card
         if(joker.value === 0) {
-          joker.value = 6;
+          joker.value = 5;
         }
         else {
           joker.value--;
@@ -1164,6 +1176,15 @@ function playHand() {
         // Popcorn
         joker.value++;
         if(joker.value >= 5) {
+          joker.modifiers.foil = false;
+          joker.modifiers.holographic = false;
+          joker.modifiers.polychrome = false;
+          joker.modifiers.disabled = true;
+        }
+        break;
+      case '153':
+        joker.value++;
+        if(joker.value >= 10) {
           joker.modifiers.foil = false;
           joker.modifiers.holographic = false;
           joker.modifiers.polychrome = false;

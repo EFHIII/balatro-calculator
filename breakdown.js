@@ -560,8 +560,8 @@ class Hand {
         break;
       case 85:
         // Yorick
-        this.mult = bigTimes(1 + joker[VALUE], this.mult);
-        if(this.bd) this.breakdownTimesMult([joker], 1 + joker[VALUE]);
+        this.mult = bigTimes(joker[VALUE], this.mult);
+        if(this.bd) this.breakdownTimesMult([joker], joker[VALUE]);
         break;
       case 89:
         // Bootstraps
