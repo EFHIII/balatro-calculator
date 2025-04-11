@@ -968,10 +968,9 @@ function modifyJoker(id) {
   modifyingJokerValDiv.innerText = playfieldJokers[modifyingJoker].value;
   modifyingJokerSellValDiv.innerText = playfieldJokers[modifyingJoker].sell;
 
-  console.log(playfieldJokers[modifyingJoker].type);
   const type = playfieldJokers[modifyingJoker].type;
   if(jokerTexts[type[0]][type[1]][2]) {
-    modifyingJokerValueDiv.style.display = 'show';
+    modifyingJokerValueDiv.style.display = 'inline-block';
     modifyingJokerValTxt.innerText = jokerTexts[type[0]][type[1]][2];
   }
   else {
