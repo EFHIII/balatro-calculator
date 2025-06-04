@@ -662,7 +662,6 @@ class Hand {
               this.mult = bigAdd(3, this.mult);
             }
             else if(card[SUIT] === true) {
-              card[SUIT] = DIAMONDS;
               this.mult = bigAdd(3, this.mult);
             }
             break;
@@ -672,7 +671,6 @@ class Hand {
               this.mult = bigAdd(3, this.mult);
             }
             else if(card[SUIT] === true) {
-              card[SUIT] = HEARTS;
               this.mult = bigAdd(3, this.mult);
             }
             break;
@@ -682,7 +680,6 @@ class Hand {
               this.mult = bigAdd(3, this.mult);
             }
             else if(card[SUIT] === true) {
-              card[SUIT] = SPADES;
               this.mult = bigAdd(3, this.mult);
             }
             break;
@@ -692,7 +689,6 @@ class Hand {
               this.mult = bigAdd(3, this.mult);
             }
             else if(card[SUIT] === true) {
-              card[SUIT] = CLUBS;
               this.mult = bigAdd(3, this.mult);
             }
             break;
@@ -759,7 +755,6 @@ class Hand {
               }
             }
             else if(card[SUIT] === true) {
-              card[SUIT] = HEARTS;
               switch(this.randomMode) {
                 case 0:
                   this.mult = bigTimes(1.5, this.mult);
@@ -783,7 +778,6 @@ class Hand {
               this.chips += 50;
             }
             else if(card[SUIT] === true) {
-              card[SUIT] = SPADES;
               this.chips += 50;
             }
             break;
@@ -793,7 +787,6 @@ class Hand {
               this.mult = bigAdd(7, this.mult);
             }
             else if(card[SUIT] === true) {
-              card[SUIT] = CLUBS;
               this.mult = bigAdd(7, this.mult);
             }
             break;
