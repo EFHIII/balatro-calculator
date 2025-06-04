@@ -850,7 +850,6 @@ class Hand {
               if(this.bd) this.breakdownPlusMult([card, joker], 3);
             }
             else if(card[SUIT] === true) {
-              card[SUIT] = DIAMONDS;
               this.mult = bigAdd(3, this.mult);
               if(this.bd) this.breakdownPlusMult([card, joker], 3);
             }
@@ -862,7 +861,6 @@ class Hand {
               if(this.bd) this.breakdownPlusMult([card, joker], 3);
             }
             else if(card[SUIT] === true) {
-              card[SUIT] = HEARTS;
               this.mult = bigAdd(3, this.mult);
               if(this.bd) this.breakdownPlusMult([card, joker], 3);
             }
@@ -874,7 +872,6 @@ class Hand {
               if(this.bd) this.breakdownPlusMult([card, joker], 3);
             }
             else if(card[SUIT] === true) {
-              card[SUIT] = SPADES;
               this.mult = bigAdd(3, this.mult);
               if(this.bd) this.breakdownPlusMult([card, joker], 3);
             }
@@ -886,7 +883,6 @@ class Hand {
               if(this.bd) this.breakdownPlusMult([card, joker], 3);
             }
             else if(card[SUIT] === true) {
-              card[SUIT] = CLUBS;
               this.mult = bigAdd(3, this.mult);
               if(this.bd) this.breakdownPlusMult([card, joker], 3);
             }
@@ -973,7 +969,6 @@ class Hand {
               }
             }
             else if(card[SUIT] === true) {
-              card[SUIT] = HEARTS;
               switch(this.randomMode) {
                 case 0:
                   this.mult = bigTimes(1.5, this.mult);
@@ -1009,7 +1004,6 @@ class Hand {
               if(this.bd) this.breakdownPlusChips([card, joker], 50);
             }
             else if(card[SUIT] === true) {
-              card[SUIT] = SPADES;
               this.chips += 50;
               if(this.bd) this.breakdownPlusChips([card, joker], 50);
             }
@@ -1021,7 +1015,6 @@ class Hand {
               if(this.bd) this.breakdownPlusMult([card, joker], 7);
             }
             else if(card[SUIT] === true) {
-              card[SUIT] = CLUBS;
               this.mult = bigAdd(7, this.mult);
               if(this.bd) this.breakdownPlusMult([card, joker], 7);
             }
