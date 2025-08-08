@@ -326,7 +326,7 @@ const jokerTexts = [
     ['Matador', 'Earn ${moneyc}$8${endc} if played<br>hand triggers the<br>${numc}Boss Blind${endc} ability'],
     ['Ceremonial Dagger', 'When ${numc}Blind${endc} is selected,<br>destroy Joker to the right<br>and permanently add ${numc}double${endc}<br>its sell value to this ${multc}Mult${endc}<br>${shadowc}(Currently ${multc}+${jokerValue}${endc} Mult)${endc}', 'Mult'],
     ['Showman', '${numc}Joker${endc}, ${tarotc}, ${planetc},<br>and ${spectralc} cards may<br>appear multiple times'],
-    ['Fortune Teller', '${multc}+1${endc} Mult per ${tarotc}<br>card used this run<br>${shadowc}(Currently ${multc}${jokerValue}${endc})${endc}', 'Torots Used'],
+    ['Fortune Teller', '${multc}+1${endc} Mult per ${tarotc}<br>card used this run<br>${shadowc}(Currently ${multc}${jokerValue}${endc})${endc}', 'Tarots Used'],
     ['Hit the Road', 'This Joker gains ${prodc}0.5${endc} Mult<br>for every ${numc}Jack${endc}<br>discarded this round<br>${shadowc}(Currently ${prodc}${1 + jokerValue * 0.5}${endc})${endc}', 'Jacks Discarded'],
     ['Swashbuckler', 'Adds the sell value<br>of all other owned<br>${numc}Jokers${endc} to Mult'],
   ],
