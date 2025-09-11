@@ -126,6 +126,8 @@ function run(jokers = [[]]) {
     bestCardsInHand = thisHand.cardsInHand;
   }
 
+  const originalHand = thisHand.cardsInHand.slice();
+
   for(let j = 0; j < jokers.length; j++) {
     thisHand.jokers = jokers[j].map(a => a.slice());
     thisHand.compileJokerOrder();
@@ -292,7 +294,8 @@ function run(jokers = [[]]) {
 
   thisHand.jokers = bestJokers.map(a => a.slice());
   thisHand.cards = bestCards.slice();
-  thisHand.cardsInHand = bestCardsInHand.slice();
+  thisHand.cardsInHand = bestCardsInHand.slice(0, originalHand.length);
+
 
   thisHand.compileAll();
 
