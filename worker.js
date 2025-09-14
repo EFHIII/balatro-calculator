@@ -114,7 +114,7 @@ function run(jokers = [[]]) {
       permutations([0,1,2,3,4])
     ];
   }
-  else {
+  //else {
     for(let i = 0; i < bestHand.length; i++) {
       bestCards.push(cards[bestHand[i]]);
       thisHand.cards.push(cards[bestHand[i]]);
@@ -123,8 +123,10 @@ function run(jokers = [[]]) {
     for(let l = 0; l < thisHand.cards.length; l++) {
       thisHand.cardsInHand.splice(thisHand.cardsInHand.indexOf(thisHand.cards[l]), 1);
     }
-    bestCardsInHand = thisHand.cardsInHand;
-  }
+    if(!optimizeCards) {
+      bestCardsInHand = thisHand.cardsInHand;
+    }
+  //}
 
   const originalHand = thisHand.cardsInHand.slice();
 
