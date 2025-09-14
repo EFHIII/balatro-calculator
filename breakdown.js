@@ -1855,7 +1855,7 @@ class Hand {
         case 105:
           // DNA
           if(this.cards.length === 1) {
-            //this.cardsInHand.push(this.cards[0]);
+            this.cardsInHand.push(this.cards[0]);
           }
           break;
         case 122:
