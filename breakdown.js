@@ -1767,12 +1767,33 @@ class Hand {
           break;
         case 44:
           // Seeing Double
-          let club = false;
-          let nonClub = false;
-          let wildC = 0;
-          for(let c = 0; c < this.involvedCards.length; c++) {
-            if(this.involvedCards[c][CARD_DISABLED]) continue;
-            if(this.involvedCards[c][ENHANCEMENT] !== STONE) {
+          if(this.SmearedJoker) {
+            let club = 0;
+            let nonClub = 0;
+            for(let c = 0; c < this.involvedCards.length; c++) {
+              if(this.involvedCards[c][CARD_DISABLED]) continue;
+              if(this.involvedCards[c][ENHANCEMENT] === STONE) continue;
+              if(this.involvedCards[c][ENHANCEMENT] === WILD ||
+                this.involvedCards[c][SUIT] === CLUBS ||
+                this.involvedCards[c][SUIT] === SPADES) {
+                club++;
+              }
+              else {
+                nonClub++;
+              }
+            }
+
+            if(club > 0 && (club > 1 || nonClub > 0)) {
+              this.compiledValues[j] = true;
+            }
+          }
+          else {
+            let club = false;
+            let nonClub = false;
+            let wildC = 0;
+            for(let c = 0; c < this.involvedCards.length; c++) {
+              if(this.involvedCards[c][CARD_DISABLED]) continue;
+              if(this.involvedCards[c][ENHANCEMENT] === STONE) continue;
               if(this.involvedCards[c][ENHANCEMENT] === WILD) {
                 wildC++;
               }
@@ -1783,13 +1804,14 @@ class Hand {
                 nonClub = true;
               }
             }
-          }
-          for(let i = 0; i < wildC; i++) {
-            if(!club) club = true;
-            else nonClub = true;
-          }
-          if(club && nonClub) {
-            this.compiledValues[j] = true;
+            for(let i = 0; i < wildC; i++) {
+              if(!club) club = true;
+              else nonClub = true;
+            }
+
+            if(club && nonClub) {
+              this.compiledValues[j] = true;
+            }
           }
           break;
         case 60:
