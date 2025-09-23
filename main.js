@@ -1266,5 +1266,4 @@ function setupWheelHandlers() {
     });
 }
 
-// Call this after your spans are created
 setupWheelHandlers();
