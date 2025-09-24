@@ -1234,3 +1234,36 @@ function clearHand() {
 function resetHand() {
   window.location.replace('/balatro-calculator');
 }
+
+function setupWheelHandlers() {
+    function wheelHandler(e) {
+        e.preventDefault(); // Prevent page scrolling
+
+        if (this.onfocus) { // Apply logic similar to when user makes a change (namely affects Hands)
+            this.onfocus.call(this);
+        }
+
+        let currentValue = parseInt(this.textContent) || 0;
+        if (e.deltaY < 0) {
+            currentValue++;
+        } else {
+            currentValue = Math.max(0, currentValue - 1);
+        }
+        this.textContent = currentValue;
+
+        if (this.oninput) { // Trigger recalculations if they exist
+            this.oninput.call(this);
+        }
+
+        if (this.onblur) { // Apply logic similar to when user makes a change (namely affects Hands)
+            this.onblur.call(this); // Note: Important that this is triggered after `oninput`
+        }
+    }
+
+    const spans = document.querySelectorAll('span.handLvl, span.handCount');
+    spans.forEach(span => {
+        span.addEventListener('wheel', wheelHandler);
+    });
+}
+
+setupWheelHandlers();
