@@ -573,6 +573,8 @@ class Hand {
     if(card[CARD_DISABLED]) return;
     const notStone = card[ENHANCEMENT] !== STONE;
 
+    const isFace = this.Pareidolia || (notStone && card[RANK] >= JACK && card[RANK] <= KING);
+
     if(notStone || this.hasVampire) {
       this.chips += cardValues[card[RANK]] + card[EXTRA_CHIPS] + card[EXTRA_EXTRA_CHIPS];
     }
@@ -581,7 +583,7 @@ class Hand {
     let luckyMoney = 0;
     let luckyTriggers = 0;
 
-    if(!this.hasVampire) {
+    if(!this.hasVampire && !(this.MidasMaskas && isFace)) {
       switch(card[ENHANCEMENT]) {
         case BOUNS:
           this.chips += 30;
@@ -648,8 +650,6 @@ class Hand {
         this.mult = bigTimes(1.5, this.mult);
         break;
     }
-
-    const isFace = this.Pareidolia || (notStone && card[RANK] >= JACK && card[RANK] <= KING);
 
     if(notStone) {
       for(let j = 0; j < this.jokers.length; j++) {
