@@ -1642,7 +1642,7 @@ class Hand {
           cards: this.involvedCards,
           description: hands[this.typeOfHand].name,
           chips: this.compiledChips,
-          mult: this.compiledMult,
+          mult: this.compiledMult.slice(),
           newCard: true
         });
       }
@@ -1656,7 +1656,7 @@ class Hand {
             cards: this.involvedCards,
             description: 'The Fint',
             chips: this.compiledChips,
-            mult: this.compiledMult
+            mult: this.compiledMult.slice()
           });
         }
       }
@@ -1688,7 +1688,7 @@ class Hand {
               cards: [joker],
               description: `${chipc}+${(joker[VALUE] - extra) * 25}${endc} Chips`,
               chips: this.compiledChips,
-              mult: this.compiledMult
+              mult: this.compiledMult.slice()
             });
           }
           break;
@@ -1731,13 +1731,18 @@ class Hand {
           break;
         case 31:
           // Glass Joker
-          if(this.hasVampire) {
+          if(!this.hasVampire) {
             let amount = joker[VALUE];
             for(let c = 0; c < this.cards.length; c++) {
               if(this.cards[c][ENHANCEMENT] === GLASS) {
                 switch(this.randomMode) {
                   case 0:
                     amount++;
+                    break;
+                  case 1:
+                    if(this.chanceMultiplier >= 4) {
+                      amount++;
+                    }
                     break;
                   case 2:
                     if(Math.random() < 0.25 * this.chanceMultiplier) {
@@ -1747,7 +1752,7 @@ class Hand {
                 }
               }
             }
-            this.compiledValues[j] = 1 + (joker[VALUE] - amount) * 0.75;
+            this.compiledValues[j] = 1 + (joker[VALUE] + amount) * 0.75;
           }
           else {
             this.compiledValues[j] = 1 + joker[VALUE] * 0.75;
@@ -1761,7 +1766,7 @@ class Hand {
               cards: [joker],
               description: `${chipc}+${joker[VALUE] * 8}${endc} Chips`,
               chips: this.compiledChips,
-              mult: this.compiledMult
+              mult: this.compiledMult.slice()
             });
           }
           break;

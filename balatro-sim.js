@@ -1318,7 +1318,7 @@ class Hand {
           break;
         case 31:
           // Glass Joker
-          if(this.hasVampire) {
+          if(!this.hasVampire) {
             let amount = joker[VALUE];
             for(let c = 0; c < this.cards.length; c++) {
               if(this.cards[c][ENHANCEMENT] === GLASS) {
@@ -1339,7 +1339,7 @@ class Hand {
                 }
               }
             }
-            this.compiledValues[j] = 1 + (joker[VALUE] - amount) * 0.75;
+            this.compiledValues[j] = 1 + (joker[VALUE] + amount) * 0.75;
           }
           else {
             this.compiledValues[j] = 1 + joker[VALUE] * 0.75;
