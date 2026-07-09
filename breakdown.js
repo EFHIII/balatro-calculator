@@ -577,8 +577,8 @@ class Hand {
         break;
       case 89:
         // Bootstraps
-        this.mult = bigAdd(joker[VALUE] * 2, this.mult);
-        if(this.bd) this.breakdownPlusMult([joker], joker[VALUE] * 2);
+        this.mult = bigAdd((joker[VALUE] + Math.floor(this.earnedMoney / 5)) * 2, this.mult);
+        if(this.bd) this.breakdownPlusMult([joker], (joker[VALUE] + Math.floor(this.earnedMoney / 5)) * 2);
         break;
       case 102:
         // Blackboard
@@ -713,8 +713,8 @@ class Hand {
         break;
       case 147:
         // Bull
-        this.chips += 2 * (joker[VALUE] + this.earnedMoney) + this.jokersExtraValue[j];
-        if(this.bd) this.breakdownPlusChips([joker], 2 * (joker[VALUE] + this.earnedMoney) + this.jokersExtraValue[j]);
+        this.chips += 2 * (joker[VALUE] + this.earnedMoney);
+        if(this.bd) this.breakdownPlusChips([joker], 2 * (joker[VALUE] + this.earnedMoney));
         break;
       case 150:
         // Flash Card
@@ -849,6 +849,9 @@ class Hand {
     }
 
     const isFace = this.Pareidolia || (notStone && card[RANK] >= JACK && card[RANK] <= KING);
+
+
+    this.earnedMoney += luckyMoney * 20;
 
     if(notStone) {
       for(let j = 0; j < this.jokers.length; j++) {
@@ -1089,10 +1092,6 @@ class Hand {
           case 145:
             // Lucky Cat
             this.jokersExtraValue[j] += luckyTriggers;
-            break;
-          case 147:
-            // Bull
-            this.jokersExtraValue[j] += luckyMoney * 40;
             break;
           case 156:
             // Smiley Face

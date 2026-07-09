@@ -491,7 +491,7 @@ class Hand {
         break;
       case 89:
         // Bootstraps
-        this.mult = bigAdd(joker[VALUE] * 2, this.mult);
+        this.mult = bigAdd((joker[VALUE] + Math.floor(this.earnedMoney / 5)) * 2, this.mult);
         break;
       case 102:
         // Blackboard
@@ -663,6 +663,8 @@ class Hand {
     }
 
     const isFace = this.Pareidolia || (notStone && card[RANK] >= JACK && card[RANK] <= KING);
+
+    this.earnedMoney += luckyMoney * 20;
 
     if(notStone) {
       for(let j = 0; j < this.jokers.length; j++) {
@@ -843,10 +845,6 @@ class Hand {
           case 145:
             // Lucky Cat
             this.jokersExtraValue[j] += luckyTriggers;
-            break;
-          case 147:
-            // Bull
-            this.jokersExtraValue[j] += luckyMoney * 40;
             break;
           case 156:
             // Smiley Face
