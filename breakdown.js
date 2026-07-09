@@ -909,6 +909,20 @@ class Hand {
               if(this.bd) this.breakdownPlusChips([card, joker], 30);
             }
             break;
+          case 35:
+            // Golden Ticket
+            if(card[ENHANCEMENT] === GOLD || (this.MidasMaskas && isFace)) {
+              this.earnedMoney += 4;
+              if(this.bd) {
+                this.breakdown.push({
+                  cards: [card, joker],
+                  description: `gain ${moneyc}$4${endc}`,
+                  chips: this.chips,
+                  mult: this.mult
+                });
+              }
+            }
+            break;
           case 38:
             // Even Steven
             if(card[RANK] % 2 === 0 && card[RANK] <= _10) {
@@ -1128,6 +1142,20 @@ class Hand {
             // Scary Face
             this.chips += 30;
             if(this.bd) this.breakdownPlusChips([card, joker], 30);
+            break;
+          case 35:
+            // Golden Ticket
+            if(this.MidasMaskas) {
+              this.earnedMoney += 4;
+              if(this.bd) {
+                this.breakdown.push({
+                  cards: [card, joker],
+                  description: `gain ${moneyc}$4${endc}`,
+                  chips: this.chips,
+                  mult: this.mult
+                });
+              }
+            }
             break;
           case 41:
             // Business Card

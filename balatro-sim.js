@@ -713,6 +713,12 @@ class Hand {
               this.chips += 30;
             }
             break;
+          case 35:
+            // Golden Ticket
+            if(card[ENHANCEMENT] === GOLD || (this.MidasMaskas && isFace)) {
+              this.earnedMoney += 4;
+            }
+            break;
           case 38:
             // Even Steven
             if(card[RANK] % 2 === 0 && card[RANK] <= _10) {
@@ -876,6 +882,12 @@ class Hand {
           case 32:
             // Scary Face
             this.chips += 30;
+            break;
+          case 35:
+            // Golden Ticket
+            if(this.MidasMaskas) {
+              this.earnedMoney += 4;
+            }
             break;
           case 41:
             // Business Card
