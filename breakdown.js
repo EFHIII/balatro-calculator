@@ -260,6 +260,7 @@ class Hand {
   actualJokers = [];
 
   firstHand = true;
+  earnedMoney = 0;
 
   constructor({
     cards = [],
@@ -712,8 +713,8 @@ class Hand {
         break;
       case 147:
         // Bull
-        this.chips += 2 * joker[VALUE] + this.jokersExtraValue[j];
-        if(this.bd) this.breakdownPlusChips([joker], 2 * joker[VALUE] + this.jokersExtraValue[j]);
+        this.chips += 2 * (joker[VALUE] + this.earnedMoney) + this.jokersExtraValue[j];
+        if(this.bd) this.breakdownPlusChips([joker], 2 * (joker[VALUE] + this.earnedMoney) + this.jokersExtraValue[j]);
         break;
       case 150:
         // Flash Card
@@ -926,6 +927,34 @@ class Hand {
               if(this.bd) this.breakdownPlusChips([card, joker], 8);
             }
             break;
+          case 41:
+            // Business Card
+            if(isFace) {
+              switch(this.randomMode) {
+                case 0:
+                  this.earnedMoney += 2;
+                  break;
+                case 1:
+                  if(this.chanceMultiplier >= 2) {
+                    this.earnedMoney += 2;
+                  }
+                  break;
+                case 2:
+                  if(Math.random() < 0.5 * this.chanceMultiplier) {
+                    this.earnedMoney += 2;
+                  }
+                  break;
+              }
+              if(this.bd) {
+                this.breakdown.push({
+                  cards: [card, joker],
+                  description: `${probc}${this.chanceMultiplier >= 2 ? '' : 1 * this.chanceMultiplier + ' in 2 '}${endc}gain ${moneyc}$2${endc}`,
+                  chips: this.chips,
+                  mult: this.mult
+                });
+              }
+            }
+            break;
           case 51:
             // Fibonacci
             if(card[RANK] === ACE || card[RANK] === _8 || card[RANK] === _5 || card[RANK] === _3 || card[RANK] === _2) {
@@ -1100,6 +1129,32 @@ class Hand {
             // Scary Face
             this.chips += 30;
             if(this.bd) this.breakdownPlusChips([card, joker], 30);
+            break;
+          case 41:
+            // Business Card
+            switch(this.randomMode) {
+              case 0:
+                this.earnedMoney += 2;
+                break;
+              case 1:
+                if(this.chanceMultiplier >= 2) {
+                  this.earnedMoney += 2;
+                }
+                break;
+              case 2:
+                if(Math.random() < 0.5 * this.chanceMultiplier) {
+                  this.earnedMoney += 2;
+                }
+                break;
+            }
+            if(this.bd) {
+              this.breakdown.push({
+                cards: [card, joker],
+                description: `${probc}${this.chanceMultiplier >= 2 ? '' : 1 * this.chanceMultiplier + ' in 2 '}${endc}gain ${moneyc}$2${endc}`,
+                chips: this.chips,
+                mult: this.mult
+              });
+            }
             break;
           case 110:
             // Hiker
@@ -2132,6 +2187,7 @@ class Hand {
     this.chips = this.compiledChips;
     this.mult = [this.compiledMult[0], this.compiledMult[1]];
     this.jokersExtraValue = [];
+    this.earnedMoney = 0;
 
     if(this.TheEye && this.hands[this.typeOfHand][PLAYED_THIS_ROUND]) {
       return [...normalizeBig(bigTimes(0, 1)), 0, normalizeBig(1)];
