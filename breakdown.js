@@ -259,6 +259,8 @@ class Hand {
   cardCast = [];
   actualJokers = [];
 
+  firstHand = true;
+
   constructor({
     cards = [],
     cardsInHand = [],
@@ -275,6 +277,14 @@ class Hand {
     this.jokers = jokers;
     if(hands) {
       this.hands = hands;
+
+      this.firstHand = true;
+      for(let i = 0; i < this.hands.length; i++) {
+        if(this.hands[i][PLAYED_THIS_ROUND]) {
+          this.firstHand = false;
+          break;
+        }
+      }
     }
     else {
       for(let i = 0; i < handChips.length; i++) {
@@ -285,6 +295,7 @@ class Hand {
           0, // played this round
         ]);
       }
+      this.firstHand = true;
     }
     this.TheFlint = TheFlint;
     this.TheEye = TheEye;
@@ -1881,7 +1892,7 @@ class Hand {
           break;
         case 105:
           // DNA
-          if(this.cards.length === 1) {
+          if(this.cards.length === 1 && this.firstHand) {
             this.cardsInHand.push(this.cards[0]);
           }
           break;
@@ -2048,6 +2059,14 @@ class Hand {
   // knowledge of jokers, not joker order or cards-played
   compileJokers() {
     // set standard values; probability modifier (Oops! All 6s), vampire, etc.
+
+    this.firstHand = true;
+    for(let i = 0; i < this.hands.length; i++) {
+      if(this.hands[i][PLAYED_THIS_ROUND]) {
+        this.firstHand = false;
+        break;
+      }
+    }
 
     // set global variables' default values
     this.actualCardsInHand = [];
