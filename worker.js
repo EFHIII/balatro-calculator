@@ -179,29 +179,30 @@ function run(jokers = [[]]) {
                   bestCardsInHand = thisHand.cardsInHand;
                   originalHand = thisOriginalHand;
                 }
-                if(thisScore[1] < bestScore[1] || (thisScore[1] === bestScore[1] && thisScore[0] < bestScore[0]) || (bestCards.length === 0 && thisHand.cards.length > 0) || (thisScore[1] === bestScore[1] && thisScore[0] === bestScore[0] && sameScore > bestSameScore)) {
-                  bestScore = thisScore;
-                  bestHighScore = thisHand.simulateBestHand();
-                  bestSameScore = sameScore;
-                  bestCards = thisHand.cards;
-                  bestJokers = jokers[j];
-                  bestCardsInHand = thisHand.cardsInHand;
-                  originalHand = thisOriginalHand;
-                }
-                else if(thisScore[1] === bestScore[1] && thisScore[0] === bestScore[0] && sameScore === bestSameScore) {
-                  const bhs = thisHand.simulateBestHand();
-
-                  if(bhs < bestHighScore) {
+                if (thisHand.cards.length > 0 || bestHand.cards.length === 0) {
+                  if(thisScore[1] < bestScore[1] || (thisScore[1] === bestScore[1] && thisScore[0] < bestScore[0]) || (bestCards.length === 0 && thisHand.cards.length > 0) || (thisScore[1] === bestScore[1] && thisScore[0] === bestScore[0] && sameScore > bestSameScore)) {
                     bestScore = thisScore;
-                    bestHighScore = bhs;
+                    bestHighScore = thisHand.simulateBestHand();
                     bestSameScore = sameScore;
                     bestCards = thisHand.cards;
                     bestJokers = jokers[j];
                     bestCardsInHand = thisHand.cardsInHand;
                     originalHand = thisOriginalHand;
                   }
-                }
+                  else if(thisScore[1] === bestScore[1] && thisScore[0] === bestScore[0] && sameScore === bestSameScore) {
+                    const bhs = thisHand.simulateBestHand();
 
+                    if(bhs < bestHighScore) {
+                      bestScore = thisScore;
+                      bestHighScore = bhs;
+                      bestSameScore = sameScore;
+                      bestCards = thisHand.cards;
+                      bestJokers = jokers[j];
+                      bestCardsInHand = thisHand.cardsInHand;
+                      originalHand = thisOriginalHand;
+                    }
+                  }
+                }
               }
               else {
                 thisScore = thisHand.simulateWorstHand();
@@ -215,26 +216,28 @@ function run(jokers = [[]]) {
                   bestCardsInHand = thisHand.cardsInHand;
                   originalHand = thisOriginalHand;
                 }
-                if(thisScore[1] > bestScore[1] || (thisScore[1] === bestScore[1] && thisScore[0] > bestScore[0]) || (bestCards.length === 0 && thisHand.cards.length > 0) || (thisScore[1] === bestScore[1] && thisScore[0] === bestScore[0] && sameScore > bestSameScore)) {
-                  bestScore = thisScore;
-                  bestHighScore = thisHand.simulateBestHand();
-                  bestSameScore = sameScore;
-                  bestCards = thisHand.cards;
-                  bestJokers = jokers[j];
-                  bestCardsInHand = thisHand.cardsInHand;
-                  originalHand = thisOriginalHand;
-                }
-                else if(thisScore[1] === bestScore[1] && thisScore[0] === bestScore[0] && sameScore === bestSameScore) {
-                  const bhs = thisHand.simulateBestHand();
-
-                  if(bhs > bestHighScore) {
+                if (thisHand.cards.length > 0 || bestHand.cards.length === 0) {
+                  if(thisScore[1] > bestScore[1] || (thisScore[1] === bestScore[1] && thisScore[0] > bestScore[0]) || (bestCards.length === 0 && thisHand.cards.length > 0) || (thisScore[1] === bestScore[1] && thisScore[0] === bestScore[0] && sameScore > bestSameScore)) {
                     bestScore = thisScore;
-                    bestHighScore = bhs;
+                    bestHighScore = thisHand.simulateBestHand();
                     bestSameScore = sameScore;
                     bestCards = thisHand.cards;
                     bestJokers = jokers[j];
                     bestCardsInHand = thisHand.cardsInHand;
                     originalHand = thisOriginalHand;
+                  }
+                  else if(thisScore[1] === bestScore[1] && thisScore[0] === bestScore[0] && sameScore === bestSameScore) {
+                    const bhs = thisHand.simulateBestHand();
+
+                    if(bhs > bestHighScore) {
+                      bestScore = thisScore;
+                      bestHighScore = bhs;
+                      bestSameScore = sameScore;
+                      bestCards = thisHand.cards;
+                      bestJokers = jokers[j];
+                      bestCardsInHand = thisHand.cardsInHand;
+                      originalHand = thisOriginalHand;
+                    }
                   }
                 }
               }
