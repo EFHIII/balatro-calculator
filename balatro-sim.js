@@ -1097,7 +1097,8 @@ class Hand {
       }
 
       if(lines[lines.length - 1].length >= (this.FourFingers ? 4 : 5)) {
-        straight = lines[lines.length - 1];
+        const straightRanks = new Set(lines[lines.length - 1].map(card => card[RANK]));
+        straight = sortedCards.filter(card => straightRanks.has(card[RANK]));
       }
     }
 
