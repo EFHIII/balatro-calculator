@@ -692,7 +692,7 @@ function addJoker(i, j, sell = false) {
 
   jokerLimitDiv.innerText = Object.keys(playfieldJokers).length;
 
-  if(Object.keys(playfieldJokers).length >= 8 && optimizeJokers) {
+  if(!useFastSearch && Object.keys(playfieldJokers).length >= 8 && optimizeJokers) {
     toggleJoker();
   }
 
@@ -729,7 +729,7 @@ function addCard(i, j) {
 
   handLimitDiv.innerText = Object.keys(playfieldCards).length;
 
-  if(Object.keys(playfieldCards).length >= 9 && optimizeJokers) {
+  if(!useFastSearch && Object.keys(playfieldCards).length >= 9 && optimizeJokers) {
     toggleCard();
   }
 

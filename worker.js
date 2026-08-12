@@ -1,5 +1,6 @@
 'use strict';
 importScripts('balatro-sim.js');
+importScripts('optimizer.js');
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -62,7 +63,9 @@ let bestHand;
 // sleep(ms);
 
 function initialize(state) {
-  thisHand = new Hand({
+  // ProbeHand only adds the instrumented simulateProbed(); scoring behavior
+  // is identical to Hand
+  thisHand = new BalatroOpt.ProbeHand({
     hands: state.hands,
     TheFlint: state.TheFlint,
     TheEye: state.TheEye,
@@ -341,6 +344,184 @@ function run(jokers = [[]]) {
   postMessage([taskID, bestScore, bestJokers, bestCards, originalHand, highestScore, lowestScore, thisHand.typeOfHand, normalizeBig(meanScore), normalizeBig(medianScore), workerID, thisHand.compiledValues]);
 }
 
+// Fast search: same scoring, same tiebreaks, same result message as run(),
+// but instead of enumerating every joker permutation and card permutation it
+// evaluates the candidate orderings produced by BalatroOpt (exchange-argument
+// sorting over probed affine maps + structured enumeration of the
+// position-referential jokers). See optimizer.js for the mathematics.
+function runFast(optimizeJokerOrder) {
+  thisHand.jokers = jokers.map(a => a.slice());
+  thisHand.compileJokers();
+
+  const mode = minimize ? 'min' : 'max';
+  const ctx = new BalatroOpt.OptSearchCtx(thisHand, cards, jokers, minimize);
+
+  let bestJokers = [];
+  let bestCards = [];
+  let bestCardsInHand = [];
+  let bestScore = false;
+  let bestSameScore = false;
+  let bestHighScore = false;
+  let originalHand = [];
+
+  const subsets = optimizeCards
+    ? BalatroOpt.subsetsUpTo(cards.length, 5)
+    : [bestHand.slice()];
+
+  const spec = optimizeJokerOrder ? BalatroOpt.buildJokerVariants(jokers) : null;
+
+  for(const subset of subsets) {
+    const jcands = optimizeJokerOrder
+      ? BalatroOpt.jokerCandidatesForSubset(ctx, spec, subset, mode)
+      : [BalatroOpt.range(jokers.length)];
+
+    // different index orders can resolve to the identical effective joker
+    // sequence (copier equivalences, duplicate jokers) — evaluate each once
+    const seenSigs = new Set();
+    for(const jorder of jcands) {
+      ctx.setJokerOrder(jorder);
+      if(jcands.length > 1) {
+        const sig = BalatroOpt.resolvedSignature(thisHand);
+        if(seenSigs.has(sig)) continue;
+        seenSigs.add(sig);
+      }
+      ctx.setSubset(subset, optimizeCards);
+
+      const k = subset.length;
+      let orders;
+      if(!optimizeCards || k <= 1) {
+        orders = [BalatroOpt.range(k)];
+      }
+      else {
+        const probe = ctx.probeOrder(BalatroOpt.range(k));
+        if(!probe.ok) orders = BalatroOpt.allPermutations(BalatroOpt.range(k));
+        else if(probe.eye) orders = [BalatroOpt.range(k)];
+        else orders = BalatroOpt.cardOrderCandidates(ctx, k, probe.cardMaps, mode);
+      }
+
+      const thisJokers = jorder.map(i => jokers[i].slice());
+
+      for(const ord of orders) {
+        ctx.setOrder(ord);
+        const thisOriginalHand = thisHand.cardsInHand.slice();
+
+        let sameScore = 0;
+        for(let i = 0; i < thisHand.cardsInHand.length; i++) {
+          sameScore += (thisHand.cardsInHand[i][EDITION] * 200 + thisHand.cardsInHand[i][ENHANCEMENT] * 20 + thisHand.cardsInHand[i][RANK]) * (thisHand.cardsInHand[i][CARD_DISABLED] ? 0 : 1);
+        }
+
+        let thisScore;
+
+        if(minimize) {
+          thisScore = thisHand.simulateBestHand();
+          if(!bestScore) {
+            bestScore = thisScore;
+            bestHighScore = thisHand.simulateBestHand();
+            bestSameScore = sameScore;
+            bestCards = thisHand.cards;
+            bestJokers = thisJokers;
+            bestCardsInHand = thisHand.cardsInHand;
+            originalHand = thisOriginalHand;
+          }
+          if(thisScore[1] < bestScore[1] || (thisScore[1] === bestScore[1] && thisScore[0] < bestScore[0]) || (bestCards.length === 0 && thisHand.cards.length > 0) || (thisScore[1] === bestScore[1] && thisScore[0] === bestScore[0] && sameScore > bestSameScore)) {
+            bestScore = thisScore;
+            bestHighScore = thisHand.simulateBestHand();
+            bestSameScore = sameScore;
+            bestCards = thisHand.cards;
+            bestJokers = thisJokers;
+            bestCardsInHand = thisHand.cardsInHand;
+            originalHand = thisOriginalHand;
+          }
+          else if(thisScore[1] === bestScore[1] && thisScore[0] === bestScore[0] && sameScore === bestSameScore) {
+            const bhs = thisHand.simulateBestHand();
+            if(bhs < bestHighScore) {
+              bestScore = thisScore;
+              bestHighScore = bhs;
+              bestSameScore = sameScore;
+              bestCards = thisHand.cards;
+              bestJokers = thisJokers;
+              bestCardsInHand = thisHand.cardsInHand;
+              originalHand = thisOriginalHand;
+            }
+          }
+        }
+        else {
+          thisScore = thisHand.simulateWorstHand();
+          if(!bestScore) {
+            bestScore = thisScore;
+            bestHighScore = thisHand.simulateBestHand();
+            bestSameScore = sameScore;
+            bestCards = thisHand.cards;
+            bestJokers = thisJokers;
+            bestCardsInHand = thisHand.cardsInHand;
+            originalHand = thisOriginalHand;
+          }
+          if(thisScore[1] > bestScore[1] || (thisScore[1] === bestScore[1] && thisScore[0] > bestScore[0]) || (bestCards.length === 0 && thisHand.cards.length > 0) || (thisScore[1] === bestScore[1] && thisScore[0] === bestScore[0] && sameScore > bestSameScore)) {
+            bestScore = thisScore;
+            bestHighScore = thisHand.simulateBestHand();
+            bestSameScore = sameScore;
+            bestCards = thisHand.cards;
+            bestJokers = thisJokers;
+            bestCardsInHand = thisHand.cardsInHand;
+            originalHand = thisOriginalHand;
+          }
+          else if(thisScore[1] === bestScore[1] && thisScore[0] === bestScore[0] && sameScore === bestSameScore) {
+            const bhs = thisHand.simulateBestHand();
+            if(bhs > bestHighScore) {
+              bestScore = thisScore;
+              bestHighScore = bhs;
+              bestSameScore = sameScore;
+              bestCards = thisHand.cards;
+              bestJokers = thisJokers;
+              bestCardsInHand = thisHand.cardsInHand;
+              originalHand = thisOriginalHand;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  thisHand.jokers = bestJokers.map(a => a.slice());
+  thisHand.cards = bestCards.slice();
+  thisHand.cardsInHand = originalHand.slice();
+
+  thisHand.compileAll();
+
+  const highestScore = thisHand.simulateBestHand();
+  const lowestScore = thisHand.simulateWorstHand();
+  const highestScoreScore = normalizeBig(highestScore);
+  highestScore[0] = highestScoreScore[0];
+  highestScore[1] = highestScoreScore[1];
+  const lowestScoreScore = normalizeBig(lowestScore);
+  lowestScore[0] = lowestScoreScore[0];
+  lowestScore[1] = lowestScoreScore[1];
+
+  let medianScore = highestScore;
+  let meanScore = highestScore;
+
+  if(highestScore[0] !== lowestScore[0] || highestScore[1] !== lowestScore[1]) {
+    let runScores = [];
+    meanScore = [1, 0];
+    for(let i = 0; i < 10001; i++) {
+      const thisScore = thisHand.simulateRandomHand();
+      runScores.push(thisScore);
+      meanScore = bigBigAdd(thisScore, meanScore);
+    }
+    meanScore = bigTimes(1 / 10001, meanScore);
+    runScores = runScores.sort((a, b) => {
+      if(a[1] > b[1] || (a[1] === b[1] && a[0] > b[0])) {
+        return 1;
+      }
+      return -1;
+    });
+
+    medianScore = runScores[5000];
+  }
+
+  postMessage([taskID, bestScore, bestJokers, bestCards, originalHand, highestScore, lowestScore, thisHand.typeOfHand, normalizeBig(meanScore), normalizeBig(medianScore), workerID, thisHand.compiledValues]);
+}
+
 self.onmessage = async function(msg) {
   switch (msg.data[0]) {
     case "start":
@@ -350,11 +531,19 @@ self.onmessage = async function(msg) {
       run([[]]);
       break;
     case "dontOptimizeJokers":
+      runFast(false);
+      break;
+    case "dontOptimizeJokersBrute":
       run([jokers]);
       break;
     case "optimizeJokers":
+      // legacy brute force, kept for A/B testing (set useFastSearch = false
+      // in the console to use it)
       let permuted = permutations(jokers);
       run(permuted.slice(msg.data[1], msg.data[2]));
+      break;
+    case "optimizeJokersFast":
+      runFast(true);
       break;
     default:
   }

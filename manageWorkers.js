@@ -17,6 +17,10 @@ const chipIcon = '<span class="chipIcon"></span>';
 
 let optimizeJokers = true;
 let optimizeCards = true;
+// Fast search (optimizer.js): sorting + structured enumeration instead of
+// brute force over every ordering. Set to false in the console to A/B test
+// against the original brute force.
+let useFastSearch = true;
 const toggleJokerDiv = document.getElementById('toggleJokerBtn');
 const toggleCardDiv = document.getElementById('toggleCardBtn');
 const minimizeDiv = document.getElementById('toggleMinimizeBtn');
@@ -47,7 +51,7 @@ function toggleMinimize() {
 
 function toggleJoker() {
   optimizeJokers = !optimizeJokers;
-  if(optimizeJokers) {
+  if(optimizeJokers && !useFastSearch) {
     if(optimizeCards && (Object.keys(playfieldJokers).length >= 8 || Object.keys(playfieldCards).length >= 10)) {
       toggleCard();
     }
@@ -64,7 +68,7 @@ function toggleJoker() {
 
 function toggleCard() {
   optimizeCards = !optimizeCards;
-  if(optimizeCards) {
+  if(optimizeCards && !useFastSearch) {
     if(optimizeJokers && (Object.keys(playfieldJokers).length >= 8 || Object.keys(playfieldCards).length >= 10)) {
       toggleJoker();
     }
@@ -498,7 +502,12 @@ function calculator() {
     tasks = 1;
   }
   else if(!optimizeJokers) {
-    threads[0].postMessage(['dontOptimizeJokers']);
+    threads[0].postMessage([useFastSearch ? 'dontOptimizeJokers' : 'dontOptimizeJokersBrute']);
+    tasks = 1;
+  }
+  else if(useFastSearch) {
+    // the fast search is quick enough that one worker handles everything
+    threads[0].postMessage(['optimizeJokersFast']);
     tasks = 1;
   }
   else {
