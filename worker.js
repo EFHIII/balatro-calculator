@@ -1,6 +1,6 @@
 'use strict';
-importScripts('balatro-sim.js');
-importScripts('optimizer.js');
+importScripts('balatro-sim.js?v=fs2');
+importScripts('optimizer.js?v=fs2');
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));

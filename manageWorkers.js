@@ -260,7 +260,10 @@ function terminateThreads() {
   breakdownHand.hands = state.hands;
 
   for(let i = 0; i < THREADS; i++) {
-    threads[i] = new Worker('worker.js');
+    // version tag keeps the worker script in sync with the page scripts —
+    // a stale cached worker.js that lacks the fast-search message handlers
+    // would never reply and leave the page stuck on the wait cursor
+    threads[i] = new Worker('worker.js?v=fs2');
     threads[i].onmessage = workerMessage;
     threads[i].postMessage(['start', {...state, workerID: i}]);
   }
