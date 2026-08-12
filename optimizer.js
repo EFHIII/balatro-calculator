@@ -329,6 +329,16 @@ function buildJokerVariants(jokers) {
     };
   }
 
+  // No copy targets at all: every arrangement leaves every copier unresolved
+  // (walks only ever see copier ids), so only editions fire and every order
+  // is feasible — the free sort is exact.
+  if(targets.length === 0) {
+    return {
+      fullEnum: false,
+      variants: [{ rep: idxs.slice(), pinFirst: 0, pinLast: 0, glueGroups: [] }],
+    };
+  }
+
   const bsChoices = bss.length > 0 ? [...targets, -1] : [null];
   const bpChoices = bss.length > 0 ? [...targets, -1, 'chain'] : [...targets, -1];
   let bpAssignments = [[]];
@@ -344,6 +354,25 @@ function buildJokerVariants(jokers) {
   }
 
   const variants = [];
+
+  // Leading unresolved-chain geometry: [BP, Brainstorm, ...] makes both
+  // unresolved (the Blueprint's walk cycles through the Brainstorm back to
+  // slot 0), letting an editioned Blueprint fire BEFORE the Brainstorm —
+  // unreachable from the assignment variants, which pin unresolved
+  // Blueprints at the tail.
+  if(bss.length > 0) {
+    for(const bp of bps) {
+      const otherBps = bps.filter(b => b !== bp);
+      const rest = idxs.filter(i => i !== bp && i !== bss[0] && !otherBps.includes(i));
+      variants.push({
+        rep: [bp, bss[0], ...rest, ...otherBps],
+        pinFirst: 2,
+        pinLast: otherBps.length,
+        glueGroups: [],
+      });
+    }
+  }
+
   for(const bsT of bsChoices) {
     for(const bpT of bpAssignments) {
       const used = new Set();
