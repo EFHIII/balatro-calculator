@@ -365,7 +365,7 @@ function runFast(optimizeJokerOrder) {
   let originalHand = [];
 
   const subsets = optimizeCards
-    ? BalatroOpt.subsetsUpTo(cards.length, 5)
+    ? BalatroOpt.dedupeSubsets(cards, BalatroOpt.subsetsUpTo(cards.length, 5))
     : [bestHand.slice()];
 
   const spec = optimizeJokerOrder ? BalatroOpt.buildJokerVariants(jokers) : null;

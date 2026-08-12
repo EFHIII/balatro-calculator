@@ -169,6 +169,25 @@ function subsetsUpTo(n, maxK) {
   return out;
 }
 
+// Two subsets that play the same MULTISET of cards leave the same multiset in
+// hand and therefore score identically — keep one of each. On stacked decks
+// (e.g. 20 identical steel Kings) this collapses C(20,<=5) = 21,700 subsets
+// to 6.
+function dedupeSubsets(cards, subsets) {
+  const sig = cards.map(c =>
+    JSON.stringify([c[0], c[1], c[2], c[3], c[4], c[5], c[6]]));
+  const seen = new Set();
+  const out = [];
+  for(const s of subsets) {
+    const key = s.map(i => sig[i]).sort().join('|');
+    if(!seen.has(key)) {
+      seen.add(key);
+      out.push(s);
+    }
+  }
+  return out;
+}
+
 // ---------- affine-map ordering ----------
 
 // per-card mult roles (from triggerCard): used for the within-card precedence
@@ -338,6 +357,13 @@ function buildJokerVariants(jokers) {
       variants: [{ rep: idxs.slice(), pinFirst: 0, pinLast: 0, glueGroups: [] }],
     };
   }
+
+  // 2+ real Vampires plus a copier: the copier can mint an extra Vampire
+  // instance inside a glue block, and first-instance-wins absorption then
+  // depends on glue-vs-free ordering the chain enumeration cannot express.
+  // Rare enough to just be exact.
+  const vamps = idxs.filter(i => !jokers[i][JOKER_DISABLED] && jokers[i][JOKER] === 122);
+  if(vamps.length >= 2) return { fullEnum: true, variants: [] };
 
   const bsChoices = bss.length > 0 ? [...targets, -1] : [null];
   const bpChoices = bss.length > 0 ? [...targets, -1, 'chain'] : [...targets, -1];
@@ -611,7 +637,7 @@ function cardOrderCandidates(ctx, k, cardMaps, mode) {
 return {
   ProbeHand, OptSearchCtx,
   buildJokerVariants, jokerCandidatesForSubset, cardOrderCandidates,
-  resolvedSignature, subsetsUpTo, allPermutations, range,
+  resolvedSignature, subsetsUpTo, dedupeSubsets, allPermutations, range,
 };
 
 })();
