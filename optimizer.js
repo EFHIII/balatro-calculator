@@ -338,8 +338,17 @@ function buildJokerVariants(jokers) {
   const bps = idxs.filter(i => isEnabledCopier(i) && jokers[i][JOKER] === 30);
   const bss = idxs.filter(i => isEnabledCopier(i) && jokers[i][JOKER] === 77);
   // resolution walks pass through copier ids (even disabled ones) and only
-  // terminate on a non-copier, so only non-copiers can be copy targets
-  const targets = idxs.filter(i => jokers[i][JOKER] !== 30 && jokers[i][JOKER] !== 77);
+  // terminate on a non-copier, so only non-copiers can be copy targets.
+  // Identical jokers are interchangeable as targets — enumerate one per
+  // signature (3 identical Barons -> 1 target choice, not 3).
+  const seenTargetSigs = new Set();
+  const targets = idxs.filter(i => {
+    if(jokers[i][JOKER] === 30 || jokers[i][JOKER] === 77) return false;
+    const sig = JSON.stringify(jokers[i].slice(0, 5));
+    if(seenTargetSigs.has(sig)) return false;
+    seenTargetSigs.add(sig);
+    return true;
+  });
 
   if(bps.length === 0 && bss.length === 0) {
     return {
@@ -366,7 +375,19 @@ function buildJokerVariants(jokers) {
   if(vamps.length >= 2) return { fullEnum: true, variants: [] };
 
   const bsChoices = bss.length > 0 ? [...targets, -1] : [null];
-  const bpChoices = bss.length > 0 ? [...targets, -1, 'chain'] : [...targets, -1];
+  // per-Blueprint choices: a direct target, unresolved (-1), or riding a
+  // Brainstorm chain. WHICH Brainstorm hosts the chain matters when their
+  // editions differ — enumerate one host per distinct Brainstorm signature.
+  const seenBsSigs = new Set();
+  const chainHosts = bss.filter(b => {
+    const sig = JSON.stringify(jokers[b].slice(0, 5));
+    if(seenBsSigs.has(sig)) return false;
+    seenBsSigs.add(sig);
+    return true;
+  });
+  const bpChoices = bss.length > 0
+    ? [...targets, -1, ...chainHosts.map(h => ({ chain: h }))]
+    : [...targets, -1];
   let bpAssignments = [[]];
   for(let b = 0; b < bps.length; b++) {
     const next = [];
@@ -387,15 +408,17 @@ function buildJokerVariants(jokers) {
   // unreachable from the assignment variants, which pin unresolved
   // Blueprints at the tail.
   if(bss.length > 0) {
-    for(const bp of bps) {
-      const otherBps = bps.filter(b => b !== bp);
-      const rest = idxs.filter(i => i !== bp && i !== bss[0] && !otherBps.includes(i));
-      variants.push({
-        rep: [bp, bss[0], ...rest, ...otherBps],
-        pinFirst: 2,
-        pinLast: otherBps.length,
-        glueGroups: [],
-      });
+    for(const host of chainHosts) {
+      for(const bp of bps) {
+        const otherBps = bps.filter(b => b !== bp);
+        const rest = idxs.filter(i => i !== bp && i !== host && !otherBps.includes(i));
+        variants.push({
+          rep: [bp, host, ...rest, ...otherBps],
+          pinFirst: 2,
+          pinLast: otherBps.length,
+          glueGroups: [],
+        });
+      }
     }
   }
 
@@ -420,16 +443,19 @@ function buildJokerVariants(jokers) {
         used.add(bsT);
       }
 
-      const chainHost = bsT === -1 ? bss[1] : (bsT !== null ? bss[0] : undefined);
       const byTarget = new Map();
-      const chainBps = [];
+      const chainGroups = new Map(); // Brainstorm host -> [chained BPs]
       let invalid = false;
       bps.forEach((bp, i) => {
         if(used.has(bp)) return;
         const t = bpT[i];
-        if(t === 'chain') {
-          if(chainHost === undefined) { invalid = true; return; }
-          chainBps.push(bp); used.add(bp);
+        if(t !== null && typeof t === 'object') {
+          // riding a Brainstorm chain; invalid if that host is pinned at
+          // slot 0 (its walk then cycles differently)
+          if(used.has(t.chain)) { invalid = true; return; }
+          if(!chainGroups.has(t.chain)) chainGroups.set(t.chain, []);
+          chainGroups.get(t.chain).push(bp);
+          used.add(bp);
           return;
         }
         if(t === -1) { back.push(bp); used.add(bp); return; }
@@ -439,9 +465,9 @@ function buildJokerVariants(jokers) {
         used.add(bp);
       });
       if(invalid) continue;
-      if(chainBps.length > 0) {
-        glueGroups.push([...chainBps, chainHost]);
-        used.add(chainHost);
+      for(const [host, list] of chainGroups) {
+        glueGroups.push([...list, host]);
+        used.add(host);
       }
       for(const [t, list] of byTarget) {
         glueGroups.push([...list, t]);
